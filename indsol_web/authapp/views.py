@@ -1,7 +1,6 @@
 import logging
-from authapp.models import Departments, Users
+from authapp.models import Users
 from authapp.serializers import (
-    DepartmentsSerializer,
     ProfileSerializer,
     UsersSerializer,
 )
@@ -10,21 +9,7 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
 
-from ipm_knowledge.permissions import AdminUserOrAuthReadOnly
-
-
-class DepartmentsViewSet(
-    GenericViewSet,
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
-    mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.RetrieveModelMixin,
-):
-    serializer_class = DepartmentsSerializer
-    queryset = Departments.objects.all().order_by("created_at")
-    permission_classes = [AdminUserOrAuthReadOnly]
-
+from indsol_web.permissions import AdminUserOrAuthReadOnly
 
 class UsersViewSet(
     GenericViewSet,

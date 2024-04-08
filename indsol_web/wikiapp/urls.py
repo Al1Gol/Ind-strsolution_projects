@@ -17,12 +17,12 @@ router = routers.DefaultRouter()
 router.register("users", UsersViewSet, basename="users")
 router.register("profile", ProfileViewSet, basename="profile")
 # Wiki
-router.register("/wiki/menu", MenuViewSet, basename="menu")
-router.register("/wiki/sections", SectionsViewSet, basename="sections")
-router.register("/wiki/articles", ArticleViewSet, basename="articles")
-router.register("/wiki/files", FilesViewSet, basename="files")
-router.register("/wiki/images", ImagesViewSet, basename="images")
-router.register("/wiki/videos", VideosViewSet, basename="videos")
+router.register("wiki/menu", MenuViewSet, basename="menu")
+router.register("wiki/sections", SectionsViewSet, basename="sections")
+router.register("wiki/articles", ArticleViewSet, basename="articles")
+router.register("wiki/files", FilesViewSet, basename="files")
+router.register("wiki/images", ImagesViewSet, basename="images")
+router.register("wiki/videos", VideosViewSet, basename="videos")
 
 
 urlpatterns = [

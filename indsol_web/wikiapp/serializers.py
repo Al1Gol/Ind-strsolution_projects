@@ -1,4 +1,4 @@
-from mainapp.models import Articles, Files, Images, Menu, Sections, Videos
+from wikiapp.models import Articles, Files, Images, Menu, Sections, Videos
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -11,7 +11,6 @@ class MenuSerializer(ModelSerializer):
             "name",
             "img",
             "is_article",
-            "depart_id",
             "created_at",
             "updated_at",
         ]
@@ -21,7 +20,6 @@ class MenuSerializer(ModelSerializer):
 
 
 class SectionsSerializer(ModelSerializer):
-    depart_id = serializers.ReadOnlyField(source="menu_id.depart_id.id")
 
     class Meta:
         model = Sections
@@ -30,7 +28,6 @@ class SectionsSerializer(ModelSerializer):
             "menu_id",
             "name",
             "img",
-            "depart_id",
             "is_article",
             "created_at",
             "updated_at",
@@ -59,7 +56,6 @@ class FilesSerializer(ModelSerializer):
 
 class ArticlesSerializer(ModelSerializer):
     files = FilesSerializer(many=True, read_only=True)
-    depart_id = serializers.ReadOnlyField(source="section_id.menu_id.depart_id.id")
 
     class Meta:
         model = Articles
@@ -70,14 +66,12 @@ class ArticlesSerializer(ModelSerializer):
             "menu_id",
             "section_id",
             "text",
-            "depart_id",
             "files",
             "created_at",
             "updated_at",
         ]
 
     def create(self, validated_data):
-        depart_id = serializers.IntegerField(source="section_id.menu_id.depart_id.id")
         return Articles.objects.create(**validated_data)
 
 

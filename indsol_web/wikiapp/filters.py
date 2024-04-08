@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from mainapp.models import Articles, Files, Sections
+from wikiapp.models import Articles, Files, Sections
 
 
 class SectionsFilter(filters.FilterSet):

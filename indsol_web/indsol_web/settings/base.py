@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "debug_toolbar",
     "authapp",
+    "wikiapp",
 ]
 
 MIDDLEWARE = [
