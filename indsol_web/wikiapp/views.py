@@ -4,8 +4,9 @@ from django.db.models import ProtectedError
 from django.http import JsonResponse
 from django.shortcuts import render
 from wikiapp.filters import ArticlesFilter, FilesFilter, SectionsFilter
-from wikiapp.models import Articles, Files, Images, Menu, Sections, Videos
+from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
 from wikiapp.serializers import (
+    WikiSerializer,
     ArticlesSerializer,
     FilesSerializer,
     ImagesSerializer,
@@ -22,6 +23,33 @@ from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadO
 # LOG = logging.getLogger('django.request')
 
 
+class WikiViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    serializer_class = WikiSerializer
+    queryset = Wiki.objects.all().order_by("created_at")
+    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        queryset = Menu.objects.all().order_by("created_at")
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
 class MenuViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -35,10 +63,7 @@ class MenuViewSet(
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
 
     def list(self, request, *args, **kwargs):
-        queryset = (
-            Menu.objects.all()
-            .order_by("created_at")
-        )
+        queryset = Menu.objects.all().order_by("created_at")
 
         page = self.paginate_queryset(queryset)
         if page is not None:

@@ -6,7 +6,27 @@ from django.db import models
 from .validators import validate_svg_extension, validate_video_extension
 
 
+class Wiki(models.Model):
+    name = models.CharField(verbose_name="наименование", max_length=100)
+    created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Wiki"
+        verbose_name_plural = "Wiki"
+        ordering = ["created_at"]
+
+
 class Menu(models.Model):
+    wiki_id = models.ForeignKey(
+        "Wiki",
+        verbose_name="id wiki",
+        related_name="wiki",
+        on_delete=models.PROTECT,
+    )
     name = models.CharField(verbose_name="наименование", max_length=100)
     img = models.FileField(
         verbose_name="иконка",

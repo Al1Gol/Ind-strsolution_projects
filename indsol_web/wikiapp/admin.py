@@ -1,11 +1,16 @@
 from django.contrib import admin
-from wikiapp.models import Articles, Files, Menu, Sections
+from wikiapp.models import Articles, Files, Menu, Sections, Wiki
+
 
 # Mainapp
+class WikiAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "created_at", "updated_at")
+    list_display_links = ("id", "name", "created_at", "updated_at")
+    search_fields = ("name",)
 
 
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "wiki_id", "name", "created_at", "updated_at")
     list_display_links = ("id", "name", "created_at", "updated_at")
     search_fields = ("name",)
 
@@ -14,9 +19,7 @@ class SectionsAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "menu_id", "created_at", "updated_at")
     list_display_links = ("id", "name", "menu_id", "created_at", "updated_at")
     search_fields = ("name",)
-    list_filter = (
-        "menu_id",
-    )
+    list_filter = ("menu_id",)
 
 
 class ArticlesAdmin(admin.ModelAdmin):
@@ -36,6 +39,7 @@ class FilesAdmin(admin.ModelAdmin):
     list_filter = ("article_id",)
 
 
+admin.site.register(Wiki, WikiAdmin)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(Sections, SectionsAdmin)
 admin.site.register(Articles, ArticlesAdmin)

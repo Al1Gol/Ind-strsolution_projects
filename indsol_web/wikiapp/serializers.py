@@ -1,6 +1,20 @@
-from wikiapp.models import Articles, Files, Images, Menu, Sections, Videos
+from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
+
+
+class WikiSerializer(ModelSerializer):
+    class Meta:
+        model = Wiki
+        fields = [
+            "id",
+            "name",
+            "created_at",
+            "updated_at",
+        ]
+
+    def create(self, validated_data):
+        return Wiki.objects.create(**validated_data)
 
 
 class MenuSerializer(ModelSerializer):
@@ -8,6 +22,7 @@ class MenuSerializer(ModelSerializer):
         model = Menu
         fields = [
             "id",
+            "wiki_id",
             "name",
             "img",
             "is_article",

@@ -1,5 +1,11 @@
 from django_filters import rest_framework as filters
-from wikiapp.models import Articles, Files, Sections
+from wikiapp.models import Articles, Files, Sections, Menu
+
+
+class MenuFilter(filters.FilterSet):
+    class Meta:
+        model = Menu
+        fields = ["wiki_id"]
 
 
 class SectionsFilter(filters.FilterSet):
