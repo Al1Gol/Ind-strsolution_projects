@@ -1,5 +1,5 @@
 """
-ASGI config for Industrsolution_projects project.
+ASGI config for indsol_web project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Industrsolution_projects.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'indsol_web.settings')
 
 application = get_asgi_application()
