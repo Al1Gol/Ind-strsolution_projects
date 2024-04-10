@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import ProtectedError
 from django.http import JsonResponse
 from django.shortcuts import render
-from wikiapp.filters import ArticlesFilter, FilesFilter, SectionsFilter
+from wikiapp.filters import MenuFilter, ArticlesFilter, FilesFilter, SectionsFilter
 from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
 from wikiapp.serializers import (
     WikiSerializer,
@@ -61,7 +61,8 @@ class MenuViewSet(
     serializer_class = MenuSerializer
     queryset = Menu.objects.all().order_by("created_at")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
-
+    filterset_class = MenuFilter
+    """
     def list(self, request, *args, **kwargs):
         queryset = Menu.objects.all().order_by("created_at")
 
@@ -72,6 +73,7 @@ class MenuViewSet(
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    """
 
     def perform_create(self, serializer):
         serializer.save()
