@@ -36,7 +36,7 @@ class WikiViewSet(
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
 
     def list(self, request, *args, **kwargs):
-        queryset = Menu.objects.all().order_by("created_at")
+        queryset = Wiki.objects.all().order_by("created_at")
 
         page = self.paginate_queryset(queryset)
         if page is not None:
