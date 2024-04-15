@@ -15,10 +15,3 @@ class Users(AbstractUser):
         verbose_name = "Пользователи"
         verbose_name_plural = "Пользователи"
         ordering = ["created_at"]
-
-
-# Данный метод не работает, так как при каждом сохранении хэширует уже хэшированный пароль
-# Из-за этого после превого входа админ не работает
-#    def save(self, *args, **kwargs):
-#        self.password = make_password(self.password)
-#        super(Users, self).save(*args, **kwargs)

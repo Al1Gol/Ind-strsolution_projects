@@ -1,5 +1,4 @@
 from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 
@@ -63,10 +62,6 @@ class FilesSerializer(ModelSerializer):
             "created_at",
             "updated_at",
         ]
-
-
-#   def create(self, validated_data):
-#       return Files.objects.create(**validated_data)
 
 
 class ArticlesSerializer(ModelSerializer):

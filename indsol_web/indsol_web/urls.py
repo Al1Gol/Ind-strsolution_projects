@@ -5,7 +5,9 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    path("", include("wikiapp.urls")),
+    path("api/v1/wiki/", include("wikiapp.urls")),
+    path("api/v1/auth/", include("authapp.urls")),
+    path("api/v1/news/", include("newsapp.urls")),
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
