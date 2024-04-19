@@ -4,6 +4,7 @@ from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadO
 
 from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
+from newsapp.filters import MediaFilter
 
 
 # Create your views here.
@@ -34,6 +35,7 @@ class MediaView(
     serializer_class = MediaSerializer
     queryset = Media.objects.all()
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    filterset_class = MediaFilter
 
     def perform_create(self, serializer):
         serializer.save()
