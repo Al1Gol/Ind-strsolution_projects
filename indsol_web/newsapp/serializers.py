@@ -23,4 +23,4 @@ class MediaSerializer(ModelSerializer):
         fields = ["id", "news_id", "media"]
 
     def create(self, validated_data):
-        return News.objects.create(**validated_data)
+        return Media.objects.create(**validated_data)

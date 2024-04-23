@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet, mixins
 from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
+from indsol_web.exceptions import MediaValidationError
 
 from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
@@ -37,5 +38,10 @@ class MediaView(
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     filterset_class = MediaFilter
 
-    def perform_create(self, serializer):
-        serializer.save()
+    # Валидация по количеству media перед сохранением
+    def perform_create(self, serilizer):
+        media_filter = Media.objects.filter(news_id=self.request.data["news_id"])
+        if len(media_filter) < 10:
+            serilizer.save()
+        else:
+            raise MediaValidationError()
