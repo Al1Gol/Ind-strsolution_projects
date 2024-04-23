@@ -5,7 +5,7 @@ from rest_framework import routers
 
 # Wiki
 wiki = routers.DefaultRouter()
-wiki.register("main", NewsView, basename="news")
+wiki.register("list", NewsView, basename="news")
 wiki.register("media", MediaView, basename="media")
 
 urlpatterns = [
