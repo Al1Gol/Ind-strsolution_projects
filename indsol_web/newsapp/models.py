@@ -1,5 +1,7 @@
 from django.db import models
 
+from newsapp.validators import validate_media_extension
+
 
 # Create your models here.
 class News(models.Model):
@@ -14,4 +16,8 @@ class News(models.Model):
 
 class Media(models.Model):
     news_id = models.ForeignKey("News", related_name="news", on_delete=models.CASCADE)
-    media = models.FileField(upload_to="news/media", verbose_name="файлы")
+    media = models.FileField(
+        verbose_name="файлы",
+        upload_to="news/media/",
+        validators=[validate_media_extension],
+    )
