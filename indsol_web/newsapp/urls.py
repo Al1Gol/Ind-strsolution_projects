@@ -1,13 +1,13 @@
 from django.urls import include, path
-from newsapp.views import NewsView, MediaView
+from newsapp.views import NewsViewSet, MediaViewSet
 from rest_framework import routers
 
 
 # Wiki
-wiki = routers.DefaultRouter()
-wiki.register("list", NewsView, basename="news")
-wiki.register("media", MediaView, basename="media")
+news = routers.DefaultRouter()
+news.register("list", NewsViewSet, basename="news")
+news.register("media", MediaViewSet, basename="media")
 
 urlpatterns = [
-    path("", include(wiki.urls)),
+    path("", include(news.urls)),
 ]

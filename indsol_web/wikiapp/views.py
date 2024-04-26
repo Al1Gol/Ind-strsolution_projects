@@ -17,7 +17,7 @@ from wikiapp.serializers import (
 from rest_framework import mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
-
+from django.shortcuts import get_object_or_404
 from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
 
 # LOG = logging.getLogger('django.request')
@@ -74,9 +74,6 @@ class MenuViewSet(
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     """
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 
 class SectionsViewSet(

@@ -5,8 +5,9 @@ from newsapp.validators import validate_media_extension
 
 # Create your models here.
 class News(models.Model):
-    title = models.CharField(verbose_name="Звголовок", max_length=100)
+    title = models.CharField(verbose_name="Заголовок", max_length=100)
     text = models.TextField(verbose_name="Текст новости", max_length=40000)
+    # to_slider = models.BooleanField(verbone="Добавить в миниленту")
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 

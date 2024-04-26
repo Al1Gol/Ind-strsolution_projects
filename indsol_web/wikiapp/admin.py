@@ -47,5 +47,5 @@ admin.site.register(Files, FilesAdmin)
 
 
 # Заголовки
-admin.site.site_title = "IPM Wiki"
-admin.site.site_header = "IPM Wiki"
+admin.site.site_title = "Промрешение"
+admin.site.site_header = "Промрешение"

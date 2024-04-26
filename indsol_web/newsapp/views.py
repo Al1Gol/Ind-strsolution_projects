@@ -1,31 +1,35 @@
 from django.shortcuts import render
+from rest_framework import filters
 from rest_framework.viewsets import GenericViewSet, mixins
 from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
 from indsol_web.exceptions import MediaValidationError
 
 from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
-from newsapp.filters import MediaFilter
+from newsapp.filters import MediaFilter, NewsDateFilter
 
 
 # Create your views here.
-class NewsView(
+class NewsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     mixins.RetrieveModelMixin,
 ):
     serializer_class = NewsSerializer
     queryset = News.objects.all().order_by("created_at")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    search_fields = ["created_at", "title"]
+    filter_backends = [filters.SearchFilter]
+    filterset_class = NewsDateFilter
 
     def perform_create(self, serializer):
         serializer.save()
 
 
-class MediaView(
+class MediaViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
