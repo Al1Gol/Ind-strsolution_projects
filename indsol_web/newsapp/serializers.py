@@ -9,6 +9,7 @@ class NewsSerializer(ModelSerializer):
             "id",
             "title",
             "text",
+            "newsline",
             "created_at",
             "updated_at",
         ]
