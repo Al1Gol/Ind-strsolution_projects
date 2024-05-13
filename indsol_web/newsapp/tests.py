@@ -11,9 +11,10 @@ from newsapp.models import News
 from .views import NewsViewSet
 
 
-# Create your tests here.
 class APINewsTests(APITestCase):
     def setUp(self):
+        # Получаем JWT токен для пользователя admin
+        # Передаем его в заголвок
         user = Users.objects.create_user(
             username="test_admin", password="test_admin", is_staff=True
         )
@@ -21,7 +22,7 @@ class APINewsTests(APITestCase):
         refresh = RefreshToken.for_user(user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
 
-    # Тест корректного создания пользователя
+    # Тест корректного создания новости
     def test_news_create(self):
         url = "/api/v1/news/list/"
         body = {
@@ -57,17 +58,14 @@ class APINewsTests(APITestCase):
         url = "/api/v1/news/list/"
 
         # Создаем первую запись
-
         body = {"title": "test title", "text": "test text"}
         post_response = self.client.post(url, body, format="json")
         id_1 = json.loads(post_response.content)["id"]
 
         # Получаем список новостей
-
         get_response = self.client.get(url, {}, format="json")
 
         # Проверям полученную новость
-
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         # self.assertEqual(json.loads(response.content)[0]["title"], "test title")
         self.assertEqual(News.objects.get(id=id_1).title, "test title")
@@ -76,17 +74,14 @@ class APINewsTests(APITestCase):
         self.assertEqual(News.objects.count(), 1)
 
         # Создаем вторую запись
-
         body = {"title": "test title 2", "text": "test text 2", "newsline": True}
         post_response = self.client.post(url, body, format="json")
         id_2 = json.loads(post_response.content)["id"]
 
         # Получаем список новостей
-
         get_response = self.client.get(url, {}, format="json")
 
         # Проверям обе полученные новости
-
         self.assertEqual(News.objects.count(), 2)
         self.assertEqual(News.objects.get(id=id_1).title, "test title")
         self.assertEqual(News.objects.get(id=id_1).text, "test text")
@@ -95,8 +90,28 @@ class APINewsTests(APITestCase):
         self.assertEqual(News.objects.get(id=id_2).text, "test text 2")
         self.assertEqual(News.objects.get(id=id_2).newsline, True)
 
-    # Тест корректного обновления записи
+    # Тест корректного обновления новости
     def test_news_update(self):
         url = "/api/v1/news/list/"
-        body = {"title": "test", "text": "test"}
-        response = self.client.post(url, body, format="json")
+
+        # Создаем запись
+        body = {"title": "test title", "text": "test text"}
+        post_response = self.client.post(url, body, format="json")
+        id = json.loads(post_response.content)["id"]
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+
+        # Производим полное (PUT) обнвление
+        body = {
+            "title": "edited put title",
+            "text": "edited put text",
+            "newsline": True,
+        }
+        put_response = self.client.put(url + f"{id}/", body, format="json")
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем итоговое значение
+        get_response = self.client.get(url, {}, format="json")
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(News.objects.get(id=id).title, "edited put title")
+        self.assertEqual(News.objects.get(id=id).text, "edited put text")
+        self.assertEqual(News.objects.get(id=id).newsline, True)
