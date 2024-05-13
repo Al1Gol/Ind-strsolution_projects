@@ -28,4 +28,9 @@
 
     Создание учетной записи администратора:
         python .\indsol_web\manage.py createsuperuser
+
+    #Запуск проекта в debug режиме
+        python .\indsol_web\manage.py runserver --settings=indsol_web.settings.debug   
     
+    #Запуск тестов
+        python .\indsol_web\manage.py test --settings=indsol_web.settings.debug indsol_web/
