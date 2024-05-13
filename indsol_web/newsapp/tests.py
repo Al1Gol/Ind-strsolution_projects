@@ -98,6 +98,7 @@ class APINewsTests(APITestCase):
         body = {"title": "test title", "text": "test text"}
         post_response = self.client.post(url, body, format="json")
         id = json.loads(post_response.content)["id"]
+        self.assertEqual(News.objects.count(), 1)
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
 
         # Производим полное (PUT) обнвление
@@ -109,9 +110,36 @@ class APINewsTests(APITestCase):
         put_response = self.client.put(url + f"{id}/", body, format="json")
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
 
-        # Получаем итоговое значение
+        # Получаем отредактированное значение
         get_response = self.client.get(url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(News.objects.count(), 1)
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(News.objects.get(id=id).title, "edited put title")
         self.assertEqual(News.objects.get(id=id).text, "edited put text")
         self.assertEqual(News.objects.get(id=id).newsline, True)
+
+        # Производим частичное обнвление
+        body = {
+            "title": "edited patch title",
+        }
+        patch_response = self.client.patch(url + f"{id}/", body, format="json")
+        body = {
+            "text": "edited patch text",
+        }
+        patch_response = self.client.patch(url + f"{id}/", body, format="json")
+        body = {
+            "newsline": False,
+        }
+        patch_response = self.client.patch(url + f"{id}/", body, format="json")
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(News.objects.count(), 1)
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(News.objects.get(id=id).title, "edited patch title")
+        self.assertEqual(News.objects.get(id=id).text, "edited patch text")
+        self.assertEqual(News.objects.get(id=id).newsline, False)
