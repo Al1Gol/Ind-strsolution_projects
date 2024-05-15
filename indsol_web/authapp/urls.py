@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from authapp.views import ProfileViewSet, UsersViewSet
+from authapp.views import ProfileViewSet, UsersViewSet, PingViewSet
 from django.urls import include, path, re_path
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
@@ -12,6 +12,7 @@ auth.register("profile", ProfileViewSet, basename="profile")
 
 urlpatterns = [
     path("", include(auth.urls)),
+    path("ping/", PingViewSet.as_view(), name="ping"),
     path("debug/", include("rest_framework.urls")),
     path(
         "token/",

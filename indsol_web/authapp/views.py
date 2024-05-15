@@ -7,9 +7,11 @@ from authapp.serializers import (
 from django.contrib.auth.hashers import make_password
 from rest_framework import mixins
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, mixins
 
 from indsol_web.permissions import AdminUserOrAuthReadOnly
+
 
 class UsersViewSet(
     GenericViewSet,
@@ -53,3 +55,10 @@ class ProfileViewSet(
             print(self.request.user)
             return self.queryset.filter(username=self.request.user)
         return self.request
+
+
+class PingViewSet(APIView):
+    permission_classes = [AdminUserOrAuthReadOnly]
+
+    def get(self, request, format=None):
+        return Response()
