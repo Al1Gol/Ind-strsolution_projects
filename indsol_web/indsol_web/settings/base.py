@@ -121,13 +121,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Время жизни токенов JWT
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(hours=12),
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
