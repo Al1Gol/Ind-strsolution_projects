@@ -1,14 +1,11 @@
-from rest_framework.test import APITestCase
-from rest_framework.test import APIClient
-from rest_framework.test import force_authenticate
+from rest_framework.test import APITestCase, APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
-from django.http.response import JsonResponse
 import json
+from PIL import Image
 
 from authapp.models import Users
-from newsapp.models import News
-from .views import NewsViewSet
+from newsapp.models import News, Media
 
 
 # TEST NEWS
@@ -173,3 +170,38 @@ class APINewsTests(APITestCase):
         delete_response = self.client.delete(self.url + f"{id}/", {}, format="json")
         self.assertEqual(News.objects.count(), 0)
         self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+# TEST MEDIA
+class APIMediaTests(APITestCase):
+    def setUp(self):
+        # Получаем JWT токен для пользователя admin
+        # Передаем его в заголвок
+        user = Users.objects.create_user(
+            username="test_admin", password="test_admin", is_staff=True
+        )
+        self.client = APIClient()
+        refresh = RefreshToken.for_user(user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
+        self.url_news = "/api/v1/news/list/"
+        self.url_media = "/api/v1/news/media/"
+
+    """
+    def test_media_create(self):
+        # Создаем запись в табилцу Новости
+        news_body = {"title": "test title", "text": "test text"}
+        news_response = self.client.post(self.url_news, news_body, format="json")
+        news_id = json.loads(news_response.content)["id"]
+
+        # Создаем изображение
+        image = Image.new("RGB", (100, 100))
+        image.save("file.jpeg")
+        body = {
+            "news_id": news_id,
+            "media": image,
+        }
+        media_response = self.client.post(self.url_media, body, format="multipart")
+        print(media_response.json())
+        self.assertEqual(media_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Media.objects.count(), 1)
+    """
