@@ -91,7 +91,7 @@ class APINewsTests(APITestCase):
         self.assertEqual(News.objects.get(id=id_2).text, "test text 2")
         self.assertEqual(News.objects.get(id=id_2).newsline, True)
 
-    # UODATE METHOD TEST
+    # UPDATE METHOD TEST
     def test_news_update(self):
 
         # Создаем запись
