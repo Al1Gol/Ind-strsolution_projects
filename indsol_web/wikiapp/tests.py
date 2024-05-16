@@ -63,7 +63,7 @@ class APIWikiTests(APITestCase):
         self.assertEqual(Wiki.objects.get(id=id_2).name, "test_2")
 
     # UPDATE METHOD TEST WIKI
-    def test_news_update(self):
+    def test_wiki_update(self):
 
         # Создаем запись
         body = {
@@ -107,3 +107,25 @@ class APIWikiTests(APITestCase):
         # Проверка редактирования не существующей новости
         patch_response = self.client.patch(self.url + f"{id+1}/", body, format="json")
         self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
+
+    # DELETE METHOD WIKI
+    def test_wiki_delete(self):
+
+        # Создаем запись
+        body = {
+            "name": "test delete",
+        }
+        post_response = self.client.post(self.url, body, format="json")
+        id = json.loads(post_response.content)["id"]
+        self.assertEqual(Wiki.objects.count(), 1)
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+
+        # Проверка удаления записи
+        delete_response = self.client.delete(self.url + f"{id}/", {}, format="json")
+        self.assertEqual(Wiki.objects.count(), 0)
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Проверка удаление не существующей записи
+        delete_response = self.client.delete(self.url + f"{id}/", {}, format="json")
+        self.assertEqual(Wiki.objects.count(), 0)
+        self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
