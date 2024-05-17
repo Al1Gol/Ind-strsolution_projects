@@ -27,9 +27,9 @@ class APIWikiTests(APITestCase):
         wiki_body = {"name": "test_1"}
 
         # Создание записи в Wiki
-        response = self.client.post(self.url, wiki_body, format="json")
+        post_response = self.client.post(self.url, wiki_body, format="json")
         wiki_id_1 = json.loads(post_response.content)["id"]
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Wiki.objects.count(), 1)
         self.assertEqual(Wiki.objects.get().name, "test_1")
 
@@ -56,50 +56,38 @@ class APIWikiTests(APITestCase):
         self.assertEqual(Wiki.objects.get(id=wiki_id_1).name, "test_1")
         self.assertEqual(Wiki.objects.get(id=wiki_id_2).name, "test_2")
 
-    # UPDATE METHOD TEST WIKI
-    def test_wiki_update(self):
-
-        # Создаем запись
-        body = {
-            "name": "test original",
-        }
-        post_response = self.client.post(self.url, body, format="json")
-        id = json.loads(post_response.content)["id"]
-        self.assertEqual(Wiki.objects.count(), 1)
-        self.assertEqual(Wiki.objects.get(id=id).name, "test original")
-        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
-
         # Производим полное (PUT) обнвление
         body = {
             "name": "test edited",
         }
-        put_response = self.client.put(self.url + f"{id}/", body, format="json")
+        put_response = self.client.put(self.url + f"{wiki_id_2}/", body, format="json")
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
 
         # Получаем отредактированное значение
         get_response = self.client.get(self.url, {}, format="json")
 
         # Производмм проверку результата
-        self.assertEqual(Wiki.objects.count(), 1)
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Wiki.objects.get(id=id).name, "test edited")
+        self.assertEqual(Wiki.objects.count(), 2)
+        self.assertEqual(Wiki.objects.get(id=wiki_id_2).name, "test edited")
 
         # Производим частичное обнвление
         body = {
             "name": "edited patch",
         }
-        patch_response = self.client.patch(self.url + f"{id}/", body, format="json")
-
-        # Получаем отредактированное значение
-        get_response = self.client.get(self.url, {}, format="json")
+        patch_response = self.client.patch(
+            self.url + f"{wiki_id_2}/", body, format="json"
+        )
 
         # Производмм проверку результата
-        self.assertEqual(Wiki.objects.count(), 1)
         self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Wiki.objects.get(id=id).name, "edited patch")
+        self.assertEqual(Wiki.objects.count(), 2)
+        self.assertEqual(Wiki.objects.get(id=wiki_id_2).name, "edited patch")
 
         # Проверка редактирования не существующей новости
-        patch_response = self.client.patch(self.url + f"{id+1}/", body, format="json")
+        patch_response = self.client.patch(
+            self.url + f"{wiki_id_2+1}/", body, format="json"
+        )
         self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
 
     # DELETE METHOD WIKI
