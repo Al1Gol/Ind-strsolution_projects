@@ -148,22 +148,62 @@ class APIWikiTests(APITestCase):
         self.assertEqual(Menu.objects.count(), 1)
 
         # Создание второг экземпляра Menu
-        wiki_body_2 = {
+        menu_body_2 = {
+            "wiki_id": wiki_id_1,
             "name": "menu_test_create_2",
         }
-        post_response = self.client.post(self.wiki_url, wiki_body_2, format="json")
-        wiki_id_2 = json.loads(post_response.content)["id"]
+        post_response = self.client.post(self.menu_url, menu_body_2, format="json")
+        menu_id_2 = json.loads(post_response.content)["id"]
 
         #######################################################################
-        ########################## TEST READ WIKI #############################
+        ########################## TEST READ MENU #############################
         #######################################################################
 
-        # Получаем список wiki
-        get_response = self.client.get(self.wiki_url, {}, format="json")
+        # Получаем список Menu
+        get_response = self.client.get(self.menu_url, {}, format="json")
 
-        # Проверям оба полученных экземпляра WIKI
-        self.assertEqual(Wiki.objects.count(), 2)
-        self.assertEqual(Wiki.objects.get(id=wiki_id_1).name, "menu_test_create_1")
-        self.assertEqual(Wiki.objects.get(id=wiki_id_2).name, "menu_test_create_2")
+        # Проверям оба полученных экземпляра Menu
+        self.assertEqual(Menu.objects.count(), 2)
+        self.assertEqual(Menu.objects.get(id=menu_id_1).name, "menu_test_create_1")
+        self.assertEqual(Menu.objects.get(id=menu_id_2).name, "menu_test_create_2")
 
         #######################################################################
+        ########################## TEST UPDATE MENU ###########################
+        #######################################################################
+
+        body = {
+            "wiki_id": wiki_id_1,
+            "name": "menu_test_update_put",
+            "file": "",
+        }
+        put_response = self.client.put(
+            self.menu_url + f"{menu_id_1}/", body, format="json"
+        )
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(self.menu_url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Menu.objects.count(), 2)
+        self.assertEqual(Menu.objects.get(id=menu_id_1).name, "menu_test_update_put")
+
+        # Производим частичное обнвление экземпляра Menu
+        body = {
+            "name": "menu_test_update_patch",
+        }
+        patch_response = self.client.patch(
+            self.menu_url + f"{menu_id_2}/", body, format="json"
+        )
+
+        # Производмм проверку результата
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Menu.objects.count(), 2)
+        self.assertEqual(Menu.objects.get(id=menu_id_2).name, "menu_test_update_patch")
+
+        # Проверка редактирования не существующего экземпляра Menu
+        patch_response = self.client.patch(
+            self.menu_url + f"{menu_id_2+1}/", body, format="json"
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
