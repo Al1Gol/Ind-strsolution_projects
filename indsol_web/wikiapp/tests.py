@@ -6,7 +6,7 @@ import json
 from PIL import Image
 
 from authapp.models import Users
-from wikiapp.models import Wiki, Menu
+from wikiapp.models import Wiki, Menu, Sections
 
 
 # Тестирование списка меню
@@ -22,6 +22,7 @@ class APIWikiTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.wiki_url = "/api/v1/wiki/list/"
         self.menu_url = "/api/v1/wiki/menu/"
+        self.section_url = "/api/v1/wiki/sections/"
 
     #######################################################################
     ########################## TEST CREATE WIKI ###########################
@@ -225,3 +226,37 @@ class APIWikiTests(APITestCase):
         )
         self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Menu.objects.count(), 1)
+
+        #######################################################################
+        ######################## TEST CREATE SECTIONS #########################
+        #######################################################################
+
+        body = {
+            "menu_id": menu_id_1,
+            "name": "section_test_create_1",
+        }
+
+        # Создание записи в Sections
+        post_response = self.client.post(self.section_url, body, format="json")
+        section_id_1 = json.loads(post_response.content)["id"]
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Sections.objects.count(), 1)
+        self.assertEqual(Sections.objects.get().name, "section_test_create_1")
+
+        # Получаем список экземпляров Sections
+        get_response = self.client.get(self.section_url, {}, format="json")
+
+        # Проверям полученнку
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            Sections.objects.get(id=section_id_1).name, "section_test_create_1"
+        )
+        self.assertEqual(Sections.objects.count(), 1)
+
+        # Создание второг экземпляра Sections
+        body = {
+            "menu_id": menu_id_1,
+            "name": "section_test_create_2",
+        }
+        post_response = self.client.post(self.section_url, body, format="json")
+        section_id_2 = json.loads(post_response.content)["id"]
