@@ -207,3 +207,21 @@ class APIWikiTests(APITestCase):
             self.menu_url + f"{menu_id_2+1}/", body, format="json"
         )
         self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
+
+        #######################################################################
+        ########################## TEST DELETE MENU ###########################
+        #######################################################################
+
+        # Проверка удаления экземпляра Menu
+        delete_response = self.client.delete(
+            self.menu_url + f"{menu_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Menu.objects.count(), 1)
+
+        # Проверка удаление не существующего экземпляра Menu
+        delete_response = self.client.delete(
+            self.menu_url + f"{menu_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(Menu.objects.count(), 1)
