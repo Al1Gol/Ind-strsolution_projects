@@ -178,7 +178,7 @@ class APIWikiTests(APITestCase):
             "file": "",
         }
         put_response = self.client.put(
-            self.menu_url + f"{menu_id_1}/", body, format="json"
+            self.menu_url + f"{menu_id_2}/", body, format="json"
         )
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
 
@@ -188,7 +188,7 @@ class APIWikiTests(APITestCase):
         # Производмм проверку результата
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(Menu.objects.count(), 2)
-        self.assertEqual(Menu.objects.get(id=menu_id_1).name, "menu_test_update_put")
+        self.assertEqual(Menu.objects.get(id=menu_id_2).name, "menu_test_update_put")
 
         # Производим частичное обнвление экземпляра Menu
         body = {
@@ -260,3 +260,82 @@ class APIWikiTests(APITestCase):
         }
         post_response = self.client.post(self.section_url, body, format="json")
         section_id_2 = json.loads(post_response.content)["id"]
+
+        #######################################################################
+        ########################## TEST READ SECTIONS #############################
+        #######################################################################
+
+        # Получаем список Sections
+        get_response = self.client.get(self.section_url, {}, format="json")
+
+        # Проверям оба полученных экземпляра Sections
+        self.assertEqual(Sections.objects.count(), 2)
+        self.assertEqual(
+            Sections.objects.get(id=section_id_1).name, "section_test_create_1"
+        )
+        self.assertEqual(
+            Sections.objects.get(id=section_id_2).name, "section_test_create_2"
+        )
+
+        #######################################################################
+        ########################## TEST UPDATE SECTIONS ###########################
+        #######################################################################
+
+        body = {
+            "menu_id": menu_id_1,
+            "name": "section_test_update_put",
+            "file": "",
+        }
+        put_response = self.client.put(
+            self.section_url + f"{section_id_2}/", body, format="json"
+        )
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(self.section_url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Sections.objects.count(), 2)
+        self.assertEqual(
+            Sections.objects.get(id=menu_id_2).name, "section_test_update_put"
+        )
+
+        # Производим частичное обнвление экземпляра Sections
+        body = {
+            "name": "section_test_update_patch",
+        }
+        patch_response = self.client.patch(
+            self.section_url + f"{section_id_2}/", body, format="json"
+        )
+
+        # Производмм проверку результата
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Sections.objects.count(), 2)
+        self.assertEqual(
+            Sections.objects.get(id=section_id_2).name, "section_test_update_patch"
+        )
+
+        # Проверка редактирования не существующего экземпляра Sections
+        patch_response = self.client.patch(
+            self.section_url + f"{section_id_2+1}/", body, format="json"
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
+
+        #######################################################################
+        ######################## TEST DELETE SECTIONS #########################
+        #######################################################################
+
+        # Проверка удаления экземпляра Sections
+        delete_response = self.client.delete(
+            self.section_url + f"{section_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Sections.objects.count(), 1)
+
+        # Проверка удаление не существующего экземпляра Sections
+        delete_response = self.client.delete(
+            self.section_url + f"{section_id_2+1}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(Sections.objects.count(), 1)
