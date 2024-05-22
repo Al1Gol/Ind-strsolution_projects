@@ -29,7 +29,7 @@ class APIWikiTests(APITestCase):
     ########################## TEST CREATE WIKI ###########################
     #######################################################################
 
-    def test_wiki_create(self):
+    def test_wiki(self):
         body = {
             "name": "wiki_test_create_1",
         }
