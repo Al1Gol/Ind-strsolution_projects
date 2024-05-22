@@ -6,7 +6,7 @@ import json
 from PIL import Image
 
 from authapp.models import Users
-from wikiapp.models import Wiki, Menu, Sections
+from wikiapp.models import Wiki, Menu, Sections, Articles
 
 
 # Тестирование списка меню
@@ -22,19 +22,20 @@ class APIWikiTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.wiki_url = "/api/v1/wiki/list/"
         self.menu_url = "/api/v1/wiki/menu/"
-        self.section_url = "/api/v1/wiki/sections/"
+        self.sections_url = "/api/v1/wiki/sections/"
+        self.articles_url = "/api/v1/wiki/articles/"
 
     #######################################################################
     ########################## TEST CREATE WIKI ###########################
     #######################################################################
 
     def test_wiki_create(self):
-        wiki_body = {
+        body = {
             "name": "wiki_test_create_1",
         }
 
         # Создание записи в Wiki
-        post_response = self.client.post(self.wiki_url, wiki_body, format="json")
+        post_response = self.client.post(self.wiki_url, body, format="json")
         wiki_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Wiki.objects.count(), 1)
@@ -49,10 +50,10 @@ class APIWikiTests(APITestCase):
         self.assertEqual(Wiki.objects.count(), 1)
 
         # Создание второг экземпляра Wiki
-        wiki_body_2 = {
+        body = {
             "name": "wiki_test_create_2",
         }
-        post_response = self.client.post(self.wiki_url, wiki_body_2, format="json")
+        post_response = self.client.post(self.wiki_url, body, format="json")
         wiki_id_2 = json.loads(post_response.content)["id"]
 
         #######################################################################
@@ -129,12 +130,12 @@ class APIWikiTests(APITestCase):
         ########################## TEST CREATE MENU ###########################
         #######################################################################
 
-        menu_body = {
+        body = {
             "wiki_id": wiki_id_1,
             "name": "menu_test_create_1",
         }
         # Создание записи в Menu
-        post_response = self.client.post(self.menu_url, menu_body, format="json")
+        post_response = self.client.post(self.menu_url, body, format="json")
         menu_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Menu.objects.count(), 1)
@@ -149,11 +150,11 @@ class APIWikiTests(APITestCase):
         self.assertEqual(Menu.objects.count(), 1)
 
         # Создание второг экземпляра Menu
-        menu_body_2 = {
+        body = {
             "wiki_id": wiki_id_1,
             "name": "menu_test_create_2",
         }
-        post_response = self.client.post(self.menu_url, menu_body_2, format="json")
+        post_response = self.client.post(self.menu_url, body, format="json")
         menu_id_2 = json.loads(post_response.content)["id"]
 
         #######################################################################
@@ -237,14 +238,14 @@ class APIWikiTests(APITestCase):
         }
 
         # Создание записи в Sections
-        post_response = self.client.post(self.section_url, body, format="json")
+        post_response = self.client.post(self.sections_url, body, format="json")
         section_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Sections.objects.count(), 1)
         self.assertEqual(Sections.objects.get().name, "section_test_create_1")
 
         # Получаем список экземпляров Sections
-        get_response = self.client.get(self.section_url, {}, format="json")
+        get_response = self.client.get(self.sections_url, {}, format="json")
 
         # Проверям полученнку
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
@@ -258,7 +259,7 @@ class APIWikiTests(APITestCase):
             "menu_id": menu_id_1,
             "name": "section_test_create_2",
         }
-        post_response = self.client.post(self.section_url, body, format="json")
+        post_response = self.client.post(self.sections_url, body, format="json")
         section_id_2 = json.loads(post_response.content)["id"]
 
         #######################################################################
@@ -266,7 +267,7 @@ class APIWikiTests(APITestCase):
         #######################################################################
 
         # Получаем список Sections
-        get_response = self.client.get(self.section_url, {}, format="json")
+        get_response = self.client.get(self.sections_url, {}, format="json")
 
         # Проверям оба полученных экземпляра Sections
         self.assertEqual(Sections.objects.count(), 2)
@@ -287,12 +288,12 @@ class APIWikiTests(APITestCase):
             "file": "",
         }
         put_response = self.client.put(
-            self.section_url + f"{section_id_2}/", body, format="json"
+            self.sections_url + f"{section_id_2}/", body, format="json"
         )
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
 
         # Получаем отредактированное значение
-        get_response = self.client.get(self.section_url, {}, format="json")
+        get_response = self.client.get(self.sections_url, {}, format="json")
 
         # Производмм проверку результата
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
@@ -306,7 +307,7 @@ class APIWikiTests(APITestCase):
             "name": "section_test_update_patch",
         }
         patch_response = self.client.patch(
-            self.section_url + f"{section_id_2}/", body, format="json"
+            self.sections_url + f"{section_id_2}/", body, format="json"
         )
 
         # Производмм проверку результата
@@ -318,7 +319,7 @@ class APIWikiTests(APITestCase):
 
         # Проверка редактирования не существующего экземпляра Sections
         patch_response = self.client.patch(
-            self.section_url + f"{section_id_2+1}/", body, format="json"
+            self.sections_url + f"{section_id_2+1}/", body, format="json"
         )
         self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -328,14 +329,70 @@ class APIWikiTests(APITestCase):
 
         # Проверка удаления экземпляра Sections
         delete_response = self.client.delete(
-            self.section_url + f"{section_id_2}/", {}, format="json"
+            self.sections_url + f"{section_id_2}/", {}, format="json"
         )
         self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Sections.objects.count(), 1)
 
         # Проверка удаление не существующего экземпляра Sections
         delete_response = self.client.delete(
-            self.section_url + f"{section_id_2+1}/", {}, format="json"
+            self.sections_url + f"{section_id_2+1}/", {}, format="json"
         )
         self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Sections.objects.count(), 1)
+
+        #######################################################################
+        ######################## TEST CREATE ARTICLES #########################
+        #######################################################################
+
+        body = {
+            "section_id": section_id_1,
+            "name": "article_test_create_title_1",
+            "text": "article_test_create_text_1",
+        }
+
+        # Создание записи в Articles
+        post_response = self.client.post(self.articles_url, body, format="json")
+        articles_id_1 = json.loads(post_response.content)["id"]
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Articles.objects.count(), 1)
+        self.assertEqual(Articles.objects.get().name, "article_test_create_title_1")
+        self.assertEqual(Articles.objects.get().text, "article_test_create_text_1")
+
+        # Получаем список экземпляров Articles
+        get_response = self.client.get(self.articles_url, {}, format="json")
+
+        # Проверям статус
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Articles.objects.count(), 1)
+
+        # Создание второг экземпляра Articles
+        body = {
+            "section_id": section_id_1,
+            "name": "article_test_create_title_2",
+            "text": "article_test_create_text_2",
+        }
+        post_response = self.client.post(self.articles_url, body, format="json")
+        articles_id_2 = json.loads(post_response.content)["id"]
+
+        #######################################################################
+        ########################## TEST READ ARTICLES #########################
+        #######################################################################
+
+        # Получаем список Articles
+        get_response = self.client.get(self.articles_url, {}, format="json")
+
+        # Проверям оба полученных экземпляра Articles
+        self.assertEqual(Articles.objects.count(), 2)
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_1).name, "article_test_create_title_1"
+        )
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_1).text, "article_test_create_text_1"
+        )
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_2).name, "article_test_create_title_2"
+        )
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_2).text, "article_test_create_text_2"
+        )

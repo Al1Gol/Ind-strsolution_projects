@@ -97,6 +97,8 @@ class SectionsViewSet(
             )
         serializer.save()
 
+    # Не отрабатывает корректно, так как при удалении не существующей записи вместо 404 Not Found выдает 502 You can't delete object with includes
+    """
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -106,6 +108,7 @@ class SectionsViewSet(
             return JsonResponse(
                 {"error": "You can't delete object with includes"}, status=502
             )
+    """
 
 
 class ArticleViewSet(
