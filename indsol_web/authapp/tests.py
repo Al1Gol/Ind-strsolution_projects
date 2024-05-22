@@ -39,10 +39,76 @@ class APIWikiTests(APITestCase):
         user_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
 
+        #######################################################################
+        ########################## TEST READ USERS #############################
+        #######################################################################
+
+        # Получаем список экземпляров Wiki
+        get_response = self.client.get(self.user_url, {}, format="json")
+
+        # Проверям получение
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Users.objects.get(id=user_id_1).username, "test_user_1")
+        self.assertEqual(Users.objects.count(), 2)
+
+        # Необходимо дописать Users для данного теста
+        """
+        body = {
+            "username": "test_user_1",
+            "password": "test_password",
+            "email": "mail@mail.ru",
+            "inn": 123455678,
+            "kpp": 355521222,
+        }
+        post_response = self.client.post(self.user_url, body, format="json")
+        user_id_2 = json.loads(post_response.content)["id"]
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+
         # Получаем список экземпляров Wiki
         get_response = self.client.get(self.user_url, {}, format="json")
 
         # Проверям полученнку
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Users.objects.get(id=user_id_1).username, "test_user_1")
+        self.assertEqual(Users.objects.get(id=user_id_2).username, "test_user_1")
+        self.assertEqual(Users.objects.count(), 3)
+        """
+        #######################################################################
+        ########################## TEST UPDATE USERS ###########################
+        #######################################################################
+
+        # Производим полное (PUT) обнвление экземпляра Users
+        body = {
+            "username": "user_upd_put",
+            "password": "123",
+        }
+        put_response = self.client.put(
+            self.user_url + f"{user_id_1}/", body, format="json"
+        )
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(self.user_url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(Users.objects.count(), 2)
+        self.assertEqual(Users.objects.get(id=user_id_1).username, "user_upd_put")
+
+        # Производим частичное обнвление экземпляра Users
+        body = {
+            "username": "user_upd_patch",
+        }
+        patch_response = self.client.patch(
+            self.user_url + f"{user_id_1}/", body, format="json"
+        )
+
+        # Производмм проверку результата
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Users.objects.count(), 2)
+        self.assertEqual(Users.objects.get(id=user_id_1).username, "user_upd_patch")
+
+        # Проверка редактирования не существующего экземпляра Users
+        patch_response = self.client.patch(
+            self.user_url + f"{user_id_1+1}/", body, format="json"
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
