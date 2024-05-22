@@ -396,3 +396,81 @@ class APIWikiTests(APITestCase):
         self.assertEqual(
             Articles.objects.get(id=articles_id_2).text, "article_test_create_text_2"
         )
+
+        #######################################################################
+        ########################## TEST UPDATE ARTICLES ###########################
+        #######################################################################
+
+        body = {
+            "menu_id": section_id_1,
+            "name": "articles_test_update_put_title",
+            "text": "articles_test_update_put_text",
+        }
+        put_response = self.client.put(
+            self.articles_url + f"{articles_id_2}/", body, format="json"
+        )
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(self.articles_url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Articles.objects.count(), 2)
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_2).name,
+            "articles_test_update_put_title",
+        )
+        self.assertEqual(
+            Articles.objects.get(id=articles_id_2).text, "articles_test_update_put_text"
+        )
+
+        # Производим частичное обнвление экземпляра Articles
+        body = {
+            "name": "articles_test_update_patch_title",
+        }
+        patch_response = self.client.patch(
+            self.articles_url + f"{articles_id_2}/", body, format="json"
+        )
+        body = {
+            "text": "articles_test_update_patch_text",
+        }
+        patch_response = self.client.patch(
+            self.articles_url + f"{articles_id_2}/", body, format="json"
+        )
+
+        # Производмм проверку результата
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Articles.objects.count(), 2)
+        self.assertEqual(
+            Articles.objects.get(id=section_id_2).name,
+            "articles_test_update_patch_title",
+        )
+        self.assertEqual(
+            Articles.objects.get(id=section_id_2).text,
+            "articles_test_update_patch_text",
+        )
+
+        # Проверка редактирования не существующего экземпляра Articles
+        patch_response = self.client.patch(
+            self.sections_url + f"{section_id_2+1}/", body, format="json"
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
+
+        #######################################################################
+        ######################## TEST DELETE ARTICLES #########################
+        #######################################################################
+
+        # Проверка удаления экземпляра Articles
+        delete_response = self.client.delete(
+            self.articles_url + f"{articles_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Articles.objects.count(), 1)
+
+        # Проверка удаление не существующего экземпляра Articles
+        delete_response = self.client.delete(
+            self.articles_url + f"{articles_id_2+1}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(Articles.objects.count(), 1)
