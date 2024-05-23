@@ -495,14 +495,27 @@ class APIWikiTests(APITestCase):
             "name": "test name",
             "file": file,
         }
-        # Создание записи в Menu
+
+        # Создание записи в Files
         post_response = self.client.post(self.files_url, body, format="multipart")
+        files_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Files.objects.count(), 1)
 
-        # Получаем список экземпляров Menu
+        # Получаем список экземпляров Files
         get_response = self.client.get(self.files_url, {}, format="json")
 
         # Проверям полученнку
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(Files.objects.count(), 1)
+
+        #######################################################################
+        ########################## TEST READ FILES #########################
+        #######################################################################
+
+        # Получаем список Files
+        get_response = self.client.get(self.files_url, {}, format="json")
+
+        # Проверям оба полученных экземпляра Files
+        self.assertEqual(Files.objects.count(), 1)
+        self.assertEqual(Files.objects.get(id=files_id_1).name, "test name")
