@@ -38,6 +38,13 @@ class APIWikiTests(APITestCase):
         post_response = self.client.post(self.user_url, body, format="json")
         user_id_1 = json.loads(post_response.content)["id"]
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+        body = {
+            "username": "test_user_2",
+            "password": "test_password",
+        }
+        post_response = self.client.post(self.user_url, body, format="json")
+        user_id_2 = json.loads(post_response.content)["id"]
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
 
         #######################################################################
         ########################## TEST READ USERS #############################
@@ -49,7 +56,7 @@ class APIWikiTests(APITestCase):
         # Проверям получение
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(Users.objects.get(id=user_id_1).username, "test_user_1")
-        self.assertEqual(Users.objects.count(), 2)
+        self.assertEqual(Users.objects.count(), 3)
 
         # Необходимо дописать Users для данного теста
         """
@@ -82,7 +89,7 @@ class APIWikiTests(APITestCase):
             "password": "123",
         }
         put_response = self.client.put(
-            self.user_url + f"{user_id_1}/", body, format="json"
+            self.user_url + f"{user_id_2}/", body, format="json"
         )
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
 
@@ -91,24 +98,42 @@ class APIWikiTests(APITestCase):
 
         # Производмм проверку результата
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Users.objects.count(), 2)
-        self.assertEqual(Users.objects.get(id=user_id_1).username, "user_upd_put")
+        self.assertEqual(Users.objects.count(), 3)
+        self.assertEqual(Users.objects.get(id=user_id_2).username, "user_upd_put")
 
         # Производим частичное обнвление экземпляра Users
         body = {
             "username": "user_upd_patch",
         }
         patch_response = self.client.patch(
-            self.user_url + f"{user_id_1}/", body, format="json"
+            self.user_url + f"{user_id_2}/", body, format="json"
         )
 
         # Производмм проверку результата
         self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Users.objects.count(), 2)
-        self.assertEqual(Users.objects.get(id=user_id_1).username, "user_upd_patch")
+        self.assertEqual(Users.objects.count(), 3)
+        self.assertEqual(Users.objects.get(id=user_id_2).username, "user_upd_patch")
 
         # Проверка редактирования не существующего экземпляра Users
         patch_response = self.client.patch(
-            self.user_url + f"{user_id_1+1}/", body, format="json"
+            self.user_url + f"{user_id_2+1}/", body, format="json"
         )
         self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
+
+        #######################################################################
+        ########################## TEST DELETE USERS ###########################
+        #######################################################################
+
+        # Проверка удаления экземпляра Wiki
+        delete_response = self.client.delete(
+            self.user_url + f"{user_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Users.objects.count(), 2)
+
+        # Проверка удаление не существующего экземпляра Wiki
+        delete_response = self.client.delete(
+            self.user_url + f"{user_id_2}/", {}, format="json"
+        )
+        self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(Users.objects.count(), 2)
