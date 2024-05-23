@@ -519,3 +519,29 @@ class APIWikiTests(APITestCase):
         # Проверям оба полученных экземпляра Files
         self.assertEqual(Files.objects.count(), 1)
         self.assertEqual(Files.objects.get(id=files_id_1).name, "test name")
+
+        #######################################################################
+        ########################## TEST UPDATE FILSE ###########################
+        #######################################################################
+
+        # Производим частичное обнвление экземпляра Articles
+        body = {
+            "name": "files_test_update_patch_name",
+        }
+        patch_response = self.client.patch(
+            self.files_url + f"{files_id_1}/", body, format="json"
+        )
+
+        # Производмм проверку результата
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Files.objects.count(), 1)
+        self.assertEqual(
+            Files.objects.get(id=files_id_1).name,
+            "files_test_update_patch_name",
+        )
+
+        # Проверка редактирования не существующего экземпляра Articles
+        patch_response = self.client.patch(
+            self.files_url + f"{files_id_1+1}/", body, format="json"
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_404_NOT_FOUND)
