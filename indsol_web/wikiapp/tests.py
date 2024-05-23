@@ -4,9 +4,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 import json
 from PIL import Image
+from io import BytesIO
 
 from authapp.models import Users
-from wikiapp.models import Wiki, Menu, Sections, Articles
+from wikiapp.models import Wiki, Menu, Sections, Articles, Files
 
 
 # Тестирование списка меню
@@ -24,6 +25,16 @@ class APIWikiTests(APITestCase):
         self.menu_url = "/api/v1/wiki/menu/"
         self.sections_url = "/api/v1/wiki/sections/"
         self.articles_url = "/api/v1/wiki/articles/"
+        self.files_url = "/api/v1/wiki/files/"
+
+    # Создание файла
+    def create_valid_image(self):
+        image_file = BytesIO()
+        image = Image.new("RGBA", size=(50, 50), color=(155, 0, 0))
+        image.save(image_file, "png")
+        image_file.name = "test_image.jpg"
+        image_file.seek(0)
+        return image_file
 
     #######################################################################
     ########################## TEST CREATE WIKI ###########################
@@ -474,3 +485,24 @@ class APIWikiTests(APITestCase):
         )
         self.assertEqual(delete_response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Articles.objects.count(), 1)
+
+        #######################################################################
+        ########################## TEST CREATE FILES ###########################
+        #######################################################################
+        file = self.create_valid_image()
+        body = {
+            "article_id": articles_id_1,
+            "name": "test name",
+            "file": file,
+        }
+        # Создание записи в Menu
+        post_response = self.client.post(self.files_url, body, format="multipart")
+        self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Files.objects.count(), 1)
+
+        # Получаем список экземпляров Menu
+        get_response = self.client.get(self.files_url, {}, format="json")
+
+        # Проверям полученнку
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Files.objects.count(), 1)
