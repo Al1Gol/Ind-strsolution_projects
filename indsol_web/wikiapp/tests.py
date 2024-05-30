@@ -1,4 +1,8 @@
 from django.test import TestCase
+import datetime
+import pytz
+from unittest import mock
+
 from rest_framework.test import APITestCase, APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
@@ -523,6 +527,37 @@ class APIWikiTests(APITestCase):
         #######################################################################
         ########################## TEST UPDATE FILSE ###########################
         #######################################################################
+
+        """ Не работает полное обновление по причине остуттсвия обработки auto_now_add и auto_add
+        mocked = datetime.datetime(2018, 4, 4, 0, 0, 0, tzinfo=pytz.utc)
+        body = {
+            "articles_id": articles_id_2,
+            "name": "files_test_update_patch_name",
+            "file": file,
+        }
+        put_response = self.client.put(
+            self.files_url + f"{files_id_1}/", body, format="multipart"
+        )
+        self.assertEqual(put_response.status_code, status.HTTP_200_OK)
+
+        # Получаем отредактированное значение
+        get_response = self.client.get(self.articles_url, {}, format="json")
+
+        # Производмм проверку результата
+        self.assertEqual(get_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Files.objects.count(), 2)
+        self.assertEqual(
+            Files.objects.get(id=files_id_1).name,
+            "files_test_update_patch_name",
+        )
+        """
+        # Производим частичное обнвление экземпляра Articles
+        body = {
+            "name": "files_test_update_patch_name",
+        }
+        patch_response = self.client.patch(
+            self.files_url + f"{files_id_1}/", body, format="json"
+        )
 
         # Производим частичное обнвление экземпляра Articles
         body = {
