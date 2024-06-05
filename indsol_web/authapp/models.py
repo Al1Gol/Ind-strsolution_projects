@@ -39,3 +39,15 @@ class Users(AbstractUser):
         verbose_name = "Пользователи"
         verbose_name_plural = "Пользователи"
         ordering = ["created_at"]
+
+
+class Clients(AbstractUser):
+    user = models.ForeignKey(
+        "Users", verbose_name="пользователь", on_delete=models.CASCADE
+    )
+    region = models.ForeignKey(
+        "Regions",
+        verbose_name="регион",
+        related_name="регион",
+        on_delete=models.PROTECT,
+    )
