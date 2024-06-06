@@ -7,31 +7,9 @@ from django.db import models
 
 
 # Create your models here.
-
-
-class Regions(models.Model):
-    name = models.CharField(verbose_name="название", max_length=100)
-    type = models.CharField(verbose_name="тип региона", max_length=20)
-    name_with_type = models.CharField(
-        verbose_name="полное наименование", max_length=200
-    )
-    federal_disrtict = models.CharField(verbose_name="федеральный округ")
-    kladr_id = models.CharField(verbose_name="кладр", max_length=13)
-    flas_id = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
-    okato = models.CharField(verbose_name="окато", max_length=12)
-    tax_office = models.CharField(verbose_name="налоговая служба", max_length=4)
-    postal_code = models.CharField(
-        verbose_name="почтовый индекс", max_length=6, blank=True
-    )
-    iso_code = models.CharField(verbose_name="ISO", max_length=7)
-    timezone = models.CharField(verbose_name="часовой пояс", max_length=6)
-    geoname_code = models.CharField(verbose_name="код геоимени", max_length=7)
-    geoname_id = models.CharField(verbose_name="id геоимени", max_length=7)
-    geoname_name = models.CharField(verbose_name="наименование геоимени", max_length=7)
-
-
 class Users(AbstractUser):
-    is_moderate = models.BooleanField(verbose_name="модератор", default=False)
+    is_client = models.BooleanField(verbose_name="клиент", default=False)
+    is_manager = models.BooleanField(verbose_name="менеджер", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
@@ -41,13 +19,59 @@ class Users(AbstractUser):
         ordering = ["created_at"]
 
 
-class Clients(AbstractUser):
+class Districts(models.Model):
+    name = models.CharField(verbose_name="полное наименование", max_length=200)
+
+    class Meta:
+        verbose_name = "Федеральный округ"
+        verbose_name_plural = "Федеральный округ"
+        ordering = ["name"]
+
+
+class Branches(models.Model):
+    name = models.CharField(verbose_name="полное наименование", max_length=200)
+
+    class Meta:
+        verbose_name = "Отрасль"
+        verbose_name_plural = "Отрасль"
+        ordering = ["name"]
+
+
+class Clients(models.Model):
     user = models.ForeignKey(
-        "Users", verbose_name="пользователь", on_delete=models.CASCADE
+        "Users",
+        verbose_name="пользователь",
+        on_delete=models.CASCADE,
+        limit_choices_to={"is_client": True},
     )
-    region = models.ForeignKey(
-        "Regions",
+    district_id = models.ForeignKey(
+        "Districts",
         verbose_name="регион",
         related_name="регион",
         on_delete=models.PROTECT,
+    )
+    branch_id = models.ForeignKey(
+        "Districts",
+        verbose_name="отрасль",
+        related_name="отрасль",
+        on_delete=models.PROTECT,
+    )
+
+
+class Managers(models.Model):
+    user = models.ForeignKey(
+        "Users",
+        verbose_name="пользователь",
+        on_delete=models.CASCADE,
+        limit_choices_to={"is_manager": True},
+    )
+    district_id = models.ManyToManyField(
+        "Districts",
+        verbose_name="федеральный округ",
+        related_name="район",
+    )
+    branch_id = models.ManyToManyField(
+        "Branches",
+        verbose_name="отрасль",
+        related_name="отрасль",
     )

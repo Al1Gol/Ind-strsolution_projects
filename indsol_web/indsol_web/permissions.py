@@ -9,7 +9,7 @@ class ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly(permissions.BasePermissio
             request.user.is_authenticated
             and request.user
             and request.method in ["POST", "PUT", "PATCH", "CREATE", "DELETE"]
-            and request.user.is_moderate
+            and request.user.is_manager
         ):
             return True
         return bool(

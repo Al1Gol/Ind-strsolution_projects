@@ -8,7 +8,7 @@ class UsersAdmin(admin.ModelAdmin):
         "id",
         "username",
         "is_staff",
-        "is_moderate",
+        "is_manager",
         "created_at",
         "updated_at",
     )
@@ -16,7 +16,7 @@ class UsersAdmin(admin.ModelAdmin):
         "id",
         "username",
         "is_staff",
-        "is_moderate",
+        "is_manager",
         "created_at",
         "updated_at",
     )
