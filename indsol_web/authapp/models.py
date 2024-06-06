@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-# Create your models here.
+# Пользователи
 class Users(AbstractUser):
     is_client = models.BooleanField(verbose_name="клиент", default=False)
     is_manager = models.BooleanField(verbose_name="менеджер", default=False)
@@ -19,6 +19,7 @@ class Users(AbstractUser):
         ordering = ["created_at"]
 
 
+# Федеральные округа
 class Districts(models.Model):
     name = models.CharField(verbose_name="полное наименование", max_length=200)
 
@@ -28,6 +29,7 @@ class Districts(models.Model):
         ordering = ["name"]
 
 
+# Отрасли
 class Branches(models.Model):
     name = models.CharField(verbose_name="полное наименование", max_length=200)
 
@@ -37,6 +39,7 @@ class Branches(models.Model):
         ordering = ["name"]
 
 
+# Клиенты
 class Clients(models.Model):
     user = models.ForeignKey(
         "Users",
@@ -56,8 +59,14 @@ class Clients(models.Model):
         related_name="отрасль",
         on_delete=models.PROTECT,
     )
+    inn = models.CharField(verbose_name="ИНН", max_length=12)
+    organization = models.CharField(
+        verbose_name="наименование организации", max_length=200
+    )
+    agreement = models.CharField(verbose_name="ИНН", max_length=12)
 
 
+# Менеджеры
 class Managers(models.Model):
     user = models.ForeignKey(
         "Users",
