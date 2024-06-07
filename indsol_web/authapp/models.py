@@ -41,7 +41,7 @@ class Branches(models.Model):
 
 # Клиенты
 class Clients(models.Model):
-    user = models.ForeignKey(
+    user_id = models.ForeignKey(
         "Users",
         verbose_name="пользователь",
         on_delete=models.CASCADE,
@@ -68,7 +68,7 @@ class Clients(models.Model):
 
 # Менеджеры
 class Managers(models.Model):
-    user = models.ForeignKey(
+    user_id = models.ForeignKey(
         "Users",
         verbose_name="пользователь",
         on_delete=models.CASCADE,
