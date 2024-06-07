@@ -1,12 +1,14 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from authapp.views import (
+ from authapp.views import (
     ProfileViewSet,
     UsersViewSet,
     PingViewSet,
     DistrictsViewSet,
     BranchesViewSet,
+    ClientsViewSet,
+    ManagersSerializers
 )
 from django.urls import include, path, re_path
 from rest_framework import routers
@@ -17,6 +19,9 @@ auth.register("users", UsersViewSet, basename="users")
 auth.register("profile", ProfileViewSet, basename="profile")
 auth.register("districts", DistrictsViewSet, basename="districts")
 auth.register("branches", BranchesViewSet, basename="branches")
+auth.register("clients", ClientsViewSet, basename="clients")
+auth.register("managers", ManagersSerializers, basename="managers")
+
 
 urlpatterns = [
     path("", include(auth.urls)),

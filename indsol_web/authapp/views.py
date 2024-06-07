@@ -1,10 +1,12 @@
 import logging
-from authapp.models import Users, Districts, Branches
+from authapp.models import Users, Districts, Branches, Clients, Managers
 from authapp.serializers import (
     ProfileSerializer,
     UsersSerializer,
     DistrictsSerializers,
     BranchesSerializers,
+    ClientsSerializers,
+    ManagersSerializers,
 )
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
@@ -45,6 +47,21 @@ class UsersViewSet(
             serializer.save()
 
 
+# Профиль текущего пользователя
+class ProfileViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+):
+    queryset = Users.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            print(self.request.user)
+            return self.queryset.filter(username=self.request.user)
+        return self.request
+
+
 class DistrictsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -66,19 +83,28 @@ class BranchesViewSet(
     serializer_class = BranchesSerializers
 
 
-# Профиль текущего пользователя
-class ProfileViewSet(
+class ClientsViewSet(
     GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
 ):
-    queryset = Users.objects.all()
-    serializer_class = ProfileSerializer
+    queryset = Clients.objects.all()
+    serializer_class = ClientsSerializers
 
-    def get_queryset(self):
-        if self.action == "list":
-            print(self.request.user)
-            return self.queryset.filter(username=self.request.user)
-        return self.request
+
+class ManagersViewSet(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    queryset = Managers.objects.all()
+    serializer_class = ManagersSerializers
 
 
 # Пинг доступности бэкенда
