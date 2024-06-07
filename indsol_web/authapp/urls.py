@@ -1,7 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from authapp.views import ProfileViewSet, UsersViewSet, PingViewSet
+from authapp.views import (
+    ProfileViewSet,
+    UsersViewSet,
+    PingViewSet,
+    DistrictsViewSet,
+    BranchesViewSet,
+)
 from django.urls import include, path, re_path
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
@@ -9,6 +15,8 @@ from rest_framework_simplejwt import views as jwt_views
 auth = routers.DefaultRouter()
 auth.register("users", UsersViewSet, basename="users")
 auth.register("profile", ProfileViewSet, basename="profile")
+auth.register("districts", DistrictsViewSet, basename="districts")
+auth.register("branches", BranchesViewSet, basename="branches")
 
 urlpatterns = [
     path("", include(auth.urls)),
