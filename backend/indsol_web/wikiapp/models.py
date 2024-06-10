@@ -56,7 +56,7 @@ class Sections(models.Model):
     name = models.CharField(verbose_name="раздел", max_length=200)
     img = models.FileField(
         verbose_name="иконка",
-        upload_to="icons/sections/",
+        upload_to="wiki/icons/sections/",
         validators=[validate_svg_extension],
         max_length=100,
         blank=True,
@@ -113,7 +113,7 @@ class Files(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(verbose_name="название файла", max_length=200)
-    file = models.FileField(upload_to="files/", verbose_name="файлы")
+    file = models.FileField(upload_to="wiki/files/", verbose_name="файлы")
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
@@ -128,7 +128,7 @@ class Files(models.Model):
 
 class Images(models.Model):
     img = models.ImageField(
-        verbose_name="изображения", upload_to="files/img/", max_length=100
+        verbose_name="изображения", upload_to="wiki/articles/img/", max_length=100
     )
 
     def __str__(self):
@@ -142,7 +142,7 @@ class Images(models.Model):
 class Videos(models.Model):
     video = models.FileField(
         verbose_name="видео",
-        upload_to="files/video/",
+        upload_to="wiki/articles/video/",
         max_length=100,
         validators=[validate_video_extension],
     )
