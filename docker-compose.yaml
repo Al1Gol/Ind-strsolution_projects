@@ -1,0 +1,46 @@
+version: '3.8'
+
+
+services:
+  db:
+    image: postgres:14.5-alpine
+    volumes:
+      - /home/indsol/app_data/data/db/pgdata:/var/lib/postgresql/pgdata
+    privileged: true
+    restart: always
+    ports:
+      - '5432:5432'
+
+    environment:
+      POSGRES_DB: 'ipm_knowledge'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: ''
+      PGDATA: '/var/lib/postgresql/pgdata'
+
+  backend:
+    build: ./backend
+    command: bash -c "
+        python manage.py migrate &&
+        gunicorn ipm_knowledge.wsgi -b 0.0.0.0:8080"
+    environment:
+      DJANGO_SETTINGS_MODULE: ipm_knowledge.settings.production
+    volumes:
+      - /home/indsol/app_data/data/media:/app/media
+      - /home/indsol/app_data/logs/:/logs
+    privileged: true
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on: 
+      - db
+  
+  nginx:
+    build: ./nginx
+    privileged: true
+    restart: always
+    volumes:
+      - /home/indsol/app_data/data/media:/var/www/media
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
