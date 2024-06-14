@@ -1,0 +1,20 @@
+server {
+	server_name 192.168.10.107;
+
+	access_log /home/usr/logs;
+
+	location /static/ {
+		autoindex on;
+		root /home/usr/Industrialsolution_projectsc/backend/indsol_web/;
+	}
+
+	location /media/ {
+		autoindex on;
+		root /home/usr/Industrialsolution_projects/backend/indsol_web/;
+	}
+
+	location / {
+		include proxy_params;
+		proxy_pass http://unix:/home/usr/Industrialsolution_projects/backend/indsol_web/indsol_web/aindsol_web.sock;
+	}
+}
