@@ -12,7 +12,7 @@ services:
       - '5432:5432'
 
     environment:
-      POSGRES_DB: 'ipm_knowledge'
+      POSGRES_DB: 'indsol'
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: ''
       PGDATA: '/var/lib/postgresql/pgdata'
@@ -21,9 +21,9 @@ services:
     build: ./backend
     command: bash -c "
         python manage.py migrate &&
-        gunicorn ipm_knowledge.wsgi -b 0.0.0.0:8080"
+        gunicorn indsol_web.wsgi -b 0.0.0.0:8080"
     environment:
-      DJANGO_SETTINGS_MODULE: ipm_knowledge.settings.production
+      DJANGO_SETTINGS_MODULE: indsol_web.settings.production
     volumes:
       - /home/indsol/app_data/data/media:/app/media
       - /home/indsol/app_data/logs/:/logs
