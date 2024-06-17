@@ -20,7 +20,7 @@ services:
         python manage.py migrate &&
         gunicorn indsol_web.wsgi -b 0.0.0.0:8080"
     environment:
-      DJANGO_SETTINGS_MODULE: indsol_web.settings.production
+      DJANGO_SETTINGS_MODULE: indsol_web.settings.pre_production
     volumes:
       - /home/indsol/app_data/data/media:/app/media
       - /home/indsol/app_data/logs/:/logs
