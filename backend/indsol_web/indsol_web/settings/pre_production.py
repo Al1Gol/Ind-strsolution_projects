@@ -4,7 +4,7 @@ from .base import *
 
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ["185.255.177.38"]
+CSRF_TRUSTED_ORIGINS = ["https://185.255.177.38"]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
