@@ -15,6 +15,6 @@ server {
 
 	location / {
 		include proxy_params;
-		proxy_pass http://unix:/home/usr/Industrialsolution_projects/backend/indsol_web/indsol_web/aindsol_web.sock;
+		proxy_pass http://unix:/home/usr/Industrialsolution_projects/backend/indsol_web/indsol_web/indsol_web.sock;
 	}
 }

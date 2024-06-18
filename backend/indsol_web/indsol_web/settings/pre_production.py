@@ -4,8 +4,6 @@ from .base import *
 
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ["http://185.255.177.38"]
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Время жизни токенов JWT
