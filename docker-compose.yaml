@@ -37,6 +37,7 @@ services:
     restart: always
     volumes:
       - /home/indsol/app_data/data/media:/var/www/media
+      - /home/indsol/Ind-strsolution_projects/backend/static:/var/www/static
     ports:
       - 8000:80
     depends_on:
@@ -44,11 +45,11 @@ services:
 
   certbot:
     image: certbot/certbot
-    depends_on:
-      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email al1working@mail.ru --agree-tos --no-eff-email -d 5.182.4.206:8000
+    restart: unless-stopped
     container_name: certbot
     volumes:
-      - etc-letsenccrypt: /etc/letsencrypt
-      - www-html:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email al1working@mail.ru --agree-tos --no-eff-email -d 5.182.4.206:8000
-    
+      - /home/indsol/app_data/data/etc-letsenccrypt:/etc/letsencrypt
+      - /home/indsol/app_data/data/www:/var/www/certbot
+    depends_on:
+      - nginx
