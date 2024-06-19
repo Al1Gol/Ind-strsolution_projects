@@ -36,6 +36,9 @@ services:
     privileged: true
     restart: always
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/cert.pem:/etc/cert.pem
+      - ./nginx/key.pem:/etc/key.pem
       - /home/indsol/app_data/data/media:/var/www/media
       - /home/indsol/Ind-strsolution_projects/backend/static:/var/www/static
     ports:
@@ -44,12 +47,17 @@ services:
       - backend
 
   certbot:
-    image: certbot/certbot
-    command: certonly --webroot --webroot-path=/var/www/html --email al1working@mail.ru --agree-tos --no-eff-email -d 5.182.4.206:8000
-    restart: unless-stopped
-    container_name: certbot
+    ports:
+      - "6000:80"
+    env_file:
+      - .env
+    # и снова мониторуем директорию nginx
     volumes:
-      - /home/indsol/app_data/data/etc-letsenccrypt:/etc/letsencrypt
-      - /home/indsol/app_data/data/www:/var/www/certbot
-    depends_on:
-      - nginx
+      - ./nginx/:/etc/nginx/
+    build:
+      context: ./certbot
+      dockerfile: Dockerfile
+      # задаем переменные среды
+      args:
+        DOMAIN_EMAIL: ${DOMAIN_EMAIL}
+        DOMAIN_URL: ${DOMAIN_URL}
