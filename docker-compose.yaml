@@ -23,7 +23,7 @@ services:
       DJANGO_SETTINGS_MODULE: indsol_web.settings.pre_production
     volumes:
       - /home/indsol/app_data/data/media:/app/media
-      - /home/indsol/app_data/logs/:/logs
+      - /home/indsol/app_data/logs/:/app/logs
     privileged: true
     restart: always
     ports:
