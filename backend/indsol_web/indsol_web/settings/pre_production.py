@@ -4,7 +4,7 @@ from .base import *
 
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ['http://5.182.4.206:8000', 'http://localhost:3000', 'http://178.237.190.38:8000', 'htpp://178.34.150.253:8000', 'http://194.8.128.75', 'http://194.8.12.75:8000']
+CSRF_TRUSTED_ORIGINS = ['http://5.182.4.206:8000', 'http://localhost:3000', 'http://178.237.190.38:8000', 'htpp://178.34.150.253:8000', 'http://194.8.128.75', 'http://194.8.12.75:8000', 'http://185.255.177.7']
 
 #CORS_ALLOWED_ORIGINS = [
 #    "http://localhost:3000",

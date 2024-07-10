@@ -1,7 +1,7 @@
 # Dockerfile
 FROM ubuntu:22.04
 
-EXPOSE 6000 80
+EXPOSE 6000 8000
 
 # читаем переменные среды из .env
 ARG DOMAIN_EMAIL
@@ -17,6 +17,7 @@ WORKDIR /certbot
 
 RUN apt-get update
 RUN apt-get -y install certbot
+
 
 # запускаем скрипт генерации
 CMD ["sh", "generate-certificate.sh"]

@@ -36,23 +36,25 @@ services:
     privileged: true
     restart: always
     volumes:
-#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-#      - ./nginx/cert.pem:/etc/cert.pem
-#      - ./nginx/key.pem:/etc/key.pem
+     #  Данные ключи используются только при работе с certbot
+     # - /home/indsol/Ind-strsolution_projects/nginx/cert.pem:/etc/cert.pem
+     # - /home/indsol/Ind-strsolution_projects/nginx/key.pem:/etc/key.pem
       - /home/indsol/app_data/data/media:/var/www/media
       - /home/indsol/Ind-strsolution_projects/backend/static:/var/www/static
     ports:
       - 8000:80
+      - 433:433
     depends_on:
       - backend
 
+# Используется только при получении домена
 #  certbot:
 #    build: ./certbot
 #    ports:
-#      - "6000:80"
+#      - '6000:80'
 #    env_file:
 #      - .env
 #    # и снова мониторуем директорию nginx
 #    volumes:
-#      - ./nginx/:/etc/nginx/
+#      - /home/indsol/Ind-strsolution_projects/nginx/:/etc/nginx/
 
