@@ -66,7 +66,7 @@ class Clients(models.Model):
         on_delete=models.PROTECT,
     )
     branch_id = models.ForeignKey(
-        "Districts",
+        "Branches",
         verbose_name="отрасль",
         related_name="отрасль",
         on_delete=models.PROTECT,
