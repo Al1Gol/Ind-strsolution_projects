@@ -7,7 +7,7 @@ from authapp.views import (
     PingViewSet,
     DistrictsViewSet,
     BranchesViewSet,
-    ContractsSerializers,
+    ContractsViewSet,
     ClientsViewSet,
     ManagersViewSet,
 )
@@ -20,7 +20,7 @@ auth.register("users", UsersViewSet, basename="users")
 auth.register("profile", ProfileViewSet, basename="profile")
 auth.register("districts", DistrictsViewSet, basename="districts")
 auth.register("branches", BranchesViewSet, basename="branches")
-auth.register("contracts", ContractsSerializers, basename="contracts")
+auth.register("contracts", ContractsViewSet, basename="contracts")
 auth.register("clients", ClientsViewSet, basename="clients")
 auth.register("managers", ManagersViewSet, basename="managers")
 

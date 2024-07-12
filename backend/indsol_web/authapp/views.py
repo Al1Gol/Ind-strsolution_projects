@@ -83,7 +83,7 @@ class BranchesViewSet(
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
 
-class Contacts(
+class ContractsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
