@@ -38,6 +38,7 @@ class Branches(models.Model):
         verbose_name_plural = "Отрасль"
         ordering = ["name"]
 
+
 # Договоры
 class Contracts(models.Model):
     client_id = models.ForeignKey(
@@ -51,6 +52,7 @@ class Contracts(models.Model):
         verbose_name = "Договоры"
         verbose_name_plural = "Договоры"
 
+
 # Клиенты
 class Clients(models.Model):
     user_id = models.ForeignKey(
@@ -62,13 +64,13 @@ class Clients(models.Model):
     district_id = models.ForeignKey(
         "Districts",
         verbose_name="регион",
-        related_name="регион",
+        related_name="district_id",
         on_delete=models.PROTECT,
     )
     branch_id = models.ForeignKey(
         "Branches",
         verbose_name="отрасль",
-        related_name="отрасль",
+        related_name="branch_id",
         on_delete=models.PROTECT,
     )
     inn = models.CharField(verbose_name="ИНН", max_length=12)
@@ -79,6 +81,7 @@ class Clients(models.Model):
     class Meta:
         verbose_name = "Клиенты"
         verbose_name_plural = "Клиенты"
+
 
 # Менеджеры
 class Managers(models.Model):
@@ -91,12 +94,12 @@ class Managers(models.Model):
     district_id = models.ManyToManyField(
         "Districts",
         verbose_name="федеральный округ",
-        related_name="район",
+        related_name="district",
     )
     branch_id = models.ManyToManyField(
         "Branches",
         verbose_name="отрасль",
-        related_name="отрасль",
+        related_name="branch",
     )
 
     class Meta:

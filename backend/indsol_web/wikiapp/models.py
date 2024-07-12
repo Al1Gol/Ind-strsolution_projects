@@ -24,7 +24,7 @@ class Menu(models.Model):
     wiki_id = models.ForeignKey(
         "Wiki",
         verbose_name="id wiki",
-        related_name="wiki",
+        related_name="wiki_id",
         on_delete=models.PROTECT,
     )
     name = models.CharField(verbose_name="наименование", max_length=100)
