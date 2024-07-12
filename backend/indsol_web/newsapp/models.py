@@ -12,6 +12,8 @@ class News(models.Model):
         verbose_name="обложка",
         upload_to="news/covers/",
         validators=[validate_media_extension],
+        blank=True,
+        null=True,
     )
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
