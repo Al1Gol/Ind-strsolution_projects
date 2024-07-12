@@ -1,10 +1,11 @@
 import logging
-from authapp.models import Users, Districts, Branches, Clients, Managers
+from authapp.models import Users, Districts, Branches, Contracts, Clients, Managers
 from authapp.serializers import (
     ProfileSerializer,
     UsersSerializer,
     DistrictsSerializers,
     BranchesSerializers,
+    ContractsSerializers,
     ClientsSerializers,
     ManagersSerializers,
 )
@@ -81,6 +82,17 @@ class BranchesViewSet(
 ):
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
+
+class Contacts(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    queryset = Contracts.objects.all()
+    serializer_class = ContractsSerializers
 
 
 class ClientsViewSet(

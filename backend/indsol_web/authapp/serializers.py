@@ -1,4 +1,4 @@
-from authapp.models import Users, Districts, Branches, Clients, Managers
+from authapp.models import Users, Districts, Branches, Clients, Managers, Contracts
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -14,6 +14,7 @@ class UsersSerializer(ModelSerializer):
             "username",
             "password",
             "is_staff",
+            "is_client",
             "is_manager",
             "created_at",
             "updated_at",
@@ -28,6 +29,7 @@ class ProfileSerializer(ModelSerializer):
             "id",
             "username",
             "is_staff",
+            "is_client",
             "is_manager",
             "created_at",
             "updated_at",
@@ -51,6 +53,14 @@ class BranchesSerializers(ModelSerializer):
             "name",
         ]
 
+class ContractsSerializers(ModelSerializer):
+    class Meta:
+        model = Contracts
+        fields = [
+            "id",
+            "client_id",
+            "contract_number",
+        ]
 
 class ClientsSerializers(ModelSerializer):
     class Meta:
@@ -61,7 +71,6 @@ class ClientsSerializers(ModelSerializer):
             "branch_id",
             "inn",
             "organization",
-            "agreement",
         ]
 
 

@@ -38,13 +38,18 @@ class Branches(models.Model):
         verbose_name_plural = "Отрасль"
         ordering = ["name"]
 
-class Сontracts(models.Model):
+# Договоры
+class Contracts(models.Model):
     client_id = models.ForeignKey(
         "Clients",
         verbose_name="клиент",
         on_delete=models.CASCADE,
     )
     contract_number = models.CharField(verbose_name="номер договора", max_length=50)
+
+    class Meta:
+        verbose_name = "Договоры"
+        verbose_name_plural = "Договоры"
 
 # Клиенты
 class Clients(models.Model):
@@ -71,6 +76,9 @@ class Clients(models.Model):
         verbose_name="наименование организации", max_length=200
     )
 
+    class Meta:
+        verbose_name = "Клиенты"
+        verbose_name_plural = "Клиенты"
 
 # Менеджеры
 class Managers(models.Model):
@@ -90,3 +98,7 @@ class Managers(models.Model):
         verbose_name="отрасль",
         related_name="отрасль",
     )
+
+    class Meta:
+        verbose_name = "Менеджеры"
+        verbose_name_plural = "Менеджеры"
