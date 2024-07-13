@@ -10,6 +10,14 @@ class Wiki(models.Model):
     name = models.CharField(verbose_name="наименование", max_length=100)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    logo = models.FileField(
+        verbose_name="иконка",
+        validators=[validate_svg_extension],
+        upload_to="icons/logo/",
+        max_length=100,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.name

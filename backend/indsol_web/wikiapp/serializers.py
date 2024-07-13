@@ -8,6 +8,7 @@ class WikiSerializer(ModelSerializer):
         fields = [
             "id",
             "name",
+            "logo",
             "created_at",
             "updated_at",
         ]
