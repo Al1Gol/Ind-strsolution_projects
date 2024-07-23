@@ -13,7 +13,7 @@ class Wiki(models.Model):
     logo = models.FileField(
         verbose_name="иконка",
         validators=[validate_svg_extension],
-        upload_to="icons/logo/",
+        upload_to="wiki/icons/logo/",
         max_length=100,
         blank=True,
         null=True,
@@ -39,7 +39,7 @@ class Menu(models.Model):
     img = models.FileField(
         verbose_name="иконка",
         validators=[validate_svg_extension],
-        upload_to="icons/menu/",
+        upload_to="wiki/icons/menu/",
         max_length=100,
         blank=True,
         null=True,
@@ -121,7 +121,7 @@ class Files(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(verbose_name="название файла", max_length=200)
-    file = models.FileField(upload_to="wiki/files/", verbose_name="файлы")
+    file = models.FileField(upload_to="wiki/articles/files/", verbose_name="файлы")
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
@@ -136,7 +136,7 @@ class Files(models.Model):
 
 class Images(models.Model):
     img = models.ImageField(
-        verbose_name="изображения", upload_to="wiki/articles/img/", max_length=100
+        verbose_name="изображения", upload_to="wiki/articles/img/", max_length=1000
     )
 
     def __str__(self):
