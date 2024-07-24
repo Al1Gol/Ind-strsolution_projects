@@ -6,7 +6,7 @@ from rest_framework import routers
 # Wiki
 news = routers.DefaultRouter()
 news.register("list", NewsViewSet, basename="news")
-news.register("list-admin", NewsViewSet, basename="news-admin")
+news.register("list-admin", NewsAdminViewSet, basename="news-admin")
 news.register("media", MediaViewSet, basename="media")
 
 urlpatterns = [
