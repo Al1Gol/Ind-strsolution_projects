@@ -13,6 +13,7 @@ class NewsSerializer(ModelSerializer):
             "to_slider",
             "created_at",
             "updated_at",
+            "publicated_at",
         ]
 
     def create(self, validated_data):

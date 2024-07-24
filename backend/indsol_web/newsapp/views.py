@@ -8,9 +8,33 @@ from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
 from newsapp.filters import MediaFilter, NewsDateFilter
 
+from datetime import datetime
 
-# Create your views here.
+
+# Список новостей отфильтрованный по дате
 class NewsViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    serializer_class = NewsSerializer
+    queryset = News.objects.filter(publicated_at__lt=datetime.now()).order_by(
+        "created_at"
+    )
+    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    search_fields = ["created_at", "title"]
+    filter_backends = [filters.SearchFilter]
+    filterset_class = NewsDateFilter
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+# Полный список новостей
+class NewsAdminViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,

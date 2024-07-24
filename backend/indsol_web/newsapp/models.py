@@ -17,6 +17,7 @@ class News(models.Model):
     )
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    publicated_at = models.DateTimeField(verbose_name="дата публикации")
 
     def __str__(self):
         return f"{self.id} - {self.title}"
