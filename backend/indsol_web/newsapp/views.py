@@ -15,10 +15,6 @@ from datetime import datetime
 class NewsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    mixins.RetrieveModelMixin,
 ):
     serializer_class = NewsSerializer
     queryset = News.objects.filter(publicated_at__lt=datetime.now()).order_by(
