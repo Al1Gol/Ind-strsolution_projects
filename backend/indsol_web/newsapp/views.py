@@ -8,7 +8,7 @@ from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
 from newsapp.filters import MediaFilter, NewsDateFilter
 
-from datetime import datetime
+from django.utils import timezone
 
 
 # Список новостей отфильтрованный по дате
@@ -17,16 +17,18 @@ class NewsViewSet(
     mixins.ListModelMixin,
 ):
     serializer_class = NewsSerializer
-    queryset = News.objects.filter(publicated_at__lt=datetime.now()).order_by(
-        "created_at"
-    )
+    queryset = News.objects.all()
+
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     search_fields = ["created_at", "title"]
     filter_backends = [filters.SearchFilter]
     filterset_class = NewsDateFilter
 
-    def perform_create(self, serializer):
-        serializer.save()
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(publicated_at__lt=timezone.now()).order_by(
+            "-publicated_at", "-created_at"
+        )
 
 
 # Полный список новостей
@@ -39,13 +41,17 @@ class NewsAdminViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = NewsSerializer
-    queryset = News.objects.all().order_by("created_at")
+    queryset = News.objects.all().order_by("-publicated_at", "-created_at")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     search_fields = ["created_at", "title"]
     filter_backends = [filters.SearchFilter]
     filterset_class = NewsDateFilter
 
     def perform_create(self, serializer):
+        print("Время сейчас")
+        print(timezone.now())
+        print("Время в бд")
+        print(serializer)
         serializer.save()
 
 

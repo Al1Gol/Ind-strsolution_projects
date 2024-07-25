@@ -9,6 +9,7 @@ class ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly(permissions.BasePermissio
             and (request.user.is_staff or request.user.is_manager)
         ):
             return True
+
         elif (
             request.user.is_authenticated
             and request.user

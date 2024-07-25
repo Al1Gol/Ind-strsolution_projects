@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, mixins
-
+from rest_framework.permissions import AllowAny
 from indsol_web.permissions import AdminUserOrAuthReadOnly
 
 
@@ -83,6 +83,7 @@ class BranchesViewSet(
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
 
+
 class ContractsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -121,7 +122,7 @@ class ManagersViewSet(
 
 # Пинг доступности бэкенда
 class PingViewSet(APIView):
-    permission_classes = [AdminUserOrAuthReadOnly]
+    permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         return Response()
