@@ -4,7 +4,6 @@ from newsapp.models import News, Media
 
 class NewsDateFilter(filters.FilterSet):
     created_at = filters.DateFilter("created_at__date")
-    print(created_at)
 
     class Meta:
         model = News

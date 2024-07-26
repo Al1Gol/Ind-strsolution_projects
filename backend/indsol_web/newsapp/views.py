@@ -15,6 +15,7 @@ from django.utils import timezone
 class NewsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
 ):
     serializer_class = NewsSerializer
     queryset = News.objects.all()
@@ -48,10 +49,6 @@ class NewsAdminViewSet(
     filterset_class = NewsDateFilter
 
     def perform_create(self, serializer):
-        print("Время сейчас")
-        print(timezone.now())
-        print("Время в бд")
-        print(serializer)
         serializer.save()
 
 
