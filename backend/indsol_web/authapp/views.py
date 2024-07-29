@@ -58,7 +58,6 @@ class ProfileViewSet(
 
     def get_queryset(self):
         if self.action == "list":
-            print(self.request.user)
             return self.queryset.filter(username=self.request.user)
         return self.request
 
@@ -66,10 +65,11 @@ class ProfileViewSet(
 class DistrictsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
 ):
     queryset = Districts.objects.all()
     serializer_class = DistrictsSerializers
+    permission_classes = [AllowAny]
 
 
 class BranchesViewSet(
