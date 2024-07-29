@@ -7,7 +7,7 @@ from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 
 projects = routers.DefaultRouter()
-projects.register("", ProjectsViewSet, basename="projects")
+projects.register("list", ProjectsViewSet, basename="projects")
 
 
 urlpatterns = [
