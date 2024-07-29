@@ -8,6 +8,7 @@ urlpatterns = [
     path("api/v1/wiki/", include("wikiapp.urls")),
     path("api/v1/auth/", include("authapp.urls")),
     path("api/v1/news/", include("newsapp.urls")),
+    path("api/v1/projects/", include("projectsapp.urls")),
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
