@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "authapp",
     "wikiapp",
     "newsapp",
+    "projectsapp",
     "django_filters",
 ]
 
