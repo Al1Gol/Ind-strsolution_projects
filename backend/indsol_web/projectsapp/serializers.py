@@ -14,6 +14,4 @@ class ProjectsSerializer(ModelSerializer):
             "actual_date",
             "responsible",
             "responsible_rp",
-            "created_at",
-            "updated_at",
         ]
