@@ -12,5 +12,4 @@ projects.register("list", ProjectsViewSet, basename="projects")
 
 urlpatterns = [
     path("", include(projects.urls)),
-    path("debug/", include("rest_framework.urls")),
 ]

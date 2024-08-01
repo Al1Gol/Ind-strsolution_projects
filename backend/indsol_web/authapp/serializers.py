@@ -57,9 +57,8 @@ class ContractsSerializers(ModelSerializer):
     class Meta:
         model = Contracts
         fields = [
-            "id",
-            "client_id",
             "contract_number",
+            "client_id",
         ]
 
 class ClientsSerializers(ModelSerializer):

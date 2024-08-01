@@ -46,7 +46,7 @@ class Contracts(models.Model):
         verbose_name="клиент",
         on_delete=models.CASCADE,
     )
-    contract_number = models.CharField(verbose_name="номер договора", max_length=50)
+    contract_number = models.CharField(verbose_name="номер договора", max_length=50, primary_key=True)
 
     class Meta:
         verbose_name = "Договоры"

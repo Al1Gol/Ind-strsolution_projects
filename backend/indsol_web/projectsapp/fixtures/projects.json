@@ -1,0 +1,1 @@
+[{'model': 'projectsapp.projects', 'pk': 1, 'fields': {'contract_id': None, 'name': None, 'start_date': None, 'deadline': None, 'is_completed': None, 'actual_date': None, 'responsible': None, 'responsible_rp': None}}]
