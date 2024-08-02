@@ -1,5 +1,6 @@
 import json
 import psycopg2
+import os
 
 def get_dict(id, contract, todo):
     dict_test = {
@@ -26,7 +27,6 @@ conn = psycopg2.connect(dbname='indsol_test', user='postgres',
 cursor = conn.cursor()
 
 cursor.execute('SELECT contract_number FROM authapp_contracts')
-#records = map(unpack, cursor.fetchall())
 records = [el[0] for el in cursor.fetchall()]
 
 # Переменная для записи в фикстуру
@@ -43,13 +43,10 @@ with open('./backend/indsol_web/projectsapp/data/111.json', mode='r', encoding='
         if contract in records:
             for todo in todoes:
                 fixture.append(get_dict(id, contract, todo))
-            print(project)
-            print('-' * 10)
-            print(project['НомерДокумента'])
 
-
+# Сохранение фикстуры
 with open('./backend/indsol_web/projectsapp/fixtures/projects.json', mode='w+', encoding='utf-8') as file:
-    #file.write(fixture)
     json.dump(fixture, file, ensure_ascii=False, indent=4)
 
-print(records)
+# Загрузка полученной фикстуры в приложение
+os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
