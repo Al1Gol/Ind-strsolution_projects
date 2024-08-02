@@ -1,0 +1,1 @@
+[{"model": "authapp.clients", "pk": 7, "fields": {"user_id": 2, "district_id": 2, "branch_id": 10, "inn": "13313331331", "organization": "ООО \"Тест\""}}]
