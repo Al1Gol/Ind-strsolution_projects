@@ -1,6 +1,11 @@
-from projectsapp.models import Projects
+from projectsapp.models import Projects, Contracts
 from rest_framework.serializers import ModelSerializer
 
+
+class ContractsSerializers(ModelSerializer):
+    class Meta:
+        model = Contracts
+        fields = '__all__'
 
 class ProjectsSerializer(ModelSerializer):
     class Meta:

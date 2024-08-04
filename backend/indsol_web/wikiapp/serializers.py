@@ -5,13 +5,7 @@ from rest_framework.serializers import ModelSerializer
 class WikiSerializer(ModelSerializer):
     class Meta:
         model = Wiki
-        fields = [
-            "id",
-            "name",
-            "logo",
-            "created_at",
-            "updated_at",
-        ]
+        fields = '__all__'
 
     def create(self, validated_data):
         return Wiki.objects.create(**validated_data)
@@ -20,15 +14,7 @@ class WikiSerializer(ModelSerializer):
 class MenuSerializer(ModelSerializer):
     class Meta:
         model = Menu
-        fields = [
-            "id",
-            "wiki_id",
-            "name",
-            "img",
-            "is_article",
-            "created_at",
-            "updated_at",
-        ]
+        fields = '__all__'
 
     def create(self, validated_data):
         return Menu.objects.create(**validated_data)
@@ -38,15 +24,7 @@ class SectionsSerializer(ModelSerializer):
 
     class Meta:
         model = Sections
-        fields = [
-            "id",
-            "menu_id",
-            "name",
-            "img",
-            "is_article",
-            "created_at",
-            "updated_at",
-        ]
+        fields = '__all__'
 
     def create(self, validated_data):
         return Sections.objects.create(**validated_data)
@@ -55,14 +33,7 @@ class SectionsSerializer(ModelSerializer):
 class FilesSerializer(ModelSerializer):
     class Meta:
         model = Files
-        fields = [
-            "id",
-            "article_id",
-            "name",
-            "file",
-            "created_at",
-            "updated_at",
-        ]
+        fields = '__all__'
 
 
 class ArticlesSerializer(ModelSerializer):
@@ -71,16 +42,7 @@ class ArticlesSerializer(ModelSerializer):
     class Meta:
         model = Articles
 
-        fields = [
-            "id",
-            "name",
-            "menu_id",
-            "section_id",
-            "text",
-            "files",
-            "created_at",
-            "updated_at",
-        ]
+        fields = '__all__'
 
     def create(self, validated_data):
         return Articles.objects.create(**validated_data)

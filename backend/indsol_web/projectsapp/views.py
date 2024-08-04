@@ -1,17 +1,25 @@
 from django.shortcuts import render
 from rest_framework import filters
 from rest_framework.viewsets import GenericViewSet, mixins
-from projectsapp.serializers import ProjectsSerializer
-from projectsapp.models import Projects
+from projectsapp.serializers import ProjectsSerializer, ContractsSerializers
+from projectsapp.models import Projects, Contracts
 
 
 # Create your views here.
+class ContractsViewSet(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    queryset = Contracts.objects.all()
+    serializer_class = ContractsSerializers
+
 class ProjectsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
     mixins.RetrieveModelMixin,
 ):
 

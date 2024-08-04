@@ -39,20 +39,6 @@ class Branches(models.Model):
         ordering = ["name"]
 
 
-# Договоры
-class Contracts(models.Model):
-    client_id = models.ForeignKey(
-        "Clients",
-        verbose_name="клиент",
-        on_delete=models.CASCADE,
-    )
-    contract_number = models.CharField(verbose_name="номер договора", max_length=50, primary_key=True)
-
-    class Meta:
-        verbose_name = "Договоры"
-        verbose_name_plural = "Договоры"
-
-
 # Клиенты
 class Clients(models.Model):
     user_id = models.ForeignKey(

@@ -26,7 +26,7 @@ conn = psycopg2.connect(dbname='indsol_test', user='postgres',
                         password='123', host='localhost')
 cursor = conn.cursor()
 
-cursor.execute('SELECT contract_number FROM authapp_contracts')
+cursor.execute('SELECT contract_number FROM projectsapp_contracts')
 records = [el[0] for el in cursor.fetchall()]
 
 # Переменная для записи в фикстуру
