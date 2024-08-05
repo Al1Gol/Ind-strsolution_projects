@@ -1,4 +1,5 @@
 from django.db import models
+from authapp.models import Clients
 
 
 # Договоры
@@ -8,7 +9,7 @@ class Contracts(models.Model):
         verbose_name="клиент",
         on_delete=models.CASCADE,
     )
-    contract_number = models.CharField(verbose_name="номер договора", max_length=50, primary_key=True)
+    contract_number = models.CharField(verbose_name="номер договора", max_length=50)
 
     class Meta:
         verbose_name = "Договоры"

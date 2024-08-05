@@ -7,7 +7,7 @@ def get_dict(id, contract, todo):
         "model": "projectsapp.projects",
         #"pk": id,
         "fields": {
-            "contract_id": contract,
+            "contract_id": id,
             "name": todo['Наименование'],
             "start_date":  todo['ДатаНачала'],
             "deadline": todo['СрокВыполнения'],
@@ -37,10 +37,13 @@ with open('./backend/indsol_web/projectsapp/data/111.json', mode='r', encoding='
     projects_dict = json.loads(file.read())
 
     # Проходим по списку договоров
-    for id, project in enumerate(projects_dict):
+    for project in projects_dict:
         contract = project['НомерДокумента']
         todoes = project['СписокРаботПоПроекту']
         if contract in records:
+            cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
+            id = cursor.fetchone()[0]
+            print(id)
             for todo in todoes:
                 fixture.append(get_dict(id, contract, todo))
 

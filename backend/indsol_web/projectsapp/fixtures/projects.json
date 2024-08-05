@@ -2,7 +2,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Предварительное проектирование КО",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -15,7 +15,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Согласование чертежей с заказчиком",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -28,7 +28,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Выдача чертежей в производство КО",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -41,7 +41,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Предварительное проектирование АСУТП",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -54,7 +54,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Согласование АСУТП с заказчиком",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -67,7 +67,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Сборка системы управления",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -80,7 +80,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Резка+гибка",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -93,7 +93,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Токарные работы",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -106,7 +106,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Сварочные работы",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -119,7 +119,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Подготовка заявки в снабжение КО",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -132,7 +132,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Подготовка заявки в снабжение АСУТП",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -145,7 +145,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Прогпаммирование IT",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -158,7 +158,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Сборочные работы",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -171,7 +171,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Покраска",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -184,7 +184,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "Закупка",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -197,7 +197,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001263",
+            "contract_id": 1,
             "name": "3D печать¶",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
@@ -210,7 +210,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Предварительное проектирование КО",
             "start_date": "2024-07-22T00:00:00",
             "deadline": "2024-07-24T00:00:00",
@@ -223,7 +223,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Согласование чертежей с заказчиком",
             "start_date": "2024-07-24T00:00:00",
             "deadline": "2024-07-26T00:00:00",
@@ -236,7 +236,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Выдача чертежей в производство КО",
             "start_date": "2024-07-26T00:00:00",
             "deadline": "2024-08-02T00:00:00",
@@ -249,7 +249,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Предварительное проектирование АСУТП",
             "start_date": "2024-07-26T00:00:00",
             "deadline": "2024-07-30T00:00:00",
@@ -262,7 +262,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Согласование АСУТП с заказчиком",
             "start_date": "2024-07-30T00:00:00",
             "deadline": "2024-08-01T00:00:00",
@@ -275,7 +275,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Сборка системы управления",
             "start_date": "2024-08-01T00:00:00",
             "deadline": "2024-08-19T00:00:00",
@@ -288,7 +288,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Резка+гибка",
             "start_date": "2024-08-02T00:00:00",
             "deadline": "2024-08-09T00:00:00",
@@ -301,7 +301,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Токарные работы",
             "start_date": "2024-08-02T00:00:00",
             "deadline": "2024-08-09T00:00:00",
@@ -314,7 +314,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Сварочные работы",
             "start_date": "2024-08-09T00:00:00",
             "deadline": "2024-08-16T00:00:00",
@@ -327,7 +327,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Подготовка заявки в снабжение КО",
             "start_date": "2024-07-31T00:00:00",
             "deadline": "2024-07-26T00:00:00",
@@ -340,7 +340,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Подготовка заявки в снабжение АСУТП",
             "start_date": "2024-08-01T00:00:00",
             "deadline": "2024-08-08T00:00:00",
@@ -353,7 +353,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Прогпаммирование IT",
             "start_date": "2024-08-01T00:00:00",
             "deadline": "2024-08-19T00:00:00",
@@ -366,7 +366,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Сборочные работы",
             "start_date": "2024-08-09T00:00:00",
             "deadline": "2024-08-19T00:00:00",
@@ -379,7 +379,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Покраска",
             "start_date": "2024-08-16T00:00:00",
             "deadline": "2024-08-20T00:00:00",
@@ -392,7 +392,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "Закупка",
             "start_date": "2024-08-02T00:00:00",
             "deadline": "2024-08-12T00:00:00",
@@ -405,7 +405,7 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": "000001307",
+            "contract_id": 2,
             "name": "3D печать¶",
             "start_date": "0001-01-01T00:00:00",
             "deadline": "0001-01-01T00:00:00",
