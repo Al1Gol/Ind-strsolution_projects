@@ -5,7 +5,7 @@ from projectsapp.serializers import ProjectsSerializer, ContractsSerializers, Ad
 from projectsapp.models import Projects, Contracts, Adjust
 
 
-# Договоры
+# Список договоров
 class ContractsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -17,7 +17,7 @@ class ContractsViewSet(
     serializer_class = ContractsSerializers
     queryset = Contracts.objects.all()
 
-# Проекты
+# Список проектов
 class ProjectsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -26,7 +26,7 @@ class ProjectsViewSet(
     serializer_class = ProjectsSerializer
     queryset = Projects.objects.all()
 
-# Согласование
+# Список согласований
 class AdjustViewSet(
     GenericViewSet,
     mixins.ListModelMixin,

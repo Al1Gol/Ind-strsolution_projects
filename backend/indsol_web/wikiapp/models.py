@@ -5,7 +5,7 @@ from django.db import models
 
 from .validators import validate_svg_extension, validate_video_extension
 
-
+# Список баз знаний
 class Wiki(models.Model):
     name = models.CharField(verbose_name="наименование", max_length=100)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
@@ -27,7 +27,7 @@ class Wiki(models.Model):
         verbose_name_plural = "Wiki"
         ordering = ["created_at"]
 
-
+ # Список разделов меню
 class Menu(models.Model):
     wiki_id = models.ForeignKey(
         "Wiki",
@@ -56,7 +56,7 @@ class Menu(models.Model):
         verbose_name_plural = "Меню"
         ordering = ["created_at"]
 
-
+ # Список подразделов меню
 class Sections(models.Model):
     menu_id = models.ForeignKey(
         "Menu", verbose_name="id меню", on_delete=models.CASCADE
@@ -82,7 +82,7 @@ class Sections(models.Model):
         verbose_name_plural = "Разделы"
         ordering = ["created_at"]
 
-
+# Список статей
 class Articles(models.Model):
     menu_id = models.ForeignKey(
         "Menu",
@@ -112,7 +112,7 @@ class Articles(models.Model):
         verbose_name_plural = "Статьи"
         ordering = ["created_at"]
 
-
+# Список файлов статьи
 class Files(models.Model):
     article_id = models.ForeignKey(
         "Articles",
@@ -133,7 +133,7 @@ class Files(models.Model):
         verbose_name_plural = "Файлы"
         ordering = ["created_at"]
 
-
+# Список изображений статьи
 class Images(models.Model):
     img = models.ImageField(
         verbose_name="изображения", upload_to="wiki/articles/img/", max_length=1000
@@ -146,7 +146,7 @@ class Images(models.Model):
         verbose_name = "Изображения"
         verbose_name_plural = "Изображения"
 
-
+# Список видео статьи
 class Videos(models.Model):
     video = models.FileField(
         verbose_name="видео",

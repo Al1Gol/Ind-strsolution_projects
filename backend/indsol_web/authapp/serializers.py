@@ -5,7 +5,7 @@ from rest_framework.serializers import ModelSerializer
 # Превращают данные модели в JSON
 
 
-# Сериализация таблицы "Пользователи"
+# Список пользователей
 class UsersSerializer(ModelSerializer):
     class Meta:
         model = Users
@@ -21,7 +21,7 @@ class UsersSerializer(ModelSerializer):
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
-
+# Профиль текущего пользователя
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Users
@@ -35,25 +35,25 @@ class ProfileSerializer(ModelSerializer):
             "updated_at",
         ]
 
-
+# Список регионов
 class DistrictsSerializers(ModelSerializer):
     class Meta:
         model = Districts
         fields = '__all__'
 
-
+# Список производственных отралсей
 class BranchesSerializers(ModelSerializer):
     class Meta:
         model = Branches
         fields = '__all__'
 
-
+# Список клиентов
 class ClientsSerializers(ModelSerializer):
     class Meta:
         model = Clients
         fields = '__all__'
 
-
+# Список менеджеров
 class ManagersSerializers(ModelSerializer):
     class Meta:
         model = Managers

@@ -16,7 +16,7 @@ from rest_framework.permissions import AllowAny
 from indsol_web.permissions import AdminUserOrAuthReadOnly
 
 
-# Пользователи
+# Список пользователей
 class UsersViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -61,6 +61,7 @@ class ProfileViewSet(
         return self.request
 
 
+# Список регионов
 class DistrictsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -70,7 +71,7 @@ class DistrictsViewSet(
     serializer_class = DistrictsSerializers
     permission_classes = [AllowAny]
 
-
+# Список производственных отралсей
 class BranchesViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -82,7 +83,7 @@ class BranchesViewSet(
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
 
-
+# Список клиентов
 class ClientsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -94,7 +95,7 @@ class ClientsViewSet(
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
 
-
+# Список менеджеров
 class ManagersViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,

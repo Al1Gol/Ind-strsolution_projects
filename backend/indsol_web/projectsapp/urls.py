@@ -8,9 +8,9 @@ from rest_framework_simplejwt import views as jwt_views
 
 # /api/v1/projects/
 projects = routers.DefaultRouter()
-projects.register("list", ProjectsViewSet, basename="projects") # Проекты
-projects.register("contracts", ContractsViewSet, basename="contracts") # Договоры
-projects.register("adjust", AdjustViewSet, basename="adjust") # Согласование
+projects.register("list", ProjectsViewSet, basename="projects") # # Список договоров
+projects.register("contracts", ContractsViewSet, basename="contracts") # Список проектов
+projects.register("adjust", AdjustViewSet, basename="adjust") # Список согласований
 
 
 urlpatterns = [

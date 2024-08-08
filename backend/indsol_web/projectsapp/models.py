@@ -18,9 +18,7 @@ class Contracts(models.Model):
     def __str__(self):
         return f"{self.id} - {self.contract_number}"
     
-
-
-# Create your models here.
+# Проекты
 class Projects(models.Model):
     contract_id = models.ForeignKey(
         "Contracts",
@@ -48,6 +46,7 @@ class Projects(models.Model):
     def __str__(self):
         return f"{self.id} - {self.name}"
 
+# Согласования
 class Adjust(models.Model):
     contract_id = models.ForeignKey(
     "Contracts",

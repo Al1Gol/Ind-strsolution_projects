@@ -1,7 +1,7 @@
 from newsapp.models import News, Media
 from rest_framework.serializers import ModelSerializer
 
-
+# Список новостей
 class NewsSerializer(ModelSerializer):
     class Meta:
         model = News
@@ -10,7 +10,7 @@ class NewsSerializer(ModelSerializer):
     def create(self, validated_data):
         return News.objects.create(**validated_data)
 
-
+# Список медиа файлов новостей
 class MediaSerializer(ModelSerializer):
     class Meta:
         model = Media

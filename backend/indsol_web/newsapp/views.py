@@ -11,7 +11,7 @@ from newsapp.filters import MediaFilter, NewsDateFilter
 from django.utils import timezone
 
 
-# Список новостей отфильтрованный по дате
+# Пользовательский список новостей
 class NewsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -32,7 +32,7 @@ class NewsViewSet(
         )
 
 
-# Полный список новостей
+# Полный список новостей для администраторской панели
 class NewsAdminViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -51,7 +51,7 @@ class NewsAdminViewSet(
     def perform_create(self, serializer):
         serializer.save()
 
-
+# Список медиа файлов новостей
 class MediaViewSet(
     GenericViewSet,
     mixins.ListModelMixin,

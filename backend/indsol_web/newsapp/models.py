@@ -3,7 +3,7 @@ from django.db import models
 from newsapp.validators import validate_media_extension
 
 
-# Create your models here.
+# Список новостей
 class News(models.Model):
     title = models.CharField(verbose_name="Заголовок", max_length=100)
     text = models.TextField(verbose_name="Текст новости", max_length=40000)
@@ -22,7 +22,7 @@ class News(models.Model):
     def __str__(self):
         return f"{self.id} - {self.title}"
 
-
+# Список медиа файлов новостей
 class Media(models.Model):
     news_id = models.ForeignKey("News", related_name="news", on_delete=models.CASCADE)
     media = models.FileField(
