@@ -21,7 +21,6 @@ class Projects(models.Model):
     contract_id = models.ForeignKey(
         "Contracts",
         verbose_name="договор",
-        related_name="tags",
         on_delete=models.CASCADE,
     )
     name = models.CharField(verbose_name="наименование", max_length=1000)
@@ -29,7 +28,7 @@ class Projects(models.Model):
         verbose_name="дата начала",
     )
     deadline = models.DateTimeField(verbose_name="срок выполнения")
-    is_completed = models.BooleanField(verbose_name="выполнено", default=False, null=True)
+    is_completed = models.BooleanField(verbose_name="выполнено", default=False, blank=True)
     actual_date = models.DateTimeField(verbose_name="дата фактического выполнения")
     responsible = models.CharField(
         verbose_name="ответственный", max_length=200, blank=True, null=True
@@ -41,3 +40,19 @@ class Projects(models.Model):
     class Meta:
         verbose_name = "Проекты"
         verbose_name_plural = "Проекты"
+
+class Adjust(models.Model):
+    contract_id = models.ForeignKey(
+    "Contracts",
+    verbose_name="договор",
+    on_delete=models.CASCADE,
+)
+    subject = models.CharField(verbose_name="Объект согласования", max_length=1000)
+    sent_date = models.DateTimeField(verbose_name="дата отправки", blank=True, null=True)
+    recieve_date = models.DateTimeField(verbose_name="дата получениия", blank=True, null=True)
+    is_agreed = models.BooleanField(verbose_name="Согласовано", default=False, blank=True)
+
+    class Meta:
+        verbose_name = "Проекты"
+        verbose_name_plural = "Проекты"
+    
