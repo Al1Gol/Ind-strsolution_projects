@@ -15,6 +15,10 @@ class Contracts(models.Model):
         verbose_name = "Договоры"
         verbose_name_plural = "Договоры"
 
+    def __str__(self):
+        return f"{self.id} - {self.contract_number}"
+    
+
 
 # Create your models here.
 class Projects(models.Model):
@@ -41,6 +45,9 @@ class Projects(models.Model):
         verbose_name = "Проекты"
         verbose_name_plural = "Проекты"
 
+    def __str__(self):
+        return f"{self.id} - {self.name}"
+
 class Adjust(models.Model):
     contract_id = models.ForeignKey(
     "Contracts",
@@ -56,3 +63,5 @@ class Adjust(models.Model):
         verbose_name = "Проекты"
         verbose_name_plural = "Проекты"
     
+    def __str__(self):
+        return f"{self.id} - {self.subject}"

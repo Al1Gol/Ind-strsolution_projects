@@ -18,7 +18,8 @@ class Users(AbstractUser):
         verbose_name_plural = "Пользователи"
         ordering = ["created_at"]
 
-
+    def __str__(self):
+        return f"{self.id} - {self.username}"
 # Федеральные округа
 class Districts(models.Model):
     name = models.CharField(verbose_name="полное наименование", max_length=200)
@@ -27,6 +28,9 @@ class Districts(models.Model):
         verbose_name = "Федеральный округ"
         verbose_name_plural = "Федеральный округ"
         ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.id} - {self.name}"
 
 
 # Отрасли
@@ -38,6 +42,8 @@ class Branches(models.Model):
         verbose_name_plural = "Отрасль"
         ordering = ["name"]
 
+    def __str__(self):
+        return f"{self.id} - {self.name}"
 
 # Клиенты
 class Clients(models.Model):
@@ -68,6 +74,8 @@ class Clients(models.Model):
         verbose_name = "Клиенты"
         verbose_name_plural = "Клиенты"
 
+    def __str__(self):
+        return f"{self.id}"
 
 # Менеджеры
 class Managers(models.Model):
@@ -91,3 +99,6 @@ class Managers(models.Model):
     class Meta:
         verbose_name = "Менеджеры"
         verbose_name_plural = "Менеджеры"
+
+    def __str__(self):
+        return f"{self.id}"

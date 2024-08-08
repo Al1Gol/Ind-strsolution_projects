@@ -30,3 +30,6 @@ class Media(models.Model):
         upload_to="news/media/",
         validators=[validate_media_extension],
     )
+
+    def __str__(self):
+        return f"{self.id} - {self.media}"

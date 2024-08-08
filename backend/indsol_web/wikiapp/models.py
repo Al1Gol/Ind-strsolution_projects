@@ -20,7 +20,7 @@ class Wiki(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name = "Wiki"
@@ -49,7 +49,7 @@ class Menu(models.Model):
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name = "Меню"
@@ -75,7 +75,7 @@ class Sections(models.Model):
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name = "Разделы"
@@ -105,7 +105,7 @@ class Articles(models.Model):
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name = "Статьи"
@@ -126,7 +126,7 @@ class Files(models.Model):
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name = "Файлы"
@@ -140,7 +140,7 @@ class Images(models.Model):
     )
 
     def __str__(self):
-        return self.img
+        return f"{self.id} - {self.img}"
 
     class Meta:
         verbose_name = "Изображения"
@@ -156,7 +156,7 @@ class Videos(models.Model):
     )
 
     def __str__(self):
-        return self.video
+        return f"{self.id} - {self.video}"
 
     class Meta:
         verbose_name = "Видео"
