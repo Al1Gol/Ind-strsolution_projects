@@ -21,7 +21,7 @@ CORS_ALLOWED_ORIGINS = [
 # Время жизни токенов JWT
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=12),
 }
 
 DATABASES = {
@@ -34,3 +34,11 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Вывод в консоль
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # Отправка по SMTP
+EMAIL_HOST = ""
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""

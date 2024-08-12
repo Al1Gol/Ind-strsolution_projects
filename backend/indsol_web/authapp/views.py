@@ -1,6 +1,11 @@
 import logging
+from django.core.mail import send_mail
+
+from rest_framework.decorators import api_view, permission_classes
+
 from authapp.models import Users, Districts, Branches, Clients, Managers
 from authapp.serializers import (
+    AuthMailSerializers,
     ProfileSerializer,
     UsersSerializer,
     DistrictsSerializers,
@@ -11,7 +16,7 @@ from authapp.serializers import (
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet, mixins
+from rest_framework.viewsets import GenericViewSet, mixins, ViewSet
 from rest_framework.permissions import AllowAny
 from indsol_web.permissions import AdminUserOrAuthReadOnly
 
@@ -71,6 +76,7 @@ class DistrictsViewSet(
     serializer_class = DistrictsSerializers
     permission_classes = [AllowAny]
 
+
 # Список производственных отралсей
 class BranchesViewSet(
     GenericViewSet,
@@ -83,6 +89,7 @@ class BranchesViewSet(
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
 
+
 # Список клиентов
 class ClientsViewSet(
     GenericViewSet,
@@ -94,6 +101,7 @@ class ClientsViewSet(
 ):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
+
 
 # Список менеджеров
 class ManagersViewSet(
@@ -109,8 +117,25 @@ class ManagersViewSet(
 
 
 # Пинг доступности бэкенда
-class PingViewSet(APIView):
+class PingView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         return Response()
+
+
+# Отправка данный реггистрации менеджерам
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def AuthMailView(request):
+    if request.method == "POST":
+        auth_mail_serializer = AuthMailSerializers(data=request.data)
+        if auth_mail_serializer.is_valid():
+            send_mail(
+                "111",
+                "111",
+                "111",
+                ["al1working@mail.ru"],
+            )
+        return Response()
+    return Response()
