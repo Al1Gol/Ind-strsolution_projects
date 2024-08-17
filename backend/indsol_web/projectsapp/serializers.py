@@ -17,6 +17,7 @@ class ProjectsSerializer(ModelSerializer):
 
 # Список согласований
 class AdjustSerializer(ModelSerializer):
+    contract_number = serializers.CharField(source='contract_id.contract_number')
     class Meta:
         model = Adjust
         fields = '__all__'
