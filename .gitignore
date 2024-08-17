@@ -35,7 +35,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
 develop-eggs/
 dist/
 downloads/
@@ -105,9 +104,6 @@ settings.json
 
 # testing
 /coverage
-
-# production
-/build
 
 # misc
 .DS_Store
