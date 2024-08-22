@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from rest_framework import filters
 from rest_framework.viewsets import GenericViewSet, mixins
 from projectsapp.serializers import (
     ProjectsSerializer,
@@ -7,6 +5,7 @@ from projectsapp.serializers import (
     AdjustSerializer,
 )
 from projectsapp.models import Projects, Contracts, Adjust
+from projectsapp.filters import AdjustFilter, ProjectsFilter
 
 
 # Список договоров
@@ -30,6 +29,7 @@ class ProjectsViewSet(
 ):
     serializer_class = ProjectsSerializer
     queryset = Projects.objects.all()
+    filterset_class = ProjectsFilter
 
 
 # Список согласований
@@ -38,3 +38,4 @@ class AdjustViewSet(
 ):
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
+    filterset_class = AdjustFilter
