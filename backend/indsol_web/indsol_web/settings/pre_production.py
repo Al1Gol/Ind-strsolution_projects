@@ -17,6 +17,7 @@ CSRF_TRUSTED_ORIGINS = ['http://5.182.4.206:8000', 'http://localhost:3000', 'htt
 #    "http://192.168.24.82:5554",
 #]
 
+# Папка статики
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Время жизни токенов JWT
@@ -25,7 +26,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(hours=12),
 }
 
-
+# Настройка базы данных
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -36,3 +37,7 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+# Настройки планировщика
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
