@@ -2,6 +2,8 @@ import json
 import psycopg2
 import os
 
+#from celery import shared_task
+
 def get_dict(id, contract, todo, resp, resp_rp):
     dict_test = {
         "model": "projectsapp.projects",
