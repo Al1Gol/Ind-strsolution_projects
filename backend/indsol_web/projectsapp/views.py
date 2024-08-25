@@ -35,6 +35,8 @@ class ProjectsViewSet(
 # Список согласований
 class AdjustViewSet(
     GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
 ):
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
