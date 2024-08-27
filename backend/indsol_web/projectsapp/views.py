@@ -29,7 +29,7 @@ class ProjectsViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = ProjectsSerializer
-    queryset = Projects.objects.all()
+    queryset = Projects.objects.all().order_by('start_date')
     filterset_class = ProjectsFilter
 
 
