@@ -5,7 +5,7 @@ from projectsapp.serializers import (
     AdjustSerializer,
 )
 from projectsapp.models import Projects, Contracts, Adjust
-from projectsapp.filters import AdjustFilter, ProjectsFilter
+from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter
 
 
 # Список договоров
@@ -19,6 +19,7 @@ class ContractsViewSet(
 ):
     serializer_class = ContractsSerializers
     queryset = Contracts.objects.all()
+    filterset_class = ContractsFilter
 
 
 # Список проектов
