@@ -16,3 +16,4 @@ class ProjectsFilter(filters.FilterSet):
     class Meta:
         model = Projects
         fields = ["contract_id"]
+
