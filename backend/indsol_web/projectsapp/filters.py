@@ -2,7 +2,7 @@ from django_filters import rest_framework as filters
 from projectsapp.models import Contracts, Adjust, Projects
 
 class ContractsFilter(filters.FilterSet):
-    class Meta:
+        client_id = filters.BaseInFilter("client_id__id")
         model = Projects
         fields = ["client_id"]
 
