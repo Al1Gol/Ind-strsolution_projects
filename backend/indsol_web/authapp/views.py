@@ -13,6 +13,8 @@ from authapp.serializers import (
     ClientsSerializers,
     ManagersSerializers,
 )
+from authapp.filters import ClientsFilter, ManagerFilter
+
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -60,11 +62,29 @@ class ProfileViewSet(
     queryset = Users.objects.all()
     serializer_class = ProfileSerializer
 
-    def get_queryset(self):
-        if self.action == "list":
-            return self.queryset.filter(username=self.request.user)
-        return self.request
+    def get_serializer_class(self):
+        user = Users.objects.filter(id=self.request.user.id)
+        if user[0].is_client:
+            print("client")
+            return ClientsSerializers
+        elif user[0].is_manager:
+            print("manager")
+            return ManagersSerializers
+        else:
+            print("other")
+            return UsersSerializer
 
+
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           #client = Clients.objects.filter(user_id=self.request.user.id)
+           return Clients.objects.filter(user_id=self.request.user.id)
+       if user[0].is_manager:
+           #manager = Managers.objects.filter(user_id=self.request.user.id)
+           return Managers.objects.filter(user_id=self.request.user.id)
+       else:
+           return self.queryset.filter(id=self.request.user.id)
 
 # Список регионов
 class DistrictsViewSet(
@@ -101,6 +121,7 @@ class ClientsViewSet(
 ):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
+    filterset_class = ClientsFilter
 
 
 # Список менеджеров
@@ -114,7 +135,7 @@ class ManagersViewSet(
 ):
     queryset = Managers.objects.all()
     serializer_class = ManagersSerializers
-
+    filterset_class = ManagerFilter
 
 # Пинг доступности бэкенда
 class PingView(APIView):
