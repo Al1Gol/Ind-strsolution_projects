@@ -1,7 +1,8 @@
 import logging
 from django.core.mail import send_mail
-
+from django_filters import rest_framework as filters
 from rest_framework.decorators import api_view, permission_classes
+
 
 from authapp.models import Users, Districts, Branches, Clients, Managers
 from authapp.serializers import (
@@ -13,7 +14,7 @@ from authapp.serializers import (
     ClientsSerializers,
     ManagersSerializers,
 )
-from authapp.filters import ClientsFilter, ManagerFilter
+from authapp.filters import ClientFilter, ManagerFilter
 
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
@@ -121,8 +122,9 @@ class ClientsViewSet(
 ):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
-    filterset_class = ClientsFilter
-
+    #filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ClientFilter
+    #filterset_fields = ['user_id']
 
 # Список менеджеров
 class ManagersViewSet(
@@ -135,7 +137,9 @@ class ManagersViewSet(
 ):
     queryset = Managers.objects.all()
     serializer_class = ManagersSerializers
-    filterset_class = ManagerFilter
+    filter_backends = (filters.DjangoFilterBackend,)
+    #filterset_class = ManagerFilter
+    filterset_fields = ['user_id']
 
 # Пинг доступности бэкенда
 class PingView(APIView):
