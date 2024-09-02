@@ -3,9 +3,10 @@ from projectsapp.serializers import (
     ProjectsSerializer,
     ContractsSerializers,
     AdjustSerializer,
+    DocumentsSerializer,
 )
-from projectsapp.models import Projects, Contracts, Adjust
-from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter
+from projectsapp.models import Projects, Contracts, Adjust, Documents
+from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
 
 
 # Список договоров
@@ -42,3 +43,16 @@ class AdjustViewSet(
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
     filterset_class = AdjustFilter
+
+#Список документов прикрепленных к договору
+class DocumentsViewSet(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    serializer_class = DocumentsSerializer
+    queryset = Documents.objects.all().order_by('id')
+    filterset_class = DocumentsFilter

@@ -1,6 +1,6 @@
 from django.db import models
 from authapp.models import Clients
-
+from .validators import validate_docs_extension
 
 # Договоры
 class Contracts(models.Model):
@@ -64,3 +64,16 @@ class Adjust(models.Model):
     
     def __str__(self):
         return f"{self.id} - {self.subject}"
+    
+#Документы
+class Documents(models.Model):
+    contract_id = models.ForeignKey(
+        "Contracts",
+        verbose_name="договор",
+        on_delete=models.CASCADE,
+    )
+    file = models.FileField(
+        verbose_name="видео",
+        upload_to="projects/contracts/docs/",
+        max_length=1000,
+        validators=[validate_docs_extension],)
