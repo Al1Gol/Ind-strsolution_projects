@@ -61,7 +61,7 @@ services:
 
   celery:
     build: ./backend
-    command: celery -A core worker -l info
+    command: celery -A indsol_web worker -l info
     volumes:
       - ./project/:/usr/src/app/
     environment:
@@ -73,7 +73,7 @@ services:
       
   celery-beat:
     build: ./backend
-    command: celery -A core beat -l info
+    command: celery -A indsol_web beat -l info
     volumes:
       - ./project/:/usr/src/app/
     environment:
