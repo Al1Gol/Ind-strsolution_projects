@@ -10,21 +10,21 @@ class ContractsSerializers(ModelSerializer):
 
 # Список проектов
 class ProjectsSerializer(ModelSerializer):
-    contract_number = serializers.CharField(source='contract_id.contract_number')
+    contract_number = serializers.CharField(source='contract_id.contract_number', read_only=True)
     class Meta:
         model = Projects
         fields = '__all__'
 
 # Список согласований
 class AdjustSerializer(ModelSerializer):
-    contract_number = serializers.CharField(source='contract_id.contract_number')
+    contract_number = serializers.CharField(source='contract_id.contract_number', read_only=True)
     class Meta:
         model = Adjust
         fields = '__all__'
 
 #Список документов прикрепленных к договору
 class DocumentsSerializer(ModelSerializer):
-    contract_number = serializers.CharField(source='contract_id.contract_number')
+    contract_number = serializers.CharField(source='contract_id.contract_number', read_only=True)
     class Meta:
         model = Documents
         fields = '__all__'
