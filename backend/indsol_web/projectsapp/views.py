@@ -56,3 +56,7 @@ class DocumentsViewSet(
     serializer_class = DocumentsSerializer
     queryset = Documents.objects.all().order_by('id')
     filterset_class = DocumentsFilter
+    
+    # Автоматическое заполнение поля name из имени загружаемого файла 
+    def perform_create(self, serializer):
+        serializer.save(name=self.request.FILES['file'])

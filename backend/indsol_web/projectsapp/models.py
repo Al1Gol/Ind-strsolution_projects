@@ -72,6 +72,7 @@ class Documents(models.Model):
         verbose_name="договор",
         on_delete=models.CASCADE,
     )
+    name = models.CharField(verbose_name="Наименование файла", max_length=1000)
     file = models.FileField(
         verbose_name="видео",
         upload_to="projects/contracts/docs/",

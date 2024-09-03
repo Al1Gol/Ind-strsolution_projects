@@ -28,3 +28,4 @@ class DocumentsSerializer(ModelSerializer):
     class Meta:
         model = Documents
         fields = '__all__'
+        read_only_fields = ('name', 'contract_number')
