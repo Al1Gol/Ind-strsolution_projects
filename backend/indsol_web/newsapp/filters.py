@@ -3,11 +3,11 @@ from newsapp.models import News, Media
 
 
 class NewsDateFilter(filters.FilterSet):
-    created_at = filters.DateFilter("created_at__date")
+    day = filters.CharFilter("created_at__date", lookup_expr='icontains')
+    title = filters.CharFilter("title", lookup_expr='icontains')
 
-    class Meta:
-        model = News
-        fields = ("created_at",)
+    model = News
+    fields = ["day", "title",]
 
 
 class MediaFilter(filters.FilterSet):

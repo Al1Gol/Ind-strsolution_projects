@@ -21,9 +21,8 @@ class NewsViewSet(
     queryset = News.objects.all()
 
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
-    search_fields = ["created_at", "title"]
-    filter_backends = [filters.SearchFilter]
     filterset_class = NewsDateFilter
+
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -44,8 +43,6 @@ class NewsAdminViewSet(
     serializer_class = NewsSerializer
     queryset = News.objects.all().order_by("-publicated_at", "-created_at")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
-    search_fields = ["created_at", "title"]
-    filter_backends = [filters.SearchFilter]
     filterset_class = NewsDateFilter
 
     def perform_create(self, serializer):
