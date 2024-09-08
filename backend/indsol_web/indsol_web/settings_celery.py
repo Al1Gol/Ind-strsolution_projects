@@ -2,7 +2,7 @@ import os
 from indsol_web.settings import pre_production
 from django.conf import settings
 from celery import Celery
-from backend.indsol_web.projectsapp.parsers import LoadProjects
+from indsol_web.projectsapp.parsers import LoadProjects
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'indsol_web.settings.pre_production')
