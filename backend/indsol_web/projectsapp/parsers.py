@@ -71,11 +71,12 @@ class LoadProjects():
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self):
-        # Загрузка полученной фикстуры в приложение
+        print(os.name)
+	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
             os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
         else:
-            os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
+	    os.system('python -Xutf8 ./manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
 
 
 

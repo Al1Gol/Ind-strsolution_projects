@@ -2,7 +2,7 @@ import os
 from indsol_web.settings import pre_production
 from django.conf import settings
 from celery import Celery
-from indsol_web.projectsapp.parsers import LoadProjects
+from projectsapp.parsers import LoadProjects
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'indsol_web.settings.pre_production')
@@ -20,7 +20,7 @@ app.autodiscover_tasks()
 
 
 @app.task(bind=True, ignore_result=True)
-def parser_projects_from_ccelery(self):
+def parser_projects_task(self):
     print('from settings_celery.py')
     projects =  LoadProjects()
     # Настройки БД
@@ -30,10 +30,10 @@ def parser_projects_from_ccelery(self):
     projects.host=pre_production.DATABASES['default']['HOST']
     # Настройка файлов
     # Файл выгрузки
-    projects.export_path = f'{settings.BASE_DIR}/indsol_web/projectsapp/data/'
+    projects.export_path = f'{settings.BASE_DIR}/projectsapp/data/'
     projects.export_file= '111.json'
     # Файл фикстуры
-    projects.import_path=f'{settings.BASE_DIR}/indsol_web/projectsapp/fixtures/'
+    projects.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'
     projects.import_file='projects.json'
 
     projects.save()
