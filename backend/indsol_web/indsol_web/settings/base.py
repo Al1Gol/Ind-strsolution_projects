@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "newsapp",
     "projectsapp",
     "django_filters",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -189,3 +190,5 @@ for el in LOG_FILES:
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
