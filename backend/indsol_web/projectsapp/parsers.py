@@ -5,6 +5,8 @@ import os
 #from celery import shared_task
 class LoadProjects():
     def __init__(self):
+        # Основная  директория
+        self.worker_dir = None
         # Файл выгрузки
         self.export_path = None
         self.export_file=None
@@ -76,7 +78,7 @@ class LoadProjects():
         if os.name == 'nt':
             os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
         else:
-	    os.system('python -Xutf8 ./manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
+	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
 
 
 

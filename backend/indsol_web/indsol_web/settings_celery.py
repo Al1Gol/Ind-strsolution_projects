@@ -23,6 +23,8 @@ app.autodiscover_tasks()
 def parser_projects_task(self):
     print('from settings_celery.py')
     projects =  LoadProjects()
+    #Базовая директория
+    projects.worker_dir=settings.BASE_DIR
     # Настройки БД
     projects.dbname=pre_production.DATABASES['default']['NAME']
     projects.user=pre_production.DATABASES['default']['USER']
