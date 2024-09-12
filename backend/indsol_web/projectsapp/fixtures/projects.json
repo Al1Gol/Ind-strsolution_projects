@@ -5,9 +5,9 @@
             "contract_id": 1,
             "name": "Предварительное проектирование КО",
             "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "deadline": "2023-02-26T00:20:00",
+            "is_completed": true,
+            "actual_date": "2021-01-05T00:20:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -17,10 +17,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Согласование чертежей с заказчиком",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "start_date": "2021-01-05T00:20:01",
+            "deadline": "2021-01-09T00:00:00",
+            "is_completed": true,
+            "actual_date": "2021-01-09T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -30,10 +30,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Выдача чертежей в производство КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-01-25T18:00:00",
+            "deadline": "2021-01-26T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-01-26T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -43,10 +43,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Предварительное проектирование АСУТП",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-01-25T00:00:00",
+            "deadline": "2021-01-22T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-01-22T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -56,10 +56,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Согласование АСУТП с заказчиком",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-01-11T00:10:00",
+            "deadline": "2021-01-13T22:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-01-17T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -69,10 +69,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Сборка системы управления",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-01-12T00:01:00",
+            "deadline": "2021-05-16T00:04:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-05-27T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -82,10 +82,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Резка+гибка",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-05-16T00:00:00",
+            "deadline": "2021-05-26T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2022-05-06T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -95,10 +95,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Токарные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "start_date": "2021-05-06T00:00:00",
+            "deadline": "2021-05-20T00:00:00",
+            "is_completed": true,
+            "actual_date": "2022-05-20T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -108,10 +108,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Сварочные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-05-20T00:00:00",
+            "deadline": "2021-12-21T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-12-22T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -121,10 +121,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Подготовка заявки в снабжение КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "start_date": "2021-12-02T00:00:00",
+            "deadline": "2021-12-20T00:00:00",
+            "is_completed": true,
+            "actual_date": "2023-12-20T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -134,10 +134,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Подготовка заявки в снабжение АСУТП",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-12-03T00:00:00",
+            "deadline": "2022-01-01T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2022-05-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -149,7 +149,7 @@
             "name": "Прогпаммирование IT",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -160,10 +160,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Сборочные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "start_date": "2021-01-03T00:00:00",
+            "deadline": "2021-03-01T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-02-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -173,10 +173,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Покраска",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "start_date": "2021-01-12T00:00:00",
+            "deadline": "2021-01-13T00:00:00",
+            "is_completed": true,
+            "actual_date": "2024-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -186,10 +186,10 @@
         "fields": {
             "contract_id": 1,
             "name": "Закупка",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "start_date": "2020-01-01T00:00:00",
+            "deadline": "2022-01-01T00:00:00",
+            "is_completed": true,
+            "actual_date": "2023-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -200,9 +200,9 @@
             "contract_id": 1,
             "name": "3D печать¶",
             "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
+            "deadline": "2021-01-02T12:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2021-07-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -215,7 +215,7 @@
             "start_date": "2024-08-05T00:00:00",
             "deadline": "2024-08-08T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2024-09-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -225,10 +225,10 @@
         "fields": {
             "contract_id": 1308,
             "name": "Согласование чертежей с заказчиком",
-            "start_date": "2024-08-08T00:00:00",
+            "start_date": "2021-08-08T00:00:00",
             "deadline": "2024-08-12T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
+            "actual_date": "2022-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
         }
@@ -240,7 +240,7 @@
             "name": "Выдача чертежей в производство КО",
             "start_date": "2024-08-12T00:00:00",
             "deadline": "2024-08-21T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -266,7 +266,7 @@
             "name": "Согласование АСУТП с заказчиком",
             "start_date": "2024-08-15T00:00:00",
             "deadline": "2024-08-19T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -305,7 +305,7 @@
             "name": "Токарные работы",
             "start_date": "2024-08-21T00:00:00",
             "deadline": "2024-08-30T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -331,7 +331,7 @@
             "name": "Подготовка заявки в снабжение КО",
             "start_date": "2024-08-15T00:00:00",
             "deadline": "2024-08-14T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -357,7 +357,7 @@
             "name": "Прогпаммирование IT",
             "start_date": "2024-08-19T00:00:00",
             "deadline": "2024-09-16T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -383,7 +383,7 @@
             "name": "Покраска",
             "start_date": "2024-09-06T00:00:00",
             "deadline": "2024-09-11T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -409,7 +409,7 @@
             "name": "3D печать¶",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Сухомлинов Андрей Федорович",
             "responsible_rp": "Сухомлинов Андрей Федорович"
@@ -422,7 +422,7 @@
             "name": "Предварительное проектирование КО",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -448,7 +448,7 @@
             "name": "Выдача чертежей в производство КО",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -474,7 +474,7 @@
             "name": "Согласование АСУТП с заказчиком",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -500,7 +500,7 @@
             "name": "Резка+гибка",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -526,7 +526,7 @@
             "name": "Сварочные работы",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -552,7 +552,7 @@
             "name": "Подготовка заявки в снабжение АСУТП",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -578,7 +578,7 @@
             "name": "Сборочные работы",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -604,7 +604,7 @@
             "name": "Закупка",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
@@ -617,7 +617,7 @@
             "name": "3D печать¶",
             "start_date": "2021-01-01T00:00:00",
             "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
+            "is_completed": true,
             "actual_date": "2021-01-01T00:00:00",
             "responsible": "Крикун Евгений Сергеевич",
             "responsible_rp": "Крикун Евгений Сергеевич"
