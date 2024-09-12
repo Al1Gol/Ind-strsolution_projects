@@ -13,6 +13,7 @@ class UsersSerializer(ModelSerializer):
             "id",
             "username",
             "password",
+            "email",
             "is_staff",
             "is_client",
             "is_manager",
@@ -29,6 +30,7 @@ class ProfileSerializer(ModelSerializer):
         fields = [
             "id",
             "username",
+            "email",
             "is_staff",
             "is_client",
             "is_manager",
