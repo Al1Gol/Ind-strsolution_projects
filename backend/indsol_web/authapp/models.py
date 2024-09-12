@@ -8,6 +8,7 @@ from django.db import models
 
 # Пользователи
 class Users(AbstractUser):
+    email = models.EmailField(unique=True)
     is_client = models.BooleanField(verbose_name="клиент", default=False)
     is_manager = models.BooleanField(verbose_name="менеджер", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)

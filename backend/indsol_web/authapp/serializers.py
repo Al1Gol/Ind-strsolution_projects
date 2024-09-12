@@ -20,7 +20,10 @@ class UsersSerializer(ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "email": {"required": True},
+            "password": {"write_only": True}
+        }
 
 
 # Профиль текущего пользователя
