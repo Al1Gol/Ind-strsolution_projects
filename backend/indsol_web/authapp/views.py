@@ -123,10 +123,11 @@ class ClientsViewSet(
 
     def perform_create(self, serializer):
         get_data = ClientsSerializers(data=self.request.data)
-        get_data.is_valid()
+        get_data.is_valid()   
         user=Users.objects.get(id=get_data.data["user_id"])
         if get_data.is_valid():
-            user.is_client=True
+            user.is_client=True   
+            serializer.save()     
             user.save()
 
 # Список менеджеров
