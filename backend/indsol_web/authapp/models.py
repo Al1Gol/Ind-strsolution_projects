@@ -52,7 +52,6 @@ class Clients(models.Model):
         "Users",
         verbose_name="пользователь",
         on_delete=models.CASCADE,
-        limit_choices_to={"is_client": True},
     )
     district_id = models.ForeignKey(
         "Districts",
@@ -84,7 +83,6 @@ class Managers(models.Model):
         "Users",
         verbose_name="пользователь",
         on_delete=models.CASCADE,
-        limit_choices_to={"is_manager": True},
     )
     district_id = models.ManyToManyField(
         "Districts",

@@ -66,13 +66,10 @@ class ProfileViewSet(
     def get_serializer_class(self):
         user = Users.objects.filter(id=self.request.user.id)
         if user[0].is_client:
-            print("client")
             return ClientsSerializers
         elif user[0].is_manager:
-            print("manager")
             return ManagersSerializers
         else:
-            print("other")
             return UsersSerializer
 
 
@@ -122,9 +119,15 @@ class ClientsViewSet(
 ):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
-    #filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ClientFilter
-    #filterset_fields = ['user_id']
+
+    def perform_create(self, serializer):
+        get_data = ClientsSerializers(data=self.request.data)
+        get_data.is_valid()
+        user=Users.objects.get(id=get_data.data["user_id"])
+        if get_data.is_valid():
+            user.is_client=True
+            user.save()
 
 # Список менеджеров
 class ManagersViewSet(
@@ -138,8 +141,15 @@ class ManagersViewSet(
     queryset = Managers.objects.all()
     serializer_class = ManagersSerializers
     filter_backends = (filters.DjangoFilterBackend,)
-    #filterset_class = ManagerFilter
     filterset_fields = ['user_id']
+
+    def perform_create(self, serializer):
+        get_data = ManagersSerializers(data=self.request.data)
+        get_data.is_valid()
+        user = Users.objects.get(id=get_data.data["user_id"])
+        if get_data.is_valid():
+            user.is_manager=True
+            user.save()
 
 # Пинг доступности бэкенда
 class PingView(APIView):
