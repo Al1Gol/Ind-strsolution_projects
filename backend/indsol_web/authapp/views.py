@@ -54,13 +54,21 @@ class UsersViewSet(
         else:
             serializer.save()
 
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+            return Users.objects.filter(id=user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Users.objects.all()
+       else:
+           return "Отcутсвует указание роли для пользователя"
+
 
 # Профиль текущего пользователя
 class ProfileViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
 ):
-    queryset = Users.objects.all()
     serializer_class = ProfileSerializer
 
     def get_serializer_class(self):
@@ -76,11 +84,9 @@ class ProfileViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-           #client = Clients.objects.filter(user_id=self.request.user.id)
-           return Clients.objects.filter(user_id=self.request.user.id)
-       if user[0].is_manager:
-           #manager = Managers.objects.filter(user_id=self.request.user.id)
-           return Managers.objects.filter(user_id=self.request.user.id)
+           return Users.objects.filter(id=self.request.user.id)
+       if user[0].is_manager or user[0].is_staff:
+           return Users.objects.filter(id=self.request.user.id)
        else:
            return self.queryset.filter(id=self.request.user.id)
 
@@ -130,6 +136,15 @@ class ClientsViewSet(
             serializer.save()     
             user.save()
 
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+            return Clients.objects.filter(user_id=user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Clients.objects.all()
+       else:
+           return "Отcутсвует указание роли для пользователя"
+
 # Список менеджеров
 class ManagersViewSet(
     GenericViewSet,
@@ -151,6 +166,15 @@ class ManagersViewSet(
         if get_data.is_valid():
             user.is_manager=True
             user.save()
+
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           return "Список не доступен для данной роли пользователя"
+       elif user[0].is_manager or user[0].is_staff:
+            return Managers.objects.all()
+       else:
+           return "Отcутсвует указание роли для пользователя"
 
 # Пинг доступности бэкенда
 class PingView(APIView):
