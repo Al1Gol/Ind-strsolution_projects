@@ -192,10 +192,10 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-#CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
-CELERY_BEAT_SCHEDULER = {
-    "cleanup_unused_media_task": {
-        "task": "indsol_web.tasks.cleanup_unused_media_task",
-        "shedule": crontab(minute="*/1"),
-    },
-}
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+#CELERY_BEAT_SCHEDULER = {
+#    "cleanup_unused_media_task": {
+#        "task": "indsol_web.tasks.cleanup_unused_media_task",
+#        "shedule": crontab(minute="*/1"),
+#    },
+#}

@@ -1,7 +1,9 @@
 import os
 from indsol_web.settings import pre_production
+from django.core.management import call_command
 from django.conf import settings
 from celery import Celery
+from celery import shared_task
 from projectsapp.parsers import LoadProjects
 
 # Set the default Django settings module for the 'celery' program.
@@ -40,4 +42,11 @@ def parser_projects_task(self):
 
     projects.save()
     projects.update_db()
+
+@app.task(bind=True, ignore_result=True)
+def cleanup_unused_media_task():
+    print("Start cleanup unused media files")
+    call_command("cleanup_unused_media", "--noinput")
+    print("End cleanup unused media files")
+    return  "cleanup unused media files is completed"
     
