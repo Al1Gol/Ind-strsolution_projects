@@ -139,7 +139,7 @@ class ClientsViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-            return Clients.objects.filter(user_id=user.id)
+            return Clients.objects.filter(user_id=user[0].id)
        elif user[0].is_manager or user[0].is_staff:
             return Clients.objects.all()
        else:
