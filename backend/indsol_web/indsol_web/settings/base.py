@@ -15,6 +15,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.utils.log import DEFAULT_LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -191,4 +192,10 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+#CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULER = {
+    "cleanup_unused_media_task": {
+        "task": "indsol_web.tasks.cleanup_unused_media_task",
+        "shedule": crontab(minute="*/1"),
+    },
+}
