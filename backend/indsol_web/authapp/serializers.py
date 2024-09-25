@@ -25,23 +25,6 @@ class UsersSerializer(ModelSerializer):
             "password": {"write_only": True}
         }
 
-
-# Профиль текущего пользователя
-class ProfileSerializer(ModelSerializer):
-    class Meta:
-        model = Users
-        fields = [
-            "id",
-            "username",
-            "email",
-            "is_staff",
-            "is_client",
-            "is_manager",
-            "created_at",
-            "updated_at",
-        ]
-
-
 # Список регионов
 class DistrictsSerializers(ModelSerializer):
     class Meta:
@@ -77,3 +60,19 @@ class AuthMailSerializers(Serializer):
     branch = serializers.IntegerField()
     district = serializers.IntegerField()
     email = serializers.CharField(max_length=200)
+
+class ClientProfileSerializer(ModelSerializer):
+    user_info = UsersSerializer()
+    client_info = ClientsSerializers()
+
+    class Meta:
+        model = Users
+        fields = ['user_info', 'client_info']
+
+class ManagerProfileSerializer(ModelSerializer):
+    user_info = UsersSerializer()
+    manager_info = ManagersSerializers()
+
+    class Meta:
+        model = Users
+        fields = ['user_info', 'manager_info']

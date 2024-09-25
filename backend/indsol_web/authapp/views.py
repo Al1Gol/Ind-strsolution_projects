@@ -2,17 +2,18 @@ import logging
 from django.core.mail import send_mail
 from django_filters import rest_framework as filters
 from rest_framework.decorators import api_view, permission_classes
-
-
+from rest_framework import status
+from rest_framework.views import APIView
 from authapp.models import Users, Districts, Branches, Clients, Managers
 from authapp.serializers import (
     AuthMailSerializers,
-    ProfileSerializer,
     UsersSerializer,
     DistrictsSerializers,
     BranchesSerializers,
     ClientsSerializers,
     ManagersSerializers,
+    ClientProfileSerializer,
+    ManagerProfileSerializer,
 )
 from authapp.filters import ClientFilter, ManagerFilter
 
@@ -63,30 +64,24 @@ class UsersViewSet(
 
 
 # Профиль текущего пользователя
-class ProfileViewSet(
-    GenericViewSet,
-    mixins.ListModelMixin,
-):
-    serializer_class = ProfileSerializer
-
-    def get_serializer_class(self):
+class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
+    def list(self, request, *args, **kwargs):
         user = Users.objects.filter(id=self.request.user.id)
+        profile = {}
         if user[0].is_client:
-            return ClientsSerializers
+            profile['user_info'] = Users.objects.get(id=self.request.user.id)
+            profile['client_info'] = Clients.objects.get(user_id=self.request.user.id)
+            serializer = ClientProfileSerializer(profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         elif user[0].is_manager:
-            return ManagersSerializers
-        else:
-            return UsersSerializer
+            profile['user_info'] = Users.objects.get(id=self.request.user.id)
+            profile['manager_info'] = Managers.objects.get(user_id=self.request.user.id)
+            serializer = ManagerProfileSerializer(profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif user[0].is_staff:
+            serializer = UsersSerializer(Users.objects.get(id=self.request.user.id))
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-    def get_queryset(self):
-       user = Users.objects.filter(id=self.request.user.id)
-       if user[0].is_client:
-           return Users.objects.filter(id=self.request.user.id)
-       if user[0].is_manager or user[0].is_staff:
-           return Users.objects.filter(id=self.request.user.id)
-       else:
-           return self.queryset.filter(id=self.request.user.id)
 
 # Список регионов
 class DistrictsViewSet(
