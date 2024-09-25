@@ -60,8 +60,6 @@ class UsersViewSet(
             return Users.objects.filter(id=user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Users.objects.all()
-       else:
-           return "Отcутсвует указание роли для пользователя"
 
 
 # Профиль текущего пользователя
@@ -142,8 +140,6 @@ class ClientsViewSet(
             return Clients.objects.filter(user_id=user[0].id)
        elif user[0].is_manager or user[0].is_staff:
             return Clients.objects.all()
-       else:
-           return "Отcутсвует указание роли для пользователя"
 
 # Список менеджеров
 class ManagersViewSet(
@@ -173,8 +169,6 @@ class ManagersViewSet(
            return "Список не доступен для данной роли пользователя"
        elif user[0].is_manager or user[0].is_staff:
             return Managers.objects.all()
-       else:
-           return "Отcутсвует указание роли для пользователя"
 
 # Пинг доступности бэкенда
 class PingView(APIView):
@@ -184,7 +178,7 @@ class PingView(APIView):
         return Response()
 
 
-# Отправка данный реггистрации менеджерам
+# Отправка данный регистрации менеджерам
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def AuthMailView(request):

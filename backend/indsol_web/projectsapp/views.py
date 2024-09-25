@@ -5,8 +5,10 @@ from projectsapp.serializers import (
     AdjustSerializer,
     DocumentsSerializer,
 )
+from authapp.models import Users
 from projectsapp.models import Projects, Contracts, Adjust, Documents
 from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
+from rest_framework.exceptions import ValidationError
 
 
 # Список договоров
@@ -22,7 +24,14 @@ class ContractsViewSet(
     queryset = Contracts.objects.all()
     filterset_class = ContractsFilter
 
-
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           return Contracts.objects.filter(client_id__user_id=self.request.user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Contracts.objects.all()
+       else:
+          raise ValidationError(detail='Invalid Params')
 # Список проектов
 class ProjectsViewSet(
     GenericViewSet,
@@ -33,6 +42,12 @@ class ProjectsViewSet(
     queryset = Projects.objects.all().order_by('start_date')
     filterset_class = ProjectsFilter
 
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           return Projects.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Projects.objects.all()
 
 # Список согласований
 class AdjustViewSet(
@@ -43,6 +58,13 @@ class AdjustViewSet(
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
     filterset_class = AdjustFilter
+
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           return Adjust.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Adjust.objects.all()
 
 #Список документов прикрепленных к договору
 class DocumentsViewSet(
@@ -60,3 +82,10 @@ class DocumentsViewSet(
     # Автоматическое заполнение поля name из имени загружаемого файла 
     def perform_create(self, serializer):
         serializer.save(name=self.request.FILES['file'])
+
+    def get_queryset(self):
+       user = Users.objects.filter(id=self.request.user.id)
+       if user[0].is_client:
+           return Documents.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+       elif user[0].is_manager or user[0].is_staff:
+            return Documents.objects.all()
