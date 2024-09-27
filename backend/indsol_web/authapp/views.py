@@ -60,7 +60,7 @@ class UsersViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-            return Users.objects.filter(id=user.id)
+            return Users.objects.filter(id=self.request.user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Users.objects.all()
 
@@ -173,7 +173,7 @@ class ManagersViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-           return "Список не доступен для данной роли пользователя"
+            return Managers.objects.all()
        elif user[0].is_manager or user[0].is_staff:
             return Managers.objects.all()
 
