@@ -3,9 +3,6 @@ from projectsapp.serializers import ContractsSerializers
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 
-# Превращают данные модели в JSON
-
-
 # Список пользователей
 class UsersSerializer(ModelSerializer):
     class Meta:

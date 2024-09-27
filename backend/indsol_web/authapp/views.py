@@ -127,6 +127,8 @@ class ClientsViewSet(
     serializer_class = ClientsSerializers
     filterset_class = ClientFilter
 
+    # Дополнительный обработчик создания экземпляра Мендежеров
+    # При создании экземляра Клиенты соответсвующему Пользователю устаналивается флаг True в поле is_client
     def perform_create(self, serializer):
         get_data = ClientsSerializers(data=self.request.data)
         get_data.is_valid()   
@@ -157,6 +159,8 @@ class ManagersViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ['user_id']
 
+    # Дополнительный обработчик создания экземпляра Мендежеров
+    # При создании экземляра Менеджеры соответсвующему Пользователю устаналивается флаг True в поле is_manager
     def perform_create(self, serializer):
         get_data = ManagersSerializers(data=self.request.data)
         get_data.is_valid()
