@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.views import APIView
 from authapp.models import Users, Districts, Branches, Clients, Managers
+from projectsapp.models import Contracts
 from authapp.serializers import (
     AuthMailSerializers,
     UsersSerializer,
@@ -71,6 +72,7 @@ class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
         if user[0].is_client:
             profile['user_info'] = Users.objects.get(id=self.request.user.id)
             profile['client_info'] = Clients.objects.get(user_id=self.request.user.id)
+            profile['contracts'] = Contracts.objects.filter(client_id__user_id=self.request.user.id)
             serializer = ClientProfileSerializer(profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif user[0].is_manager:

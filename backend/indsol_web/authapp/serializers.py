@@ -1,4 +1,5 @@
 from authapp.models import Users, Districts, Branches, Clients, Managers
+from projectsapp.serializers import ContractsSerializers
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 
@@ -64,10 +65,11 @@ class AuthMailSerializers(Serializer):
 class ClientProfileSerializer(ModelSerializer):
     user_info = UsersSerializer()
     client_info = ClientsSerializers()
+    contracts = ContractsSerializers(many=True)
 
     class Meta:
         model = Users
-        fields = ['user_info', 'client_info']
+        fields = ['user_info', 'client_info', 'contracts']
 
 class ManagerProfileSerializer(ModelSerializer):
     user_info = UsersSerializer()
