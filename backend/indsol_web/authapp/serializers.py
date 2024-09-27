@@ -54,7 +54,7 @@ class ManagersSerializers(ModelSerializer):
         fields = "__all__"
 
 
-# Отправка данный реггистрации менеджерам
+# Отправка данный регистрации менеджерам
 class AuthMailSerializers(Serializer):
     organization = serializers.CharField(max_length=400)
     inn = serializers.CharField(max_length=12)
@@ -62,19 +62,26 @@ class AuthMailSerializers(Serializer):
     district = serializers.IntegerField()
     email = serializers.CharField(max_length=200)
 
+# Профиль клиента
 class ClientProfileSerializer(ModelSerializer):
     user_info = UsersSerializer()
     client_info = ClientsSerializers()
     contracts = ContractsSerializers(many=True)
-
     class Meta:
         model = Users
         fields = ['user_info', 'client_info', 'contracts']
 
+# Профиль менеджера
 class ManagerProfileSerializer(ModelSerializer):
     user_info = UsersSerializer()
     manager_info = ManagersSerializers()
-
     class Meta:
         model = Users
         fields = ['user_info', 'manager_info']
+
+# Профиль администратора
+class AdminProfileSerializer(ModelSerializer):
+    user_info = UsersSerializer()
+    class Meta:
+        model = Users
+        fields = ['user_info']

@@ -15,6 +15,7 @@ from authapp.serializers import (
     ManagersSerializers,
     ClientProfileSerializer,
     ManagerProfileSerializer,
+    AdminProfileSerializer
 )
 from authapp.filters import ClientFilter, ManagerFilter
 
@@ -69,19 +70,23 @@ class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
     def list(self, request, *args, **kwargs):
         user = Users.objects.filter(id=self.request.user.id)
         profile = {}
+        # Обработчик для клиента
         if user[0].is_client:
             profile['user_info'] = Users.objects.get(id=self.request.user.id)
             profile['client_info'] = Clients.objects.get(user_id=self.request.user.id)
             profile['contracts'] = Contracts.objects.filter(client_id__user_id=self.request.user.id)
             serializer = ClientProfileSerializer(profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        # Обработчик для менеджера
         elif user[0].is_manager:
             profile['user_info'] = Users.objects.get(id=self.request.user.id)
             profile['manager_info'] = Managers.objects.get(user_id=self.request.user.id)
             serializer = ManagerProfileSerializer(profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
+        # Обработчик для админа
         elif user[0].is_staff:
-            serializer = UsersSerializer(Users.objects.get(id=self.request.user.id))
+            profile['user_info'] = Users.objects.get(id=self.request.user.id)
+            serializer = AdminProfileSerializer(profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 

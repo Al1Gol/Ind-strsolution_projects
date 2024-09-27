@@ -11,10 +11,12 @@ class Contracts(models.Model):
     )
     contract_number = models.CharField(verbose_name="номер договора", max_length=50, unique=True)
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Договоры"
         verbose_name_plural = "Договоры"
 
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.contract_number}"
     
@@ -39,10 +41,12 @@ class Projects(models.Model):
         verbose_name="ответственный рп", max_length=200, blank=True, null=True
     )
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Проекты"
         verbose_name_plural = "Проекты"
 
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.name}"
 
@@ -58,10 +62,12 @@ class Adjust(models.Model):
     recieve_date = models.DateTimeField(verbose_name="дата получениия", blank=True, null=True)
     is_agreed = models.BooleanField(verbose_name="Согласовано", default=False, blank=True)
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Проекты"
         verbose_name_plural = "Проекты"
-    
+
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.subject}"
     
@@ -78,3 +84,12 @@ class Documents(models.Model):
         upload_to="projects/contracts/docs/",
         max_length=1000,
         validators=[validate_docs_extension],)
+    
+    # Отображение заголовка модели для админки
+    class Meta:
+        verbose_name = "Документы"
+        verbose_name_plural = "Документы"
+        
+    # Строковое отображение элемента модели
+    def __str__(self):
+        return f"{self.id} - {self.name}"

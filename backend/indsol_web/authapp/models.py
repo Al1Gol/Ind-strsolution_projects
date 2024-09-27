@@ -14,30 +14,35 @@ class Users(AbstractUser):
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Пользователи"
         verbose_name_plural = "Пользователи"
         ordering = ["created_at"]
 
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.username}"
+    
 # Федеральные округа
 class Districts(models.Model):
     name = models.CharField(verbose_name="полное наименование", max_length=200)
-
+ 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Федеральный округ"
         verbose_name_plural = "Федеральный округ"
         ordering = ["name"]
 
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.name}"
-
 
 # Отрасли
 class Branches(models.Model):
     name = models.CharField(verbose_name="полное наименование", max_length=200)
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Отрасль"
         verbose_name_plural = "Отрасль"
@@ -45,6 +50,7 @@ class Branches(models.Model):
 
     def __str__(self):
         return f"{self.id} - {self.name}"
+    
 
 # Клиенты
 class Clients(models.Model):
@@ -70,6 +76,7 @@ class Clients(models.Model):
         verbose_name="наименование организации", max_length=200
     )
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Клиенты"
         verbose_name_plural = "Клиенты"
@@ -93,11 +100,13 @@ class Managers(models.Model):
         "Branches",
         verbose_name="отрасль",
         related_name="branch",
-    )
+    ) 
 
+    # Отображение заголовка модели для админки
     class Meta:
         verbose_name = "Менеджеры"
         verbose_name_plural = "Менеджеры"
 
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id}"

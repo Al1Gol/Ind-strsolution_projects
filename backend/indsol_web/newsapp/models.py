@@ -19,6 +19,13 @@ class News(models.Model):
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
     publicated_at = models.DateTimeField(verbose_name="дата публикации")
 
+    # Отображение заголовка модели для админки
+    class Meta:
+        verbose_name = "Новости"
+        verbose_name_plural = "Новости"
+        ordering = ["created_at"]
+
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.title}"
 
@@ -31,5 +38,12 @@ class Media(models.Model):
         validators=[validate_media_extension],
     )
 
+    # Отображение заголовка модели для админки
+    class Meta:
+        verbose_name = "Файлы новостей"
+        verbose_name_plural = "Файлы новостей"
+        ordering = ["created_at"]
+
+    # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id} - {self.media}"
