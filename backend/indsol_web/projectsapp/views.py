@@ -45,7 +45,7 @@ class ProjectsViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-           return Projects.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+           return Projects.objects.filter(contract_id__client_id__user_id=self.request.user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Projects.objects.all()
 
@@ -62,7 +62,7 @@ class AdjustViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-           return Adjust.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+           return Adjust.objects.filter(contract_id__client_id__user_id=self.request.user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Adjust.objects.all()
 
@@ -86,6 +86,6 @@ class DocumentsViewSet(
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
-           return Documents.objects.filter(contraact_id__client_id__user_id=self.request.user.id)
+           return Documents.objects.filter(contract_id__client_id__user_id=self.request.user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Documents.objects.all()

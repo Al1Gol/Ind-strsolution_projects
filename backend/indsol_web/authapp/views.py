@@ -167,6 +167,7 @@ class ManagersViewSet(
         user = Users.objects.get(id=get_data.data["user_id"])
         if get_data.is_valid():
             user.is_manager=True
+            serializer.save()    
             user.save()
 
     def get_queryset(self):
