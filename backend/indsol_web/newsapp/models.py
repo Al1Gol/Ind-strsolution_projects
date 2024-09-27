@@ -42,7 +42,6 @@ class Media(models.Model):
     class Meta:
         verbose_name = "Файлы новостей"
         verbose_name_plural = "Файлы новостей"
-        ordering = ["created_at"]
 
     # Строковое отображение элемента модели
     def __str__(self):
