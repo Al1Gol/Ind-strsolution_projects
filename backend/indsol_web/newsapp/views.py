@@ -65,7 +65,7 @@ class MediaViewSet(
     # Валидация по количеству media перед сохранением
     def perform_create(self, serilizer):
         media_filter = Media.objects.filter(news_id=self.request.data["news_id"])
-        if len(media_filter) < 10:
+        if len(media_filter) <= 10:
             serilizer.save()
         else:
             raise MediaValidationError()
