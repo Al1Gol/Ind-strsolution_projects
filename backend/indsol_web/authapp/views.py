@@ -112,6 +112,7 @@ class BranchesViewSet(
 ):
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
+    permission_classes = [AllowAny]
 
 
 # Список клиентов
