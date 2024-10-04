@@ -1,4 +1,5 @@
 services:
+  # База данных PostgreSQL
   db:
     image: postgres:14.5-alpine
     volumes:
@@ -14,6 +15,7 @@ services:
       POSTGRES_PASSWORD: '7DXCVAEWpxwWsUsBMPmc'
       PGDATA: '/var/lib/postgresql/pgdata'
 
+  # Бэкенд Django Rest Framework
   backend:
     build: ./backend
     command: bash -c "
@@ -31,6 +33,7 @@ services:
     depends_on: 
       - redis
   
+  # Веб-сервер nginx
   nginx:
     build: ./nginx
     privileged: true
@@ -47,6 +50,7 @@ services:
     depends_on:
       - backend
 
+  # Фроненд React
   frontend:
     build: ./frontend
     privileged: true
@@ -56,9 +60,11 @@ services:
     depends_on: 
       - nginx
 
+  # NoSQL база данных
   redis:
     image: redis:alpine
 
+  # Обработчик задач  
   celery:
     build: ./backend
     command: celery -A indsol_web worker -l info
@@ -70,7 +76,8 @@ services:
       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
     depends_on:
       - redis
-      
+
+  # Планировщик периодических задач    
   celery-beat:
     build: ./backend
     command: celery -A indsol_web beat -l info
@@ -83,6 +90,7 @@ services:
     depends_on:
       - redis
 
+  # Мониторинг периодических задач
   flower:
     build: ./backend
     command: celery -A indsol_web flower -l info
