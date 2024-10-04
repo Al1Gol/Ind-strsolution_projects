@@ -129,7 +129,7 @@ class ClientsViewSet(
     filterset_class = ClientFilter
 
     # Дополнительный обработчик создания экземпляра Мендежеров
-    # При создании экземляра Клиенты соответсвующему Пользователю устаналивается флаг True в поле is_client
+    # При создании экземляра Клиенты соответсвующему Пользователю устаналивается True в поле is_client
     def perform_create(self, serializer):
         get_data = ClientsSerializers(data=self.request.data)
         get_data.is_valid()   
@@ -138,6 +138,14 @@ class ClientsViewSet(
             user.is_client=True   
             serializer.save()     
             user.save()
+
+    # При удалении экземляра Клиенты соответсвующему Пользователю устаналивается False в поле is_client
+    def perform_destroy(self, instance):
+        user=Users.objects.get(id=instance.user_id_id)
+        user.is_client=False  
+        user.save()
+        instance.delete()
+
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
@@ -170,6 +178,14 @@ class ManagersViewSet(
             user.is_manager=True
             serializer.save()    
             user.save()
+    
+    # При удалении экземляра Менеджеры соответсвующему Пользователю устаналивается False в поле is_client
+    def perform_destroy(self, instance):
+        user=Users.objects.get(id=instance.user_id_id)
+        user.is_manager=False  
+        user.save()
+        instance.delete()
+
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
@@ -177,6 +193,7 @@ class ManagersViewSet(
             return Managers.objects.all()
        elif user[0].is_manager or user[0].is_staff:
             return Managers.objects.all()
+       
 
 # Пинг доступности бэкенда
 class PingView(APIView):

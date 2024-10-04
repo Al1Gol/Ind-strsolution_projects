@@ -21,8 +21,8 @@ class Users(AbstractUser):
         ordering = ["created_at"]
 
     # Строковое отображение элемента модели
-    def __str__(self):
-        return f"{self.id} - {self.username}"
+    #def __str__(self):
+    #    return f"{self.id} - {self.username}"
     
 # Федеральные округа
 class Districts(models.Model):
