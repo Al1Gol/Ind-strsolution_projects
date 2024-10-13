@@ -29,6 +29,19 @@ from rest_framework.permissions import AllowAny
 from indsol_web.permissions import AdminUserOrAuthReadOnly
 
 
+
+def reg_mail_body(request):
+     branch = Branches.objects.get(id=request.data["branch"])
+     district = Districts.objects.get(id=request.data["district"])
+     return f'Заявка на регистрацию на портале ipm-portal.\
+                {request.data["organization"]} ИНН  {request.data["inn"]}". \
+                Наименование организации: {request.data["organization"]}; \
+                ИНН: {request.data["inn"]}; \
+                Регион: {district.name}; \
+                Отрасль: {branch.name}; \
+                Почта: {request.data["email"]};'
+
+
 # Список пользователей
 class UsersViewSet(
     GenericViewSet,
@@ -213,30 +226,13 @@ def AuthMailView(request):
         auth_mail_serializer = AuthMailSerializers(data=request.data)
         if auth_mail_serializer.is_valid():
             send_mail(
-                "Teeeeeeeeest4",
-                "Teeeeeeeest4",
+                f"Заявка на регистрацию {request.data['organization']} ИНН  {request.data['inn']}",
+                reg_mail_body(request),
                 "info@ipm-portal.ru",
-                ["al1working@mail.ru"],
+                [request.data['email']],
             )
+        else:
+            print('Некорректная форма')
+            return Response()
         return Response()
     return Response()
-"""
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def AuthMailView(request):
-    if request.method == "POST":
-        with get_connection(  
-            host=settings.EMAIL_HOST, 
-            port=settings.EMAIL_PORT,  
-            username=settings.EMAIL_HOST_USER, 
-            password=settings.EMAIL_HOST_PASSWORD, 
-            use_tls=settings.EMAIL_USE_TLS  
-        ) as connection:
-            subject = "test title" 
-            email_from = settings.EMAIL_HOST_USER  
-            recipient_list = ["al1working@mail.ru"]  
-            message = "test msg"  
-            EmailMessage(subject, message, email_from, recipient_list, connection=connection).send()  
-        return Response()
-    return Response()
-"""
