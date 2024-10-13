@@ -1,5 +1,4 @@
 import os
-
 from .base import *
 
 DEBUG = True
@@ -35,10 +34,10 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Вывод в консоль
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # Отправка по SMTP
-EMAIL_HOST = ""
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Вывод в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # Отправка по SMTP
+EMAIL_HOST = "connect.smtp.bz"
+EMAIL_HOST_PASSWORD = "ZJ7PrFSdVTB0"
+EMAIL_HOST_USER = "info@ipm-portal.ru"
 EMAIL_PORT = 2525
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
+DEFAULT_FROM_EMAIL = 'info@ipm-portal.ru'

@@ -41,3 +41,11 @@ DATABASES = {
 # Настройки планировщика
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Вывод в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # Отправка по SMTP
+EMAIL_HOST = "connect.smtp.bz"
+EMAIL_HOST_PASSWORD = "ZJ7PrFSdVTB0"
+EMAIL_HOST_USER = "info@ipm-portal.ru"
+EMAIL_PORT = 2525
+DEFAULT_FROM_EMAIL = 'info@ipm-portal.ru'

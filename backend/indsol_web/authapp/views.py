@@ -1,4 +1,6 @@
 import logging
+from django.core.mail import EmailMessage, get_connection
+from django.conf import settings
 from django.core.mail import send_mail
 from django_filters import rest_framework as filters
 from rest_framework.decorators import api_view, permission_classes
@@ -211,10 +213,30 @@ def AuthMailView(request):
         auth_mail_serializer = AuthMailSerializers(data=request.data)
         if auth_mail_serializer.is_valid():
             send_mail(
-                "111",
-                "111",
-                "111",
+                "Teeeeeeeeest4",
+                "Teeeeeeeest4",
+                "info@ipm-portal.ru",
                 ["al1working@mail.ru"],
             )
         return Response()
     return Response()
+"""
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def AuthMailView(request):
+    if request.method == "POST":
+        with get_connection(  
+            host=settings.EMAIL_HOST, 
+            port=settings.EMAIL_PORT,  
+            username=settings.EMAIL_HOST_USER, 
+            password=settings.EMAIL_HOST_PASSWORD, 
+            use_tls=settings.EMAIL_USE_TLS  
+        ) as connection:
+            subject = "test title" 
+            email_from = settings.EMAIL_HOST_USER  
+            recipient_list = ["al1working@mail.ru"]  
+            message = "test msg"  
+            EmailMessage(subject, message, email_from, recipient_list, connection=connection).send()  
+        return Response()
+    return Response()
+"""
