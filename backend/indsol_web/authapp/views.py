@@ -33,12 +33,12 @@ from indsol_web.permissions import AdminUserOrAuthReadOnly
 def reg_mail_body(request):
      branch = Branches.objects.get(id=request.data["branch"])
      district = Districts.objects.get(id=request.data["district"])
-     return f'Заявка на регистрацию на портале ipm-portal.\
-                {request.data["organization"]} ИНН  {request.data["inn"]}". \
-                Наименование организации: {request.data["organization"]}; \
-                ИНН: {request.data["inn"]}; \
-                Регион: {district.name}; \
-                Отрасль: {branch.name}; \
+     return f'Заявка на регистрацию на портале ipm-portal.\n \
+                {request.data["organization"]} ИНН  {request.data["inn"]}".\n \
+                Наименование организации: {request.data["organization"]};\n \
+                ИНН: {request.data["inn"]};\n \
+                Регион: {district.name};\n \
+                Отрасль: {branch.name};\n \
                 Почта: {request.data["email"]};'
 
 
