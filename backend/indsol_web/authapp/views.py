@@ -33,7 +33,7 @@ from indsol_web.permissions import AdminUserOrAuthReadOnly
 def reg_mail_body(request):
      branch = Branches.objects.get(id=request.data["branch"])
      district = Districts.objects.get(id=request.data["district"])
-     return f'Заявка на регистрацию на портале ipm-portal.\n \
+     return   f'Заявка на регистрацию на портале ipm-portal:\n \
                 {request.data["organization"]} ИНН  {request.data["inn"]}".\n \
                 Наименование организации: {request.data["organization"]};\n \
                 ИНН: {request.data["inn"]};\n \
@@ -225,11 +225,14 @@ def AuthMailView(request):
     if request.method == "POST":
         auth_mail_serializer = AuthMailSerializers(data=request.data)
         if auth_mail_serializer.is_valid():
+            managers = Managers.objects.filter(branch_id__id=request.data["branch"])
+            emails = [Users.objects.get(id=manager.user_id_id).email for manager in managers]
+            print(mails)
             send_mail(
-                f"Заявка на регистрацию {request.data['organization']} ИНН  {request.data['inn']}",
+                f"Заявка на регистрацию {request.data['organization']} ИНН {request.data['inn']}",
                 reg_mail_body(request),
                 "info@ipm-portal.ru",
-                [request.data['email']],
+                emails,
             )
         else:
             print('Некорректная форма')
