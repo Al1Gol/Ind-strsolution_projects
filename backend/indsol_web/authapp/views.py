@@ -225,17 +225,16 @@ def AuthMailView(request):
     if request.method == "POST":
         auth_mail_serializer = AuthMailSerializers(data=request.data)
         if auth_mail_serializer.is_valid():
-            managers = Managers.objects.filter(branch_id__id=request.data["branch"])
-            emails = [Users.objects.get(id=manager.user_id_id).email for manager in managers]
-            print(mails)
+            managers = Managers.objects.filter(branch_id__id=request.data["branch"]) # Список менеджеров по выбранной отрасли
+            emails = [Users.objects.get(id=manager.user_id_id).email for manager in managers] # Список email менеджеров по выбранной отрасли
             send_mail(
-                f"Заявка на регистрацию {request.data['organization']} ИНН {request.data['inn']}",
-                reg_mail_body(request),
-                "info@ipm-portal.ru",
-                emails,
+                f"Заявка на регистрацию {request.data['organization']} ИНН {request.data['inn']}", # Тема
+                reg_mail_body(request),                                                            # Тело запроса
+                "info@ipm-portal.ru",                                                              # Почта отправителя
+                emails,                                                                            # Почта получателей
             )
         else:
-            print('Некорректная форма')
+            print('Некорректная форма')                                                            # Некорретные данные запроса
             return Response()
         return Response()
     return Response()
