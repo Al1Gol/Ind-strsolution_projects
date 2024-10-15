@@ -17,7 +17,8 @@ from authapp.serializers import (
     ManagersSerializers,
     ClientProfileSerializer,
     ManagerProfileSerializer,
-    AdminProfileSerializer
+    AdminProfileSerializer,
+    ReportMailSserializers
 )
 from authapp.filters import ClientFilter, ManagerFilter
 
@@ -218,7 +219,7 @@ class PingView(APIView):
         return Response()
 
 
-# Отправка данный регистрации менеджерам
+# Отправка данных регистрации менеджерам
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def AuthMailView(request):
@@ -232,6 +233,26 @@ def AuthMailView(request):
                 reg_mail_body(request),                                                            # Тело запроса
                 "info@ipm-portal.ru",                                                              # Почта отправителя
                 emails,                                                                            # Почта получателей
+            )
+        else:
+            print('Некорректная форма')                                                            # Некорретные данные запроса
+            return Response()
+        return Response()
+    return Response()
+
+# Отправка пользовательского обращения
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def ReportMailView(request):
+    if request.user.is_authenticated:
+        auth_mail_serializer = AuthMailSerializers(data=request.data)
+        if auth_mail_serializer.is_valid():
+            user = Users.objects.get(id=request.data.user.id) # Текущий пользователь
+            client = Clients.objects.get(user_id=user.id) # Текущая организация
+            send_mail(
+                f"Пользовательское обращение. {client.organization} ИНН {client.inn}",                                                   # Тема
+                reg_mail_body(request),                                                            # Тело запроса
+                "info@ipm-portal.ru",                                                              # Почта отправителя                                                                        # Почта получателей
             )
         else:
             print('Некорректная форма')                                                            # Некорретные данные запроса
