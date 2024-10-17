@@ -31,7 +31,10 @@ urlpatterns = [
     path("", include(auth.urls)),
     path("ping/", PingView.as_view(), name="ping"),  # Пинг сервера
     path(
-        "send_mail/", AuthMailView, name="send_mail"
+        "reg_request/", AuthMailView, name="reg_request"
+    ),  # Отправка данный реггистрации менеджерам
+    path(
+        "report/", AuthMailView, name="report"
     ),  # Отправка данный реггистрации менеджерам
     path("debug/", include("rest_framework.urls")),  # Дебаг режим
     path(
