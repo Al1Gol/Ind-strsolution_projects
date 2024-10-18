@@ -10,6 +10,7 @@ from authapp.views import (
     ManagersViewSet,
     PingView,
     AuthMailView,
+    ReportMailView
 )
 from django.urls import include, path, re_path
 from rest_framework import routers
@@ -32,10 +33,10 @@ urlpatterns = [
     path("ping/", PingView.as_view(), name="ping"),  # Пинг сервера
     path(
         "reg_request/", AuthMailView, name="reg_request"
-    ),  # Отправка данный реггистрации менеджерам
+    ),  # Отправка данных регистрации менеджерам
     path(
-        "report/", AuthMailView, name="report"
-    ),  # Отправка данный реггистрации менеджерам
+        "report/", ReportMailView, name="report"
+    ),  # Отправка данных о пользовательских отчетах
     path("debug/", include("rest_framework.urls")),  # Дебаг режим
     path(
         "token/",
