@@ -234,11 +234,11 @@ def AuthMailView(request):
                 "info@ipm-portal.ru",                                                              # Почта отправителя
                 emails,                                                                            # Почта получателей
             )
-        else:
-            print('Некорректная форма')                                                            # Некорретные данные запроса
-            return Response()
-        return Response()
-    return Response()
+            print(managers)
+            return Response({'send': True, 'managers':emails})
+        else:                                                         
+            return Response({'send': False, 'error': 'Incorrect form'})  # Некорретные данные запроса
+    return Response({'send': False, 'error': 'unknown'})
 
 # Отправка пользовательского обращения
 @api_view(["POST"])
