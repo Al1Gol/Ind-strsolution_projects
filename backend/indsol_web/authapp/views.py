@@ -252,5 +252,5 @@ def ReportMailView(request):
                 "info@ipm-portal.ru",   
                 ["al1working@mail.ru"],                                                                                                                      # Почта отправителя                                                                        # Почта получателей
             ) # Отправка mail
-            return Response()
-    return Response()
+            return Response({'send': True})
+    return Response({'send': False})
