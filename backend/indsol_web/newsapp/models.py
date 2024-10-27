@@ -34,6 +34,7 @@ class Media(models.Model):
     news_id = models.ForeignKey("News", related_name="news", on_delete=models.CASCADE)
     media = models.FileField(
         verbose_name="файлы",
+        max_length=1000,
         upload_to="news/media/",
         validators=[validate_media_extension],
     )
