@@ -230,9 +230,9 @@ def AuthMailView(request):
             emails = [Users.objects.get(id=manager.user_id_id).email for manager in managers] # Список email менеджеров по выбранной отрасли
             send_mail(
                 f"Заявка на регистрацию {request.data['organization']} ИНН {request.data['inn']}", # Тема
-                reg_mail_body(request),                                                            # Тело запроса
-                "info@ipm-portal.ru",                                                              # Почта отправителя
-                emails,                                                                            # Почта получателей
+                reg_mail_body(request), # Тело запроса
+                "info@ipm-portal.ru", # Почта отправителя
+                emails, # Почта получателей
             )
             print(managers)
             return Response({'send': True, 'managers':emails})
@@ -247,10 +247,10 @@ def ReportMailView(request):
             user = Users.objects.get(id=request.user.id) # Текущий пользователь
             client = Clients.objects.get(user_id=user.id) # Текущая организация
             send_mail(
-                f"Пользовательское обращение. {client.organization} ИНН {client.inn}",                                                   # Тема
-                request.data["text"],                                                            # Тело запроса
-                "info@ipm-portal.ru",   
-                ["al1working@mail.ru"],                                                                                                                      # Почта отправителя                                                                        # Почта получателей
+                f"Пользовательское обращение. {client.organization} ИНН {client.inn}", # Тема
+                request.data["text"], # Тело запроса
+                "info@ipm-portal.ru", # Почта отправителя  
+                ["al1working@mail.ru"], # Почта получателей
             ) # Отправка mail
             return Response({'send': True})
     return Response({'send': False})

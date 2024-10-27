@@ -109,13 +109,16 @@ services:
 
 
 # Используется только при получении домена
-#  certbot:
-#    build: ./certbot
-#    ports:
-#      - '6000:80'
-#    env_file:
-#      - .env
-#    # и снова мониторуем директорию nginx
-#    volumes:
-#      - /home/indsol/Ind-strsolution_projects/nginx/:/etc/nginx/
+  certbot:
+    build: ./certbot
+    ports:
+      - '6000:80'
+    env_file:
+      - .env
+    # и снова мониторуем директорию nginx
+    volumes:
+      - /home/indsol/Ind-strsolution_projects/nginx/:/etc/nginx/
+    args:
+        DOMAIN_EMAIL: ${DOMAIN_EMAIL}
+        DOMAIN_URL: ${DOMAIN_URL}
 
