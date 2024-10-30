@@ -80,9 +80,9 @@ class Documents(models.Model):
     )
     name = models.CharField(verbose_name="Наименование файла", max_length=1000)
     file = models.FileField(
+        max_length=1000,
         verbose_name="Документ",
         upload_to="projects/contracts/docs/",
-        max_length=1000,
         validators=[validate_docs_extension],)
     
     # Отображение заголовка модели для админки

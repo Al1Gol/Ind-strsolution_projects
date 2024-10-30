@@ -9,6 +9,7 @@ class News(models.Model):
     text = models.TextField(verbose_name="Текст новости", max_length=40000)
     to_slider = models.BooleanField(verbose_name="Добавить в миниленту", default=False)
     cover = models.ImageField(
+        max_length=1000,
         verbose_name="обложка",
         upload_to="news/covers/",
         validators=[validate_media_extension],

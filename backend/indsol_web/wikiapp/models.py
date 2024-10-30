@@ -121,7 +121,7 @@ class Files(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(verbose_name="название файла", max_length=200)
-    file = models.FileField(upload_to="wiki/articles/files/", verbose_name="файлы")
+    file = models.FileField(upload_to="wiki/articles/files/", max_length=1000, verbose_name="файлы")
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
 
@@ -149,9 +149,9 @@ class Images(models.Model):
 # Список видео статьи
 class Videos(models.Model):
     video = models.FileField(
+        max_length=1000,
         verbose_name="видео",
         upload_to="wiki/articles/video/",
-        max_length=100,
         validators=[validate_video_extension],
     )
 
