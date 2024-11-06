@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from projectsapp.views import ProjectsViewSet, ContractsViewSet, AdjustViewSet, DocumentsViewSet
+from projectsapp.views import ProjectsViewSet, ContractsViewSet, AdjustViewSet, DocumentsViewSet, UploadProjectsView
 from django.urls import include, path, re_path
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
@@ -12,8 +12,11 @@ projects.register("list", ProjectsViewSet, basename="projects") # # Список
 projects.register("contracts", ContractsViewSet, basename="contracts") # Список проектов
 projects.register("adjust", AdjustViewSet, basename="adjust") # Список согласований
 projects.register("documents", DocumentsViewSet, basename="documents") # Список документов прикрепленных к договору
-
+#projects.register("upload_projects", UploadProjectsView, basename="upload_projects") # Загрузка файла выгрузки проектов
 
 urlpatterns = [
     path("", include(projects.urls)),
+    path(
+        "upload_projects/", UploadProjectsView.as_view(), name="report"
+    ),  # Отправка данных о пользовательских отчетах
 ]

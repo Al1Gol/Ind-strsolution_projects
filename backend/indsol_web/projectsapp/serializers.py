@@ -29,3 +29,10 @@ class DocumentsSerializer(ModelSerializer):
         model = Documents
         fields = '__all__'
         read_only_fields = ('name', 'contract_number')
+
+class UploadProjectsSerializer(ModelSerializer):
+    file = serializers.FileField(max_length=1000)
+
+    class Meta:
+        model = Projects
+        fields = '__all__'
