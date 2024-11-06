@@ -4,15 +4,12 @@ from projectsapp.serializers import (
     ContractsSerializers,
     AdjustSerializer,
     DocumentsSerializer,
-    UploadProjectsSerializer
 )
 from authapp.models import Users
 from projectsapp.models import Projects, Contracts, Adjust, Documents
 from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
 from rest_framework.exceptions import ValidationError
-from rest_framework.parsers import FileUploadParser
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from django.core.files.storage import default_storage
 from django.http import HttpResponse
 from rest_framework.views import APIView
 # Список договоров
@@ -96,24 +93,8 @@ class DocumentsViewSet(
 
 class UploadProjectsView(APIView):
     def post(self, request):
-        print(request)
-        serializer = UploadProjectsSerializer(request)
-        print(serializer.data)
-    
-'''       
-class UploadProjectsView(APU):
-    serializer_class = UploadProjectsSerializer
-
-    def create(self, request, *args, **kwargs):
-        print(request.data['file'])
-        serializer = UploadProjectsSerializer(request)
-    print(serializer.data)
-        return HttpResponse('')
-    '''
-# Отправка пользовательского обращения
-#@api_view(["POST"])
-#def UploadProjectsView(request):
-#    print(request.data['file'])
-#    serializer = UploadProjectsSerializer(request)
-#    print(serializer.data)
-#    return Response({'send': False})
+        file_objs = request.FILES['file']
+        with default_storage.open(f'./parse_data/projects.txt', 'wb+') as destination:
+            for chunk in file_objs.chunks():
+                destination.write(chunk)
+        return HttpResponse({'is_save': True})
