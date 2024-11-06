@@ -98,3 +98,11 @@ class UploadProjectsView(APIView):
             for chunk in file_objs.chunks():
                 destination.write(chunk)
         return HttpResponse({'is_save': True})
+    
+class UploadAdjustView(APIView):
+    def post(self, request):
+        file_objs = request.FILES['file']
+        with default_storage.open(f'./parse_data/adjust.txt', 'wb+') as destination:
+            for chunk in file_objs.chunks():
+                destination.write(chunk)
+        return HttpResponse({'is_save': True})

@@ -18,5 +18,8 @@ urlpatterns = [
     path("", include(projects.urls)),
     path(
         "upload_projects/", UploadProjectsView.as_view(), name="report"
-    ),  # Отправка данных о пользовательских отчетах
+    ),  # Загрузка файла выгрузки Проектов из 1С
+    path(
+        "upload_adjust/", UploadProjectsView.as_view(), name="adjust"
+    ),  # Загрузка файла выгрузки Согласований из 1С
 ]
