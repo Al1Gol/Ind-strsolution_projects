@@ -94,7 +94,7 @@ class DocumentsViewSet(
 class UploadProjectsView(APIView):
     def post(self, request):
         file_objs = request.FILES['file']
-        with default_storage.open(f'./parse_data/projects.txt', 'wb+') as destination:
+        with default_storage.open(f'./parse_data/projects.json', 'wb+') as destination:
             for chunk in file_objs.chunks():
                 destination.write(chunk)
         return HttpResponse({'is_save': True})
@@ -102,7 +102,7 @@ class UploadProjectsView(APIView):
 class UploadAdjustView(APIView):
     def post(self, request):
         file_objs = request.FILES['file']
-        with default_storage.open(f'./parse_data/adjust.txt', 'wb+') as destination:
+        with default_storage.open(f'./parse_data/adjust.json', 'wb+') as destination:
             for chunk in file_objs.chunks():
                 destination.write(chunk)
         return HttpResponse({'is_save': True})
