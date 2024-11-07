@@ -170,8 +170,8 @@ if __name__ == "__main__":
     projects.host='localhost'
     # Настройка файлов
     # Файл выгрузки
-    projects.export_path = './backend/indsol_web/projectsapp/data/'
-    projects.export_file= '111.json'
+    projects.export_path = './backend/media/parse_data/'
+    projects.export_file= 'projects.json'
     # Файл фикстуры
     projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
     projects.import_file='projects.json'
