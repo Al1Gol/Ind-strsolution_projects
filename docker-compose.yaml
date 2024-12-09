@@ -44,9 +44,10 @@ services:
      # - /home/indsol/Ind-strsolution_projects/nginx/key.pem:/etc/key.pem
         - /home/indsol/Ind-strsolution_projects/frontend/build/static/:/var/www/
         - /home/indsol/app_data/data/media:/var/www/media
+        - /etc/ssl/certs/ipm-portal/:/var/certs/
     ports:
       - 8000:80
-      #- 433:433
+      - 443:443
     depends_on:
       - backend
 
@@ -106,19 +107,4 @@ services:
     depends_on:
       - celery
       - redis
-
-
-# Используется только при получении домена
-#  certbot:
-#    build: ./certbot
-#    ports:
-#      - '6000:80'
-#    env_file:
-#      - .env
-#    # и снова мониторуем директорию nginx
-#    volumes:
-#      - /home/indsol/Ind-strsolution_projects/nginx/:/etc/nginx/
-#    args:
-#        DOMAIN_EMAIL: ${DOMAIN_EMAIL}
-#        DOMAIN_URL: ${DOMAIN_URL}
 
