@@ -126,6 +126,6 @@ class GetAdjustView(APIView):
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(f'{path}/path/adjust.json', 'w+', encoding='utf-8') as destination:
+        with open(f'{path}/adjust.json', 'w+', encoding='utf-8') as destination:
             destination.write(json.dumps(file_objs, ensure_ascii=False))
         return HttpResponse({'is_save': True})
