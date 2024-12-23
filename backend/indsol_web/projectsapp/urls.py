@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from projectsapp.views import ProjectsViewSet, ContractsViewSet, AdjustViewSet, DocumentsViewSet, UploadProjectsView, UploadAdjustView
+from projectsapp.views import ProjectsViewSet, ContractsViewSet, AdjustViewSet, DocumentsViewSet, UploadProjectsView, UploadAdjustView, GetProjectsView, GetAdjustView
 from django.urls import include, path, re_path
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
@@ -21,5 +21,11 @@ urlpatterns = [
     ),  # Загрузка файла выгрузки Проектов из 1С
     path(
         "upload_adjust/", UploadAdjustView.as_view(), name="upload_adjust"
+    ),  # Загрузка файла выгрузки Согласований из 1С
+    path(
+        "get_projects/", GetProjectsView.as_view(), name="get_projects"
+    ),  # Загрузка файла выгрузки Проектов из 1С
+    path(
+        "get_adjust/", GetAdjustView.as_view(), name="get_adjust"
     ),  # Загрузка файла выгрузки Согласований из 1С
 ]

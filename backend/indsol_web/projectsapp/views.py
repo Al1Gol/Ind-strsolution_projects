@@ -1,3 +1,6 @@
+import json
+import os
+
 from rest_framework.viewsets import GenericViewSet, mixins
 from projectsapp.serializers import (
     ProjectsSerializer,
@@ -9,7 +12,7 @@ from authapp.models import Users
 from projectsapp.models import Projects, Contracts, Adjust, Documents
 from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
 from rest_framework.exceptions import ValidationError
-from django.core.files.storage import default_storage
+from django.conf import settings
 from django.http import HttpResponse
 from rest_framework.views import APIView
 # Список договоров
@@ -105,4 +108,24 @@ class UploadAdjustView(APIView):
         with default_storage.open(f'./parse_data/adjust.json', 'wb+') as destination:
             for chunk in file_objs.chunks():
                 destination.write(chunk)
+        return HttpResponse({'is_save': True})
+
+class GetProjectsView(APIView):
+    def post(self, request):
+        file_objs = request.data["data"]
+        path = f'{settings.MEDIA_ROOT}/parse_data/projects.json'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        with open(path, 'w+', encoding='utf-8') as destination:
+            destination.write(json.dumps(file_objs, ensure_ascii=False))
+        return HttpResponse({'is_save': True})
+    
+class GetAdjustView(APIView):
+    def post(self, request):
+        file_objs = request.data["data"]
+        path = f'{settings.MEDIA_ROOT}/parse_data/adjust.json'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        with open(path, 'w+', encoding='utf-8') as destination:
+            destination.write(json.dumps(file_objs, ensure_ascii=False))
         return HttpResponse({'is_save': True})
