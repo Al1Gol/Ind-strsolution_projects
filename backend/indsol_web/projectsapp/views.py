@@ -93,7 +93,10 @@ class DocumentsViewSet(
            return Documents.objects.filter(contract_id__client_id__user_id=self.request.user.id)
        elif user[0].is_manager or user[0].is_staff:
             return Documents.objects.all()
-
+       
+# Методы ручной загрузки выгрузкок из 1С по API  
+# Пока что отключены за ненадобностью     
+'''
 class UploadProjectsView(APIView):
     def post(self, request):
         file_objs = request.FILES['file']
@@ -109,23 +112,29 @@ class UploadAdjustView(APIView):
             for chunk in file_objs.chunks():
                 destination.write(chunk)
         return HttpResponse({'is_save': True})
+'''
 
+# Методы автоматической загрузки выгрузкок из 1С по API 
+#
+#  Атоматическая загрузка Проектов
 class GetProjectsView(APIView):
     def post(self, request):
-        file_objs = request.data["data"]
+        file_objs = request.data["data"][0]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
         with open(f'{path}/projects.json', 'w+', encoding='utf-8') as destination:
-            destination.write(json.dumps(file_objs, ensure_ascii=False))
+            destination.write(str(file_objs))
         return HttpResponse({'is_save': True})
     
+#  Атоматическая загрузка Согласований
 class GetAdjustView(APIView):
     def post(self, request):
-        file_objs = request.data["data"]
+        file_objs = request.data["data"][0]
+        print(file_objs)
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
         with open(f'{path}/adjust.json', 'w+', encoding='utf-8') as destination:
-            destination.write(json.dumps(file_objs, ensure_ascii=False))
+            destination.write(str(file_objs))
         return HttpResponse({'is_save': True})
