@@ -55,8 +55,6 @@ class LoadProjects():
             projects_dict = json.loads(file.read()).get('tab')
             # Проходим по списку договоров
             for project in projects_dict:
-                print(project)
-                print(type(project))
                 contract = project['Номер']
                 name = project['Наименование'] if project['Наименование'] else None
                 start_date = project['ДатаНачала'] if project['ДатаНачала'] else None
@@ -78,7 +76,6 @@ class LoadProjects():
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self):
-        print(os.name)
 	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
             os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
@@ -103,19 +100,16 @@ class LoadAdjustes():
         self.password = None
         self.host = None
 
-    def get_dict(self, id, contract, todo, resp, resp_rp):
+    def get_dict(self, id, contract, subject, sent_date, recieve_date, is_agreed):
         dict_test = {
-            "model": "projectsapp.projects",
+            "model": "projectsapp.adjust",
             #"pk": id,
             "fields": {
                 "contract_id": id,
-                "name": todo['Наименование'],
-                "start_date":  todo['ДатаНачала'],
-                "deadline": todo['СрокВыполнения'],
-                "is_completed": todo['Выполнено'],
-                "actual_date": todo['ДатаФактическогоВыполнения'],
-                "responsible": resp,
-                "responsible_rp": resp_rp
+                "subject": subject,
+                "sent_date":  sent_date,
+                "recieve_date": recieve_date,
+                "is_agreed": is_agreed
                 }
         }
         return dict_test
@@ -125,7 +119,7 @@ class LoadAdjustes():
         conn = psycopg2.connect(dbname=self.dbname, user=self.user, 
                                 password=self.password, host=self.host)
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM projectsapp_projects')
+        cursor.execute('DELETE FROM projectsapp_adjust')
         conn.commit()
         cursor.execute('SELECT contract_number FROM projectsapp_contracts')
         records = [el[0] for el in cursor.fetchall()]
@@ -135,19 +129,18 @@ class LoadAdjustes():
 
         # Исходный файл состоит из списка словарей
         with open(f'{self.export_path}{self.export_file}', mode='r', encoding='utf-8-sig') as file:
-            projects_dict = json.loads(file.read())
+            adjustes_dict = json.loads(file.read()).get('tab')
             # Проходим по списку договоров
-            for project in projects_dict:
-                contract = project['НомерДокумента']
-                todoes = project['СписокРаботПоПроекту']
-                resp = project['Ответственный']
-                resp_rp = project['ОтветственныйРП']
+            for adjust in adjustes_dict:
+                contract = adjust['Номер']
+                subject = adjust['ПредметСогласования'] if adjust['ПредметСогласования'] else None
+                sent_date = adjust['ДатаОтправки'] if adjust['ДатаОтправки'] else None
+                recieve_date = adjust['ДатаПолучения'] if adjust['ДатаПолучения'] else None
+                is_agreed = adjust['Согласовано']
                 if contract in records:
                     cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
                     id = cursor.fetchone()[0]
-                    for todo in todoes:
-                        fixture.append(self.get_dict(id, contract, todo, resp, resp_rp))
-
+                    fixture.append(self.get_dict(id, contract, subject, sent_date, recieve_date, is_agreed))
         return fixture
     
     def save(self):
@@ -157,12 +150,11 @@ class LoadAdjustes():
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self):
-        print(os.name)
 	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
-            os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
+            os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata adjust.json --settings=indsol_web.settings.debug')
         else:
-	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
+	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata projadjustects.json --settings=indsol_web.settings.pre_production')
 
 
 
@@ -183,3 +175,21 @@ if __name__ == "__main__":
 
     projects.save()
     projects.update_db()
+
+    adjustes =  LoadAdjustes()
+    # Настройки БД
+    adjustes.dbname='indsol_test'
+    adjustes.user='postgres'
+    adjustes.password='123'
+    adjustes.host='localhost'
+    # Настройка файлов
+    # Файл выгрузки
+    adjustes.export_path = './backend/media/parse_data/'
+    adjustes.export_file= 'adjust.json'
+    # Файл фикстуры
+    adjustes.import_path='./backend/indsol_web/projectsapp/fixtures/'
+    adjustes.import_file='adjust.json'
+
+    adjustes.save()
+    adjustes.update_db()
+

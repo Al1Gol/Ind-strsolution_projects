@@ -57,7 +57,7 @@ class Adjust(models.Model):
     verbose_name="договор",
     on_delete=models.CASCADE,
 )
-    subject = models.CharField(verbose_name="Объект согласования", max_length=1000)
+    subject = models.CharField(verbose_name="Объект согласования", max_length=1000, blank=True, null=True)
     sent_date = models.DateTimeField(verbose_name="дата отправки", blank=True, null=True)
     recieve_date = models.DateTimeField(verbose_name="дата получениия", blank=True, null=True)
     is_agreed = models.BooleanField(verbose_name="Согласовано", default=False, blank=True)
