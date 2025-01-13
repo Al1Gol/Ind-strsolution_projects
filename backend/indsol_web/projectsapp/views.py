@@ -131,7 +131,6 @@ class GetProjectsView(APIView):
 class GetAdjustView(APIView):
     def post(self, request):
         file_objs = request.data["data"][0]
-        print(file_objs)
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)

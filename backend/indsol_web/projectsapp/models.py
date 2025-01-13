@@ -27,13 +27,13 @@ class Projects(models.Model):
         verbose_name="договор",
         on_delete=models.CASCADE,
     )
-    name = models.CharField(verbose_name="наименование", max_length=1000)
+    name = models.CharField(verbose_name="наименование", max_length=1000, blank=True, null=True)
     start_date = models.DateTimeField(
-        verbose_name="дата начала",
+        verbose_name="дата начала", blank=True, null=True
     )
-    deadline = models.DateTimeField(verbose_name="срок выполнения")
+    deadline = models.DateTimeField(verbose_name="срок выполнения", blank=True, null=True)
     is_completed = models.BooleanField(verbose_name="выполнено", default=False, blank=True)
-    actual_date = models.DateTimeField(verbose_name="дата фактического выполнения")
+    actual_date = models.DateTimeField(verbose_name="дата фактического выполнения", blank=True, null=True)
     responsible = models.CharField(
         verbose_name="ответственный", max_length=200, blank=True, null=True
     )

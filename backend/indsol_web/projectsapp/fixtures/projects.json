@@ -2,625 +2,209 @@
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Предварительное проектирование КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2023-02-26T00:20:00",
-            "is_completed": true,
-            "actual_date": "2021-01-05T00:20:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-11-26T00:00:00",
+            "deadline": "2024-11-26T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Согласование чертежей с заказчиком",
-            "start_date": "2021-01-05T00:20:01",
-            "deadline": "2021-01-09T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-09T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-11-26T00:00:00",
+            "deadline": "2024-11-28T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Выдача чертежей в производство КО",
-            "start_date": "2021-01-25T18:00:00",
-            "deadline": "2021-01-26T00:00:00",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-12-02T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-26T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Предварительное проектирование АСУТП",
-            "start_date": "2021-01-25T00:00:00",
-            "deadline": "2021-01-22T00:00:00",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-11-28T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-22T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Согласование АСУТП с заказчиком",
-            "start_date": "2021-01-11T00:10:00",
-            "deadline": "2021-01-13T22:00:00",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-12-02T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-01-17T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Сборка системы управления",
-            "start_date": "2021-01-12T00:01:00",
-            "deadline": "2021-05-16T00:04:00",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-05-27T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Резка+гибка",
-            "start_date": "2021-05-16T00:00:00",
-            "deadline": "2021-05-26T00:00:00",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-04T00:00:00",
             "is_completed": false,
-            "actual_date": "2022-05-06T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Токарные работы",
-            "start_date": "2021-05-06T00:00:00",
-            "deadline": "2021-05-20T00:00:00",
-            "is_completed": true,
-            "actual_date": "2022-05-20T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-04T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Сварочные работы",
-            "start_date": "2021-05-20T00:00:00",
-            "deadline": "2021-12-21T00:00:00",
+            "start_date": "2024-12-09T00:00:00",
+            "deadline": "2024-12-11T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-12-22T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Подготовка заявки в снабжение КО",
-            "start_date": "2021-12-02T00:00:00",
-            "deadline": "2021-12-20T00:00:00",
-            "is_completed": true,
-            "actual_date": "2023-12-20T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-12-03T00:00:00",
+            "deadline": "2024-11-25T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Подготовка заявки в снабжение АСУТП",
-            "start_date": "2021-12-03T00:00:00",
-            "deadline": "2022-01-01T00:00:00",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-09T00:00:00",
             "is_completed": false,
-            "actual_date": "2022-05-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Прогпаммирование IT",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Сборочные работы",
-            "start_date": "2021-01-03T00:00:00",
-            "deadline": "2021-03-01T00:00:00",
+            "start_date": "2024-12-04T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
             "is_completed": false,
-            "actual_date": "2021-02-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Покраска",
-            "start_date": "2021-01-12T00:00:00",
-            "deadline": "2021-01-13T00:00:00",
-            "is_completed": true,
-            "actual_date": "2024-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-12-11T00:00:00",
+            "deadline": "2024-12-12T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "Закупка",
-            "start_date": "2020-01-01T00:00:00",
-            "deadline": "2022-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2023-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-11-26T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     },
     {
         "model": "projectsapp.projects",
         "fields": {
-            "contract_id": 1,
+            "contract_id": 2,
             "name": "3D печать¶",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-02T12:00:00",
+            "start_date": null,
+            "deadline": null,
             "is_completed": false,
-            "actual_date": "2021-07-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Предварительное проектирование КО",
-            "start_date": "2024-08-05T00:00:00",
-            "deadline": "2024-08-08T00:00:00",
-            "is_completed": false,
-            "actual_date": "2024-09-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Согласование чертежей с заказчиком",
-            "start_date": "2021-08-08T00:00:00",
-            "deadline": "2024-08-12T00:00:00",
-            "is_completed": false,
-            "actual_date": "2022-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Выдача чертежей в производство КО",
-            "start_date": "2024-08-12T00:00:00",
-            "deadline": "2024-08-21T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Предварительное проектирование АСУТП",
-            "start_date": "2024-08-12T00:00:00",
-            "deadline": "2024-08-15T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Согласование АСУТП с заказчиком",
-            "start_date": "2024-08-15T00:00:00",
-            "deadline": "2024-08-19T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Сборка системы управления",
-            "start_date": "2024-08-19T00:00:00",
-            "deadline": "2024-09-16T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Резка+гибка",
-            "start_date": "2024-08-21T00:00:00",
-            "deadline": "2024-08-30T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Токарные работы",
-            "start_date": "2024-08-21T00:00:00",
-            "deadline": "2024-08-30T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Сварочные работы",
-            "start_date": "2024-08-28T00:00:00",
-            "deadline": "2024-09-06T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Подготовка заявки в снабжение КО",
-            "start_date": "2024-08-15T00:00:00",
-            "deadline": "2024-08-14T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Подготовка заявки в снабжение АСУТП",
-            "start_date": "2024-08-19T00:00:00",
-            "deadline": "2024-08-26T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Прогпаммирование IT",
-            "start_date": "2024-08-19T00:00:00",
-            "deadline": "2024-09-16T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Сборочные работы",
-            "start_date": "2024-08-30T00:00:00",
-            "deadline": "2024-09-16T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Покраска",
-            "start_date": "2024-09-06T00:00:00",
-            "deadline": "2024-09-11T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "Закупка",
-            "start_date": "2024-08-21T00:00:00",
-            "deadline": "2024-09-09T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1308,
-            "name": "3D печать¶",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Сухомлинов Андрей Федорович",
-            "responsible_rp": "Сухомлинов Андрей Федорович"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Предварительное проектирование КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Согласование чертежей с заказчиком",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Выдача чертежей в производство КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Предварительное проектирование АСУТП",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Согласование АСУТП с заказчиком",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Сборка системы управления",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Резка+гибка",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Токарные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Сварочные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Подготовка заявки в снабжение КО",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Подготовка заявки в снабжение АСУТП",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Прогпаммирование IT",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Сборочные работы",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Покраска",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": false,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "Закупка",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
-        }
-    },
-    {
-        "model": "projectsapp.projects",
-        "fields": {
-            "contract_id": 1309,
-            "name": "3D печать¶",
-            "start_date": "2021-01-01T00:00:00",
-            "deadline": "2021-01-01T00:00:00",
-            "is_completed": true,
-            "actual_date": "2021-01-01T00:00:00",
-            "responsible": "Крикун Евгений Сергеевич",
-            "responsible_rp": "Крикун Евгений Сергеевич"
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
         }
     }
 ]
