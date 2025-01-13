@@ -11,4 +11,4 @@ class ContractsAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(ContractsAdmin)
+admin.site.register(Contracts, ContractsAdmin)
