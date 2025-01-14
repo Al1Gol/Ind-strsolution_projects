@@ -52,7 +52,8 @@ class LoadProjects():
 
         # Исходный файл состоит из списка словарей
         with open(f'{self.export_path}{self.export_file}', mode='r', encoding='utf-8-sig') as file:
-            projects_dict = json.loads(file.read()).get('tab')
+            projects_dict = json.loads(file.read())
+            projects_dict = projects_dict.get('tab')
             # Проходим по списку договоров
             for project in projects_dict:
                 contract = project['Номер']
@@ -129,7 +130,8 @@ class LoadAdjustes():
 
         # Исходный файл состоит из списка словарей
         with open(f'{self.export_path}{self.export_file}', mode='r', encoding='utf-8-sig') as file:
-            adjustes_dict = json.loads(file.read()).get('tab')
+            adjustes_dict = json.loads(file.read())
+            adjustes_dict = adjustes_dict.get('tab')
             # Проходим по списку договоров
             for adjust in adjustes_dict:
                 contract = adjust['Номер']
@@ -154,7 +156,7 @@ class LoadAdjustes():
         if os.name == 'nt':
             os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata adjust.json --settings=indsol_web.settings.debug')
         else:
-	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata projadjustects.json --settings=indsol_web.settings.pre_production')
+            os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata adjust.json --settings=indsol_web.settings.pre_production')
 
 
 

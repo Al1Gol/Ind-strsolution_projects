@@ -70,6 +70,7 @@ services:
     build: ./backend
     command: celery -A indsol_web worker -l info
     volumes:
+      - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/
     environment:
       - DEBUG=1
@@ -83,6 +84,7 @@ services:
     build: ./backend
     command: celery -A indsol_web beat -l info
     volumes:
+      - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/
     environment:
       - DEBUG=1
@@ -97,6 +99,7 @@ services:
     command: celery -A indsol_web flower -l info
     restart: always
     volumes:
+      - /home/indsol/app_data/data/media:/app/media
       - ./project:/usr/src/app/
     ports:
       - 5555:5555
