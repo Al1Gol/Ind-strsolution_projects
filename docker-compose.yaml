@@ -42,7 +42,7 @@ services:
      #  Данные ключи используются только при работе с certbot
      # - /home/indsol/Ind-strsolution_projects/nginx/cert.pem:/etc/cert.pem
      # - /home/indsol/Ind-strsolution_projects/nginx/key.pem:/etc/key.pem
-        - /home/indsol/Ind-strsolution_projects/frontend/build/static/:/var/www/
+        - /home/indsol/Ind-strsolution_projects/frontend/build/static:/var/www/static
         - /home/indsol/app_data/data/media:/var/www/media
         - /etc/ssl/certs/ipm-portal/:/var/certs/
     ports:
