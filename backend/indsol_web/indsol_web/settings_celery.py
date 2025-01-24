@@ -34,7 +34,7 @@ def parser_projects_task(self):
     projects.host=pre_production.DATABASES['default']['HOST']
     # Настройка файлов
     # Файл выгрузки
-    projects.export_path = f'{settings.MEDIA_ROOT}/parse_data/'
+    projects.export_path = 'app/media/parse_data/'
     projects.export_file= 'projects.json'
     # Файл фикстуры
     projects.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'
@@ -56,7 +56,7 @@ def parser_adjust_task(self):
     adjustes.host=pre_production.DATABASES['default']['HOST']
     # Настройка файлов
     # Файл выгрузки
-    adjustes.export_path = f'{settings.MEDIA_ROOT}/parse_data/'
+    adjustes.export_path = 'app/media/parse_data/'
     adjustes.export_file= 'adjust.json'
     # Файл фикстуры
     adjustes.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'

@@ -72,6 +72,7 @@ class LoadProjects():
     
     def save(self):
         fixture=self.get_fixture()
+        print(fixture)
         # Сохранение фикстуры
         with open(f'{self.import_path}{self.import_file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)

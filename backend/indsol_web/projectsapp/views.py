@@ -1,6 +1,8 @@
 import json
 import os
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet, mixins
 from projectsapp.serializers import (
     ProjectsSerializer,
@@ -118,6 +120,7 @@ class UploadAdjustView(APIView):
 #
 #  Атоматическая загрузка Проектов
 class GetProjectsView(APIView):
+    permission_classes = (AllowAny, )
     def post(self, request):
         file_objs = request.data["data"][0]
         path = f'{settings.MEDIA_ROOT}/parse_data'
@@ -129,6 +132,7 @@ class GetProjectsView(APIView):
     
 #  Атоматическая загрузка Согласований
 class GetAdjustView(APIView):
+    permission_classes = (AllowAny, )
     def post(self, request):
         file_objs = request.data["data"][0]
         path = f'{settings.MEDIA_ROOT}/parse_data'
