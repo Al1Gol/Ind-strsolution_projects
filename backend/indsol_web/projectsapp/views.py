@@ -84,8 +84,8 @@ class DocumentsViewSet(
     serializer_class = DocumentsSerializer
     queryset = Documents.objects.all().order_by('id')
     filterset_class = DocumentsFilter
-    
-    # Автоматическое заполнение поля name из имени загружаемого файла 
+
+    # Автоматическое заполнение поля name из имени загружаемого файла
     def perform_create(self, serializer):
         serializer.save(name=self.request.FILES['file'])
 
@@ -122,7 +122,7 @@ class UploadAdjustView(APIView):
 class GetProjectsView(APIView):
     permission_classes = (AllowAny, )
     def post(self, request):
-        file_objs = request.data["data"][0]
+        file_objs = request.data["data"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
@@ -134,7 +134,7 @@ class GetProjectsView(APIView):
 class GetAdjustView(APIView):
     permission_classes = (AllowAny, )
     def post(self, request):
-        file_objs = request.data["data"][0]
+        file_objs = request.data["data"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
