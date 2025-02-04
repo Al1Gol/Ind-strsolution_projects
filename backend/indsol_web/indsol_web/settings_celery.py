@@ -66,8 +66,8 @@ def parser_adjust_task(self):
 
 @app.task(bind=True, ignore_result=True)
 def cleanup_unused_media_task():
-    print("Start cleanup unused media files")
+    print("Начало очистки неиспользуемых файлов")
     call_command("cleanup_unused_media", "--noinput")
-    print("End cleanup unused media files")
+    print("Окончание очистки неиспользуемых файлов")
     return  "cleanup unused media files is completed"
     
