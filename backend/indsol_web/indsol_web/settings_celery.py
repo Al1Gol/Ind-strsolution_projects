@@ -32,13 +32,12 @@ def parser_projects_task(self):
     projects.user=pre_production.DATABASES['default']['USER']
     projects.password=pre_production.DATABASES['default']['PASSWORD']
     projects.host=pre_production.DATABASES['default']['HOST']
-    # Настройка файлов
-    # Файл выгрузки
+    # Путь файлов выгрузки
     projects.export_path = '/app/media/parse_data/'
-    projects.export_file= 'projects.json'
-    # Файл фикстуры
+    # Путь файлов фикстур
     projects.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'
-    projects.import_file='projects.json'
+    # Файлы   
+    projects.files = ['st_projects.json', 'export_projects.json']
 
     projects.load()
 
