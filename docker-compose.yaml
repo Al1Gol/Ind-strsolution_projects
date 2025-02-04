@@ -42,6 +42,7 @@ services:
      #  Данные ключи используются только при работе с certbot
      # - /home/indsol/Ind-strsolution_projects/nginx/cert.pem:/etc/cert.pem
      # - /home/indsol/Ind-strsolution_projects/nginx/key.pem:/etc/key.pem
+        - /home/indsol/app_data/logs/nginx:/var/log/nginx
         - /home/indsol/Ind-strsolution_projects/frontend/build/static:/var/www/static
         - /home/indsol/app_data/data/media:/var/www/media
         - /etc/ssl/certs/ipm-portal/:/var/certs/
@@ -69,6 +70,7 @@ services:
   celery:
     build: ./backend
     command: celery -A indsol_web worker -l info
+    restart: always
     volumes:
       - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/
@@ -83,6 +85,7 @@ services:
   celery-beat:
     build: ./backend
     command: celery -A indsol_web beat -l info
+    restart: always
     volumes:
       - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/

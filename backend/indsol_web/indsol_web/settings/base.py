@@ -64,7 +64,8 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 2000000000
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
+FILE_UPLOAD_MAX_MEMORY_SIZE = 734003200
 
 ROOT_URLCONF = "indsol_web.urls"
 
