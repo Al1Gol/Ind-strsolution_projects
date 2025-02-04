@@ -1,7 +1,7 @@
 import json
 import os
 
-from rest_framework.decorators import api_view, permission_classes
+#from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet, mixins
 from projectsapp.serializers import (
@@ -120,24 +120,44 @@ class UploadAdjustView(APIView):
 #
 #  Атоматическая загрузка Проектов
 class GetProjectsView(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny,)
     def post(self, request):
         file_objs = request.data["data"]
+        bd = json.loads(file_objs[0])["BD"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(f'{path}/projects.json', 'w+', encoding='utf-8') as destination:
-            destination.write(str(file_objs))
-        return HttpResponse({'is_save': True})
+        if bd == "ST_PROJECT":
+            with open(f'{path}/st_projects.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
+        elif bd == "EXPORT":
+            with open(f'{path}/export_projects.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
+        else:
+            with open(f'{path}/unknown_projects.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
     
 #  Атоматическая загрузка Согласований
 class GetAdjustView(APIView):
-    permission_classes = (AllowAny, )
     def post(self, request):
         file_objs = request.data["data"]
+        print(json.loads(file_objs[0])["BD"])
+        bd = json.loads(file_objs[0])["BD"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(f'{path}/adjust.json', 'w+', encoding='utf-8') as destination:
-            destination.write(str(file_objs))
-        return HttpResponse({'is_save': True})
+        if bd == "ST_PROJECT":
+            with open(f'{path}/st_adjust.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
+        elif bd == "EXPORT":
+            with open(f'{path}/export_adjust.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
+        else:
+            with open(f'{path}/unknown_adjust.json', 'w+', encoding='utf-8') as destination:
+                destination.write(str(file_objs))
+            return HttpResponse({'is_save': True})
