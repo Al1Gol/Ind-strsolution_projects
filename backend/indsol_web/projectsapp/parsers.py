@@ -10,10 +10,10 @@ class LoadProjects():
         self.worker_dir = None
         # Файл выгрузки
         self.export_path = None
-        self.export_file=None
         # Файл фикстуры
         self.import_path=None
-        self.import_file=None
+        # Список файлов 
+        self.files=[]
         # Параметры подключения к БД
         self.dbname = None
         self.user = None
@@ -38,7 +38,7 @@ class LoadProjects():
         return dict_test
 
     #
-    def get_fixture(self):
+    def load(self):
         conn = psycopg2.connect(dbname=self.dbname, user=self.user, 
                                 password=self.password, host=self.host)
         cursor = conn.cursor()
@@ -47,44 +47,45 @@ class LoadProjects():
         cursor.execute('SELECT contract_number FROM projectsapp_contracts')
         records = [el[0] for el in cursor.fetchall()]
 
-        # Переменная для записи в фикстуру
-        fixture = []
+        for export_file in self.files:
+            # Переменная для записи в фикстуру
+            fixture = []
 
-        # Исходный файл состоит из списка словарей
-        with open(f'{self.export_path}{self.export_file}', mode='r', encoding='utf-8-sig') as file:
-            projects_dict = json.loads(file.read())
-            projects_dict = projects_dict.get('tab')
-            # Проходим по списку договоров
-            for project in projects_dict:
-                contract = project['Номер']
-                name = project['Наименование'] if project['Наименование'] else None
-                start_date = project['ДатаНачала'] if project['ДатаНачала'] else None
-                deadline = project['СрокВыполнения'] if project['СрокВыполнения'] else None
-                is_completed = project['Выполнено']
-                actual_date = project['ДатаФактическогоВыполнения'] if project['ДатаФактическогоВыполнения'] else None
-                resp = ''#project['Ответственный']
-                resp_rp = ''#project['ОтветственныйРП']
-                if contract in records:
-                    cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
-                    id = cursor.fetchone()[0]
-                    fixture.append(self.get_dict(id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp))
-        return fixture
-    
-    def save(self):
-        fixture=self.get_fixture()
-        print(fixture)
+            # Исходный файл состоит из списка словарей
+            with open(f'{self.export_path}{export_file}', mode='r', encoding='utf-8-sig') as file:
+                projects_dict = json.loads(file.read())
+                projects_dict = projects_dict.get('tab')
+
+                # Проходим по списку договоров
+                for project in projects_dict:
+                    contract = project['Номер']
+                    name = project['Наименование'] if project['Наименование'] else None
+                    start_date = project['ДатаНачала'] if project['ДатаНачала'] else None
+                    deadline = project['СрокВыполнения'] if project['СрокВыполнения'] else None
+                    is_completed = project['Выполнено']
+                    actual_date = project['ДатаФактическогоВыполнения'] if project['ДатаФактическогоВыполнения'] else None
+                    resp = ''#project['Ответственный']
+                    resp_rp = ''#project['ОтветственныйРП']
+                    if contract in records:
+                        cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
+                        id = cursor.fetchone()[0]
+                        fixture.append(self.get_dict(id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp))
+            self.save(fixture, export_file)
+            self.update_db(export_file)
+
+    def save(self, fixture, file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}{self.import_file}', mode='w+', encoding='utf-8') as file:
+        with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
-    def update_db(self):
+    def update_db(self, file):
 	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
-            os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata projects.json --settings=indsol_web.settings.debug')
+            os.system(f'python -Xutf8 ./backend/indsol_web/manage.py loaddata {file} --settings=indsol_web.settings.debug')
         else:
-	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata projects.json --settings=indsol_web.settings.pre_production')
+	        os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata {file} --settings=indsol_web.settings.pre_production')
 
-# Импорт проектов
+# Импорт согласований
 #from celery import shared_task
 class LoadAdjustes():
     def __init__(self):
@@ -92,10 +93,9 @@ class LoadAdjustes():
         self.worker_dir = None
         # Файл выгрузки
         self.export_path = None
-        self.export_file=None
-        # Файл фикстуры
         self.import_path=None
-        self.import_file=None
+        # Наименования файлов
+        self.files=[]
         # Параметры подключения к БД
         self.dbname = None
         self.user = None
@@ -117,7 +117,7 @@ class LoadAdjustes():
         return dict_test
 
     #
-    def get_fixture(self):
+    def load(self):
         conn = psycopg2.connect(dbname=self.dbname, user=self.user, 
                                 password=self.password, host=self.host)
         cursor = conn.cursor()
@@ -126,38 +126,42 @@ class LoadAdjustes():
         cursor.execute('SELECT contract_number FROM projectsapp_contracts')
         records = [el[0] for el in cursor.fetchall()]
 
-        # Переменная для записи в фикстуру
-        fixture = []
 
-        # Исходный файл состоит из списка словарей
-        with open(f'{self.export_path}{self.export_file}', mode='r', encoding='utf-8-sig') as file:
-            adjustes_dict = json.loads(file.read())
-            adjustes_dict = adjustes_dict.get('tab')
-            # Проходим по списку договоров
-            for adjust in adjustes_dict:
-                contract = adjust['Номер']
-                subject = adjust['ПредметСогласования'] if adjust['ПредметСогласования'] else None
-                sent_date = adjust['ДатаОтправки'] if adjust['ДатаОтправки'] else None
-                recieve_date = adjust['ДатаПолучения'] if adjust['ДатаПолучения'] else None
-                is_agreed = adjust['Согласовано']
-                if contract in records:
-                    cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
-                    id = cursor.fetchone()[0]
-                    fixture.append(self.get_dict(id, contract, subject, sent_date, recieve_date, is_agreed))
-        return fixture
+
+
+        for export_file in self.files:
+            # Исходный файл состоит из списка словарей
+            # Переменная для записи в фикстуру
+            fixture = []
+
+            with open(f'{self.export_path}{export_file}', mode='r', encoding='utf-8-sig') as file:
+                adjustes_dict = json.loads(file.read())
+                adjustes_dict = adjustes_dict.get('tab')
+                # Проходим по списку договоров
+                for adjust in adjustes_dict:
+                    contract = adjust['Номер']
+                    subject = adjust['ПредметСогласования'] if adjust['ПредметСогласования'] else None
+                    sent_date = adjust['ДатаОтправки'] if adjust['ДатаОтправки'] else None
+                    recieve_date = adjust['ДатаПолучения'] if adjust['ДатаПолучения'] else None
+                    is_agreed = adjust['Согласовано']
+                    if contract in records:
+                        cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
+                        id = cursor.fetchone()[0]
+                        fixture.append(self.get_dict(id, contract, subject, sent_date, recieve_date, is_agreed))
+            self.save(fixture, export_file)
+            self.update_db(export_file)
     
-    def save(self):
-        fixture=self.get_fixture()
+    def save(self, fixture, file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}{self.import_file}', mode='w+', encoding='utf-8') as file:
+        with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
-    def update_db(self):
+    def update_db(self, file):
 	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
-            os.system('python -Xutf8 ./backend/indsol_web/manage.py loaddata adjust.json --settings=indsol_web.settings.debug')
+            os.system(f'python -Xutf8 ./backend/indsol_web/manage.py loaddata {file} --settings=indsol_web.settings.debug')
         else:
-            os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata adjust.json --settings=indsol_web.settings.pre_production')
+            os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata {file} --settings=indsol_web.settings.pre_production')
 
 
 
@@ -170,14 +174,12 @@ if __name__ == "__main__":
     projects.host='localhost'
     # Настройка файлов
     # Файл выгрузки
-    projects.export_path = './backend/media/parse_data/'
-    projects.export_file= 'projects.json'
-    # Файл фикстуры
     projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
-    projects.import_file='projects.json'
+    projects.export_path = './backend/media/parse_data/'
+    projects.files = ['st_projects.json', 'export_projects.json']
 
-    projects.save()
-    projects.update_db()
+    projects.load()
+
 
     adjustes =  LoadAdjustes()
     # Настройки БД
@@ -186,13 +188,14 @@ if __name__ == "__main__":
     adjustes.password='123'
     adjustes.host='localhost'
     # Настройка файлов
-    # Файл выгрузки
+    # Путь выгрузки
     adjustes.export_path = './backend/media/parse_data/'
-    adjustes.export_file= 'adjust.json'
-    # Файл фикстуры
+    # Путь фикстуры
     adjustes.import_path='./backend/indsol_web/projectsapp/fixtures/'
-    adjustes.import_file='adjust.json'
+    # Список файлов
+    adjustes.files = ['st_adjust.json', 'export_adjust.json']
 
-    adjustes.save()
-    adjustes.update_db()
+    adjustes.import_path='./backend/indsol_web/projectsapp/fixtures/'
+
+    adjustes.load()
 

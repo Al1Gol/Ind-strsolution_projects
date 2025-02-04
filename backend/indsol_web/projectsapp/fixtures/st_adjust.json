@@ -1,0 +1,12 @@
+[
+    {
+        "model": "projectsapp.adjust",
+        "fields": {
+            "contract_id": 2,
+            "subject": "Чертёж направлен Медведеву 26.11.2024",
+            "sent_date": "2024-11-26T00:00:00",
+            "recieve_date": null,
+            "is_agreed": false
+        }
+    }
+]

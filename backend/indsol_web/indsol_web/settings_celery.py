@@ -55,12 +55,12 @@ def parser_adjust_task(self):
     adjustes.password=pre_production.DATABASES['default']['PASSWORD']
     adjustes.host=pre_production.DATABASES['default']['HOST']
     # Настройка файлов
-    # Файл выгрузки
+    # Путь выгрузки
     adjustes.export_path = '/app/media/parse_data/'
-    adjustes.export_file= 'adjust.json'
-    # Файл фикстуры
+    # Путь фикстуры
     adjustes.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'
-    adjustes.import_file='adjust.json'
+    # Файлы
+    adjustes.files = ['st_adjust.json', 'export_adjust.json']
 
     adjustes.save()
     adjustes.update_db()

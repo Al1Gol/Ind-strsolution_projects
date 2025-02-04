@@ -123,7 +123,7 @@ class GetProjectsView(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
         file_objs = request.data["data"]
-        bd = json.loads(file_objs[0])["BD"]
+        bd = json.loads(file_objs)["BD"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)
@@ -144,8 +144,8 @@ class GetProjectsView(APIView):
 class GetAdjustView(APIView):
     def post(self, request):
         file_objs = request.data["data"]
-        print(json.loads(file_objs[0])["BD"])
-        bd = json.loads(file_objs[0])["BD"]
+        print(json.loads(file_objs)["BD"])
+        bd = json.loads(file_objs)["BD"]
         path = f'{settings.MEDIA_ROOT}/parse_data'
         if not os.path.exists(path):
             os.makedirs(path)

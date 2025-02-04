@@ -1,0 +1,210 @@
+[
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Предварительное проектирование КО",
+            "start_date": "2024-11-26T00:00:00",
+            "deadline": "2024-11-26T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Согласование чертежей с заказчиком",
+            "start_date": "2024-11-26T00:00:00",
+            "deadline": "2024-11-28T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Выдача чертежей в производство КО",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-12-02T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Предварительное проектирование АСУТП",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-11-28T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Согласование АСУТП с заказчиком",
+            "start_date": "2024-11-28T00:00:00",
+            "deadline": "2024-12-02T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Сборка системы управления",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Резка+гибка",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-04T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Токарные работы",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-04T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Сварочные работы",
+            "start_date": "2024-12-09T00:00:00",
+            "deadline": "2024-12-11T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Подготовка заявки в снабжение КО",
+            "start_date": "2024-12-03T00:00:00",
+            "deadline": "2024-11-25T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Подготовка заявки в снабжение АСУТП",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-09T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Прогпаммирование IT",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Сборочные работы",
+            "start_date": "2024-12-04T00:00:00",
+            "deadline": "2024-12-03T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Покраска",
+            "start_date": "2024-12-11T00:00:00",
+            "deadline": "2024-12-12T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "Закупка",
+            "start_date": "2024-12-02T00:00:00",
+            "deadline": "2024-11-26T00:00:00",
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    },
+    {
+        "model": "projectsapp.projects",
+        "fields": {
+            "contract_id": 2,
+            "name": "3D печать¶",
+            "start_date": null,
+            "deadline": null,
+            "is_completed": false,
+            "actual_date": null,
+            "responsible": "",
+            "responsible_rp": ""
+        }
+    }
+]
