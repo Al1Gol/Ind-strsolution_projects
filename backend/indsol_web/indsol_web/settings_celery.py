@@ -40,8 +40,7 @@ def parser_projects_task(self):
     projects.import_path=f'{settings.BASE_DIR}/projectsapp/fixtures/'
     projects.import_file='projects.json'
 
-    projects.save()
-    projects.update_db()
+    projects.load()
 
 @app.task(bind=True, ignore_result=True)
 def parser_adjust_task(self):
@@ -62,8 +61,7 @@ def parser_adjust_task(self):
     # Файлы
     adjustes.files = ['st_adjust.json', 'export_adjust.json']
 
-    adjustes.save()
-    adjustes.update_db()
+    adjustes.load()
 
 
 @app.task(bind=True, ignore_result=True)
