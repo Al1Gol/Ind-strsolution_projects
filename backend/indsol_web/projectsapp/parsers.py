@@ -21,7 +21,7 @@ class LoadProjects():
         self.host = None
 
     def get_dict(self, id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp):
-        dict_test = {
+        return {
             "model": "projectsapp.projects",
             #"pk": id,
             "fields": {
@@ -35,7 +35,6 @@ class LoadProjects():
                 "responsible_rp": resp_rp
                 }
         }
-        return dict_test
 
     #
     def load(self):
@@ -103,7 +102,7 @@ class LoadAdjustes():
         self.host = None
 
     def get_dict(self, id, contract, subject, sent_date, recieve_date, is_agreed):
-        dict_test = {
+        return {
             "model": "projectsapp.adjust",
             #"pk": id,
             "fields": {
@@ -114,7 +113,6 @@ class LoadAdjustes():
                 "is_agreed": is_agreed
                 }
         }
-        return dict_test
 
     #
     def load(self):
@@ -166,19 +164,19 @@ class LoadAdjustes():
 
 
 if __name__ == "__main__":
-    projects =  LoadProjects()
+    #projects =  LoadProjects()
     # Настройки БД
-    projects.dbname='indsol_test'
-    projects.user='postgres'
-    projects.password='123'
-    projects.host='localhost'
+    #projects.dbname='indsol_test'
+    #projects.user='postgres'
+    #projects.password='123'
+    #projects.host='localhost'
     # Настройка файлов
     # Файл выгрузки
-    projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
-    projects.export_path = './backend/media/parse_data/'
-    projects.files = ['st_projects.json', 'export_projects.json']
+    #projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
+    #projects.export_path = './backend/media/parse_data/'
+    #projects.files = ['st_projects.json', 'export_projects.json']
 
-    projects.load()
+    #projects.load()
 
 
     adjustes =  LoadAdjustes()
