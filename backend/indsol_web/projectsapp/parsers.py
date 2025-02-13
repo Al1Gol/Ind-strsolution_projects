@@ -69,13 +69,13 @@ class LoadProjects():
                         cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
                         id = cursor.fetchone()[0]
                         fixture.append(self.get_dict(id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp))
-            self.save(fixture, export_file)
+            self.save_file(fixture, export_file)
             self.update_db(export_file)
 
-    def save(self, fixture, file):
+    def save_file(self, fixture, file):
         # Сохранение фикстуры
         print(f'{self.import_path}{file}')
-        with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
+        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):
@@ -153,7 +153,7 @@ class LoadAdjustes():
     def save(self, fixture, file):
         # Сохранение фикстуры
         print(f'{self.import_path}{file}')
-        with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
+        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):

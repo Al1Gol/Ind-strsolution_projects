@@ -24,7 +24,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: indsol_web.settings.pre_production
     volumes:
-      - /home/indsol/Ind-strsolution_projects/backend/indsol_web/projectsapp/fixtures:/app/backend/indsol_web/projectsapp/fixtures
+      - /home/indsol/Ind-strsolution_projects/backend/indsol_web/projectsapp/fixtures:/app/backend/projectsapp/fixtures
       - /home/indsol/app_data/data/media:/app/media
       - /home/indsol/app_data/logs/:/app/logs
     privileged: true
@@ -70,6 +70,7 @@ services:
     command: celery -A indsol_web worker -l info
     restart: always
     volumes:
+      - /home/indsol/Ind-strsolution_projects/backend/indsol_web/projectsapp/fixtures:/app/backend/projectsapp/fixtures
       - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/
     environment:
@@ -85,6 +86,7 @@ services:
     command: celery -A indsol_web beat -l info
     restart: always
     volumes:
+      - /home/indsol/Ind-strsolution_projects/backend/indsol_web/projectsapp/fixtures:/app/backend/projectsapp/fixtures
       - /home/indsol/app_data/data/media:/app/media
       - ./project/:/usr/src/app/
     environment:

@@ -126,3 +126,4 @@ yarn-error.log*
 *.json
 backend/indsol_web/projectsapp/fixtures/
 fixtures/
+*.swp
