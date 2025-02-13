@@ -74,6 +74,7 @@ class LoadProjects():
 
     def save(self, fixture, file):
         # Сохранение фикстуры
+        print(f'{self.import_path}{file}')
         with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
@@ -151,6 +152,7 @@ class LoadAdjustes():
     
     def save(self, fixture, file):
         # Сохранение фикстуры
+        print(f'{self.import_path}{file}')
         with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
@@ -164,19 +166,19 @@ class LoadAdjustes():
 
 
 if __name__ == "__main__":
-    #projects =  LoadProjects()
+    projects =  LoadProjects()
     # Настройки БД
-    #projects.dbname='indsol_test'
-    #projects.user='postgres'
-    #projects.password='123'
-    #projects.host='localhost'
+    projects.dbname='indsol_test'
+    projects.user='postgres'
+    projects.password='123'
+    projects.host='localhost'
     # Настройка файлов
     # Файл выгрузки
-    #projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
-    #projects.export_path = './backend/media/parse_data/'
-    #projects.files = ['st_projects.json', 'export_projects.json']
+    projects.import_path='./backend/indsol_web/projectsapp/fixtures/'
+    projects.export_path = './backend/media/parse_data/'
+    projects.files = ['st_projects.json', 'export_projects.json']
 
-    #projects.load()
+    projects.load()
 
 
     adjustes =  LoadAdjustes()
@@ -192,8 +194,6 @@ if __name__ == "__main__":
     adjustes.import_path='./backend/indsol_web/projectsapp/fixtures/'
     # Список файлов
     adjustes.files = ['st_adjust.json', 'export_adjust.json']
-
-    adjustes.import_path='./backend/indsol_web/projectsapp/fixtures/'
 
     adjustes.load()
 
