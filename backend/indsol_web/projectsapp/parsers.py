@@ -71,14 +71,14 @@ class LoadProjects():
                         id = cursor.fetchone()[0]
                         fixture.append(self.get_dict(id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp))
             if len(fixture) != 0:
-                self.save_file(fixture)
+                self.save_file(fixture, file)
                 self.update_db(export_file)
             else:
                 print("Отсутствуют договоры для добавления")
 
-    def save_file(self, fixture, file):
+    def save_file(self, fixture, import_file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
+        with open(f'{self.import_path}{import_file}', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):
@@ -148,14 +148,14 @@ class LoadAdjustes():
                         id = cursor.fetchone()[0]
                         fixture.append(self.get_dict(id, contract, subject, sent_date, recieve_date, is_agreed))
             if len(fixture) != 0:
-                self.save_file(fixture)
+                self.save_file(fixture, file)
                 self.update_db(export_file)
             else:
                 print("Отсутствуют согласования для добавления")
     
-    def save_file(self, fixture, file):
+    def save_file(self, fixture, import_file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
+        with open(f'{self.import_path}{import_file}', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):
