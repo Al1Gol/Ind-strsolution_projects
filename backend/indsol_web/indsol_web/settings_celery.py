@@ -83,7 +83,7 @@ def add_project_task(self, contract):
     project.load()
 
 @app.task(bind=True, ignore_result=True)
-def parser_adjust_task(self, contract):
+def add_adjust_task(self, contract):
     adjust =  LoadAdjust()
     adjust.add_contract = contract
     #Базовая директория

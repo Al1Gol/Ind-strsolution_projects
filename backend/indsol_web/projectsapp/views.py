@@ -13,6 +13,7 @@ from projectsapp.serializers import (
 from authapp.models import Users
 from projectsapp.models import Projects, Contracts, Adjust, Documents
 from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
+from indsol_web.settings_celery import add_project_task, add_adjust_task
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.http import HttpResponse
@@ -38,6 +39,20 @@ class ContractsViewSet(
             return Contracts.objects.all()
        else:
           raise ValidationError(detail='Invalid Params')
+       
+    def perform_create(self, serializer):
+        serializer.save()
+        add_project_task.delay(serializer.data["contract_number"])
+        add_adjust_task.delay(serializer.data["contract_number"])
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        print(instance)
+        print("contract_number")
+        add_project_task.delay(self.request.data["contract_number"])
+        add_adjust_task.delay(self.request.data["contract_number"])
+
+
 # Список проектов
 class ProjectsViewSet(
     GenericViewSet,
