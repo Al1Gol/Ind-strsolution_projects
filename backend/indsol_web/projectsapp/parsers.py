@@ -153,7 +153,7 @@ class LoadAdjustes():
             else:
                 print("Отсутствуют согласования для добавления")
     
-    def save(self, fixture, file):
+    def save_file(self, fixture, file):
         # Сохранение фикстуры
         with open(f'{self.import_path}add_project.json', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
