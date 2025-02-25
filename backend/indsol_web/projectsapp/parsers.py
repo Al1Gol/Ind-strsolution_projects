@@ -155,15 +155,15 @@ class LoadAdjustes():
     
     def save_file(self, fixture, file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}add_project.json', mode='w', encoding='utf-8') as file:
+        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):
 	# Загрузка полученной фикстуры в приложение
         if os.name == 'nt':
-            os.system(f'python -Xutf8 ./backend/indsol_web/manage.py loaddata add_project.json --settings=indsol_web.settings.debug')
+            os.system(f'python -Xutf8 ./backend/indsol_web/manage.py loaddata {file} --settings=indsol_web.settings.debug')
         else:
-            os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata add_project.json --settings=indsol_web.settings.pre_production')
+            os.system(f'python -Xutf8 {self.worker_dir}/manage.py loaddata {file} --settings=indsol_web.settings.pre_production')
 
 
 #from celery import shared_task
