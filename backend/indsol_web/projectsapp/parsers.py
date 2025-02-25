@@ -57,28 +57,29 @@ class LoadProjects():
 
                 # Проходим по списку договоров
                 for project in projects_dict:
-                    print(project)
                     contract = project['Номер']
                     name = project['Наименование'] if project['Наименование'] else None
                     start_date = project['ДатаНачала'] if project['ДатаНачала'] else None
                     deadline = project['СрокВыполнения'] if project['СрокВыполнения'] else None
                     is_completed = project['Выполнено']
                     actual_date = project['ДатаФактическогоВыполнения'] if project['ДатаФактическогоВыполнения'] else None
-                    resp = project['Ответственный'] if project['Ответственный'] else None
-                    resp_rp = project['ОтветственныйРП'] if project['ОтветственныйРП'] else None
+                    resp = ''#project['Ответственный']
+                    resp_rp = ''#project['ОтветственныйРП']
                     if contract in records:
                         cursor.execute('SELECT id FROM projectsapp_contracts where contract_number=%s', (contract, ))
                         id = cursor.fetchone()[0]
                         fixture.append(self.get_dict(id, contract, name, start_date, deadline, is_completed, actual_date, resp, resp_rp))
             if len(fixture) != 0:
-                self.save_file(fixture, file)
+                self.save(fixture, export_file)
                 self.update_db(export_file)
             else:
                 print("Отсутствуют договоры для добавления")
 
-    def save_file(self, fixture, file):
+
+    def save(self, fixture, file):
         # Сохранение фикстуры
-        with open(f'{self.import_path}{file}', mode='w', encoding='utf-8') as file:
+
+        with open(f'{self.import_path}{file}', mode='w+', encoding='utf-8') as file:
             json.dump(fixture, file, ensure_ascii=False, indent=4)
 
     def update_db(self, file):
