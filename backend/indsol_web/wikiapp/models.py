@@ -18,6 +18,15 @@ class Wiki(models.Model):
         blank=True,
         null=True,
     )
+    logo_admin = models.FileField(
+        verbose_name="иконка в админке",
+        validators=[validate_svg_extension],
+        upload_to="wiki/icons/admin_logo/",
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    
 
     def __str__(self):
         return f"{self.id} - {self.name}"
