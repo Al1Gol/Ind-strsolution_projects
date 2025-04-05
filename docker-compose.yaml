@@ -9,6 +9,7 @@ services:
     ports:
       - '5432:5432'
 
+
     environment:
       POSGRES_DB: 'indsol'
       POSTGRES_USER: 'postgres'
