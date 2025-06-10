@@ -9,3 +9,10 @@ def validate_media_extension(value):
     valid_extensions = [".jpg", ".jpeg", ".mp4", ".png", ".svg", ".tiff", ".bmp", ".webp", ".heif", ".avif"]
     if not ext.lower() in valid_extensions:
         raise ValidationError("Поддеживается загрузка только jpg, jpeg и mp4 файлов")
+
+# Валидатор для загрузки медиа файлов для новостей. Проверяет только расширение файла
+def validate_cover_extension(value):
+    ext = os.path.splitext(value.name)[1]  # возвращает путь+имя файла
+    valid_extensions = [".jpg", ".jpeg", ".mp4", ".png", ".svg", ".tiff", ".bmp", ".webp", ".heif", ".avif"]
+    if not ext.lower() in valid_extensions:
+        raise ValidationError("Поддеживается загрузка только jpg, jpeg и mp4 файлов")
