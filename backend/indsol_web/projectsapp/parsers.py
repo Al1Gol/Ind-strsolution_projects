@@ -74,6 +74,7 @@ class LoadProjects():
                 self.update_db(export_file)
             else:
                 print("Отсутствуют договоры для добавления")
+        conn.close()
 
 
     def save(self, fixture, file):
@@ -128,10 +129,6 @@ class LoadAdjustes():
         conn.commit()
         cursor.execute('SELECT contract_number FROM projectsapp_contracts')
         records = [el[0] for el in cursor.fetchall()]
-
-
-
-
         for export_file in self.files:
             # Исходный файл состоит из списка словарей
             # Переменная для записи в фикстуру
@@ -156,6 +153,7 @@ class LoadAdjustes():
                 self.update_db(export_file)
             else:
                 print("Отсутствуют договоры для добавления")
+        conn.close()
 
     def save(self, fixture, file):
         # Сохранение фикстуры
@@ -239,6 +237,7 @@ class LoadProject():
                 self.update_db(export_file)
             else:
                 print("Отсутствуют договоры для добавления")
+        conn.close()
 
     def save_file(self, fixture):
         # Сохранение фикстуры
@@ -316,7 +315,8 @@ class LoadAdjust():
                 self.update_db(export_file)
             else:
                 print("Отсутствуют согласования для добавления")
-    
+        conn.close()
+        
     def save_file(self, fixture):
         # Сохранение фикстуры
         with open(f'{self.import_path}add_adjust.json', mode='w', encoding='utf-8') as file:
