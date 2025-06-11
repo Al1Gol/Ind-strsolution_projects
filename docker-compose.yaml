@@ -43,7 +43,7 @@ services:
     volumes:
         - /home/indsol/app_data/logs/nginx:/var/log/nginx
         - /home/indsol/Ind-strsolution_projects/frontend/build/static:/var/www/static
-        - /home/indsol/Ind-strsolution_projects/backend/indsol_web/static:/var/www/static
+        #- /home/indsol/Ind-strsolution_projects/backend/indsol_web/static:/var/www/static
         - /home/indsol/app_data/data/media:/var/www/media
         - /etc/ssl/certs/ipm-portal/:/var/certs/
     ports:
