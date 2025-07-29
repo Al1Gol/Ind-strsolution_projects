@@ -2,6 +2,7 @@ from django.db import models
 from authapp.models import Clients
 from .validators import validate_docs_extension
 
+
 # Договоры
 class Contracts(models.Model):
     client_id = models.ForeignKey(

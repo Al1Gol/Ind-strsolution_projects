@@ -33,3 +33,23 @@ class AdminUserOrAuthReadOnly(permissions.BasePermission):
         return bool(
             request.user.is_authenticated and request.method in permissions.SAFE_METHODS
         )
+
+class PublicReadAndOnlyOwnerOrAdminUpdate(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # Если запись публична - чтение доступно всем авторизованным пользователям
+        if (
+            request.user.is_authenticated
+            and obj.public
+            and request.method in ["GET"]
+        ):
+            return True
+        # CREATE, UPDATE, DELETE доступны только владельцу, либо админу. А так же чтение, не зависимо от доступности записи.
+        elif (
+            request.user.is_authenticated
+            and (request.user == obj.owner or request.user.is_staff)
+            and request.method in ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        ):
+            return True
+        # Иначе запрет доступа
+        else:
+            return False

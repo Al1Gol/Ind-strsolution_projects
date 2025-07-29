@@ -18,7 +18,7 @@ from rest_framework import mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
 from django.shortcuts import get_object_or_404
-from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
+from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly, PublicReadAndOnlyOwnerOrAdminUpdate
 
 # LOG = logging.getLogger('django.request')
 
@@ -33,11 +33,16 @@ class WikiViewSet(
 ):
     serializer_class = WikiSerializer
     queryset = Wiki.objects.all().order_by("created_at")
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [PublicReadAndOnlyOwnerOrAdminUpdate]
 
     def list(self, request, *args, **kwargs):
-        queryset = Wiki.objects.all().order_by("created_at")
-
+        if request.user.is_client:
+            queryset = Wiki.objects.all().order_by("created_at").filter(public=True)
+        elif request.user.is_manager:
+            queryset = Wiki.objects.all().order_by("created_at").filter(owner=request.user)
+        elif request.user.is_staff:
+            queryset = Wiki.objects.all().order_by("created_at")
+            
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
