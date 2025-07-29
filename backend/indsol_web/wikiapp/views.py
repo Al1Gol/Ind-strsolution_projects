@@ -42,7 +42,7 @@ class WikiViewSet(
             queryset = Wiki.objects.all().order_by("created_at").filter(owner=request.user)
         elif request.user.is_staff:
             queryset = Wiki.objects.all().order_by("created_at")
-            
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -52,7 +52,10 @@ class WikiViewSet(
         return Response(serializer.data)
 
     def perform_create(self, serializer):
-        serializer.save()
+        if self.request.data["owner"]:
+            serializer.save()
+        else:
+            serializer.save(owner=self.request.user)
 
 
 class MenuViewSet(
