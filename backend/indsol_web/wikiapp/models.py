@@ -26,14 +26,6 @@ class Wiki(models.Model):
         blank=True,
         null=True,
     )
-    owner = models.ForeignKey(
-        "authapp.Users",
-        verbose_name="owner",
-        related_name="owner",
-        on_delete=models.PROTECT,
-        blank=True,
-        null=True,
-    )
     public = models.BooleanField(verbose_name="публичный", default=False)
     
 

@@ -38,8 +38,6 @@ class WikiViewSet(
     def list(self, request, *args, **kwargs):
         if request.user.is_client:
             queryset = Wiki.objects.all().order_by("created_at").filter(public=True)
-        elif request.user.is_manager:
-            queryset = Wiki.objects.all().order_by("created_at").filter(owner=request.user)
         elif request.user.is_staff:
             queryset = Wiki.objects.all().order_by("created_at")
 
@@ -50,12 +48,6 @@ class WikiViewSet(
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-    def perform_create(self, serializer):
-        if self.request.data["owner"]:
-            serializer.save()
-        else:
-            serializer.save(owner=self.request.user)
 
 
 class MenuViewSet(
