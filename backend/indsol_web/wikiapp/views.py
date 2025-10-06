@@ -59,7 +59,7 @@ class MenuViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = MenuSerializer
-    queryset = Menu.objects.all().order_by("created_at")
+    queryset = Menu.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     filterset_class = MenuFilter
     """
@@ -85,7 +85,7 @@ class SectionsViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = SectionsSerializer
-    queryset = Sections.objects.all().order_by("created_at")
+    queryset = Sections.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     filterset_class = SectionsFilter
 
@@ -120,7 +120,7 @@ class ArticleViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = ArticlesSerializer
-    queryset = Articles.objects.all().order_by("created_at")
+    queryset = Articles.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
     filterset_class = ArticlesFilter
 

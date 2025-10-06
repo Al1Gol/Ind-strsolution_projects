@@ -65,6 +65,7 @@ class UsersViewSet(
         else:
             serializer.save()
 
+
     def perform_update(self, serializer):
         # Устанавливаем хэширование пароля
         if "password" in self.request.data:
@@ -234,7 +235,6 @@ def AuthMailView(request):
                 "info@ipm-portal.ru", # Почта отправителя
                 emails, # Почта получателей
             )
-            print(managers)
             return Response({'send': True, 'managers':emails})
         else:                                                         
             return Response({'send': False, 'error': 'Incorrect form'})  # Некорретные данные запроса

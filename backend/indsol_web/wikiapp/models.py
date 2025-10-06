@@ -27,6 +27,7 @@ class Wiki(models.Model):
         null=True,
     )
     public = models.BooleanField(verbose_name="публичный", default=False)
+
     
 
     def __str__(self):
@@ -57,6 +58,7 @@ class Menu(models.Model):
     is_article = models.BooleanField(verbose_name="видимость", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    order = models.PositiveIntegerField(verbose_name="Порядковый номер", default=0)
 
     def __str__(self):
         return f"{self.id} - {self.name}"
@@ -65,6 +67,11 @@ class Menu(models.Model):
         verbose_name = "Меню"
         verbose_name_plural = "Меню"
         ordering = ["created_at"]
+
+ # Список разделов меню
+class Menu_Archive(models.Model):
+    name = models.CharField(verbose_name="наименование", max_length=100)
+
 
  # Список подразделов меню
 class Sections(models.Model):
@@ -83,6 +90,7 @@ class Sections(models.Model):
     is_article = models.BooleanField(verbose_name="видимость", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    order = models.PositiveIntegerField(verbose_name="Порядковый номер", default=0)
 
     def __str__(self):
         return f"{self.id} - {self.name}"
@@ -113,6 +121,7 @@ class Articles(models.Model):
     is_article = models.BooleanField(verbose_name="видимость", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    order = models.PositiveIntegerField(verbose_name="Порядковый номер", default=0)
 
     def __str__(self):
         return f"{self.id} - {self.name}"
