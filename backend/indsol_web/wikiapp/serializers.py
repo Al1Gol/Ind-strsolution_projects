@@ -49,6 +49,7 @@ class ArticlesSerializer(ModelSerializer):
             "section_id",
             "text",
             "files",
+            "order",
             "created_at",
             "updated_at",
         ]
