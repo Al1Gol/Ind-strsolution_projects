@@ -244,13 +244,19 @@ def AuthMailView(request):
 @api_view(["POST"])
 def ReportMailView(request):
     if request.user.is_authenticated:
-            user = Users.objects.get(id=request.user.id) # Текущий пользователь
-            client = Clients.objects.get(user_id=user.id) # Текущая организация
-            send_mail(
-                f"Пользовательское обращение. {client.organization} ИНН {client.inn}", # Тема
-                request.data["text"], # Тело запроса
+        user = Users.objects.get(id=request.user.id) # Текущий пользователь
+        #client = Clients.objects.get(user_id=user.id) # Текущая организация
+        send_body = f'Данные пользователя: \n\n\
+                 Тип учетной записи: Менеджер, \n\
+                 Логин: {user.username}, \n\
+                 Почта: {user.email}, \n\n\
+                 Сообщение: \n\
+                 {request.data["text"]}'
+        send_mail(
+                f"Обращение. {user.username} email {user.email}", # Тема
+                send_body, # Тело запроса
                 "info@ipm-portal.ru", # Почта отправителя  
                 ["al1working@mail.ru"], # Почта получателей
             ) # Отправка mail
-            return Response({'send': True})
+        return Response({'send': True})
     return Response({'send': False})
