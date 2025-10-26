@@ -94,7 +94,7 @@ class GenerateNewPasswordViewSet(
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
 
     def retrieve(self, request, pk=None):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and (request.user.is_manager or request.user.is_admin):
             user = self.get_object()
             if (user.is_client):
                 password = BaseUserManager().make_random_password()
