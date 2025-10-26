@@ -31,7 +31,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, mixins, ViewSet
 from rest_framework.permissions import AllowAny
-from indsol_web.permissions import AdminUserOrAuthReadOnly, ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
+from indsol_web.permissions import *
 
 
 
@@ -91,7 +91,7 @@ class GenerateNewPasswordViewSet(
 ):
     queryset = Users.objects.all()
     serializer_class = GenerateNewPasswordSerializer
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [ModerateAndAdminUpdate]
 
     def retrieve(self, request, pk=None):
         if request.user.is_authenticated and (request.user.is_manager or request.user.is_admin):
@@ -117,7 +117,7 @@ class GenerateNewPasswordViewSet(
             else:
                 return Response({"error": 'Указанный пользователь не является клиентом.'},
                                 status=status.HTTP_403_FORBIDDEN)
-        return Response({"error": 'Пользователь не авторизован'},
+        return Response({"error": 'Пользователь не авторизован, либо не хватет прав доступа'},
                                 status=status.HTTP_401_UNAUTHORIZED)
 
 # Профиль текущего пользователя

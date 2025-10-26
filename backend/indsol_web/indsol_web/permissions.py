@@ -20,6 +20,18 @@ class ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly(permissions.BasePermissio
         return bool(
             request.user.is_authenticated and request.method in permissions.SAFE_METHODS
         )
+    
+class ModerateAndAdminUpdate(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if (
+            request.user.is_authenticated
+            and request.user
+            and (request.user.is_admin or request.user.is_manager)
+        ):
+            return True
+        else:
+            return False
+    
 
 
 class AdminUserOrAuthReadOnly(permissions.BasePermission):
