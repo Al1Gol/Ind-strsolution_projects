@@ -94,28 +94,31 @@ class GenerateNewPasswordViewSet(
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
 
     def retrieve(self, request, pk=None):
-        user = self.get_object()
-        if (user.is_client):
-            password = BaseUserManager().make_random_password()
-            user_obj = Users.objects.get(id=user.id)
-            db_password = make_password(password) 
-            user_obj.password = db_password
-            user_obj.save()
-            print(db_password)
-            print(password)
-            send_body = f'Данные для авторизации: \n\n\
-                 Логин: {user.username}, \n\
-                 Пароль: {password}'
-            send_mail(
-                    f"Восстановление доступа - ipm-portal.ru", # Тема
-                    send_body, # Тело запроса
-                    "info@ipm-portal.ru", # Почта отправителя  
-                    ["al1working@mail.ru"], # Почта получателей
-                ) # Отправка mail
-            return Response({'status': 'password set'})
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_403_FORBIDDEN)
+        if request.user.is_authenticated:
+            user = self.get_object()
+            if (user.is_client):
+                password = BaseUserManager().make_random_password()
+                user_obj = Users.objects.get(id=user.id)
+                db_password = make_password(password) 
+                user_obj.password = db_password
+                user_obj.save()
+                print(db_password)
+                print(password)
+                send_body = f'Данные для авторизации: \n\n\
+                    Логин: {user.username}, \n\
+                    Пароль: {password}'
+                send_mail(
+                        f"Восстановление доступа - ipm-portal.ru", # Тема
+                        send_body, # Тело запроса
+                        "info@ipm-portal.ru", # Почта отправителя  
+                        [user_obj.email], # Почта получателей
+                    ) # Отправка mail
+                return Response({'status': 'Пароль изменен. Сведения об авторизации направлены на почту.'})
+            else:
+                return Response({"error": 'Указанный пользователь не является клиентом.'},
+                                status=status.HTTP_403_FORBIDDEN)
+        return Response({"error": 'Пользователь не авторизован'},
+                                status=status.HTTP_401_UNAUTHORIZED)
 
 # Профиль текущего пользователя
 class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
@@ -274,7 +277,7 @@ def AuthMailView(request):
             )
             return Response({'send': True, 'managers':emails})
         else:                                                         
-            return Response({'send': False, 'error': 'Incorrect form'})  # Некорретные данные запроса
+            return Response({'send': False, 'error': 'Некорректно заполнены сведения'})  # Некорретные данные запроса
     return Response({'send': False, 'error': 'unknown'})
 
 # Отправка пользовательского обращения
