@@ -105,6 +105,7 @@ class GenerateNewPasswordViewSet(
                 print(db_password)
                 print(password)
                 send_body = f'Данные для авторизации: \n\n\
+                    Портал: ipm-portal.ru  \n\
                     Логин: {user.username}, \n\
                     Пароль: {password}'
                 send_mail(
