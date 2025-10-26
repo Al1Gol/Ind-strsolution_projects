@@ -24,6 +24,17 @@ class UsersSerializer(ModelSerializer):
             "password": {"write_only": True}
         }
 
+# Список пользователей
+class GenerateNewPasswordSerializer(ModelSerializer):
+    class Meta:
+        model = Users
+        fields = [
+            "password",
+        ]
+        extra_kwargs = {
+            "password": {"write_only": True}
+        }
+
 # Список регионов
 class DistrictsSerializers(ModelSerializer):
     class Meta:

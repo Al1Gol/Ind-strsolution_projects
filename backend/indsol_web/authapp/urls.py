@@ -10,7 +10,8 @@ from authapp.views import (
     ManagersViewSet,
     PingView,
     AuthMailView,
-    ReportMailView
+    ReportMailView,
+    GenerateNewPasswordViewSet,
 )
 from django.urls import include, path, re_path
 from rest_framework import routers
@@ -27,6 +28,7 @@ auth.register(
 )  # Список производственных отралсей
 auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
 auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
+auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
 
 urlpatterns = [
     path("", include(auth.urls)),

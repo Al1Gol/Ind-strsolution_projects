@@ -3,9 +3,12 @@ from django.core.mail import EmailMessage, get_connection
 from django.conf import settings
 from django.core.mail import send_mail
 from django_filters import rest_framework as filters
+from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.views import APIView
+from django.contrib.auth.base_user import BaseUserManager
+
 from authapp.models import Users, Districts, Branches, Clients, Managers
 from projectsapp.models import Contracts
 from authapp.serializers import (
@@ -18,7 +21,8 @@ from authapp.serializers import (
     ClientProfileSerializer,
     ManagerProfileSerializer,
     AdminProfileSerializer,
-    ReportMailSserializers
+    ReportMailSserializers,
+    GenerateNewPasswordSerializer
 )
 from authapp.filters import ClientFilter, ManagerFilter
 
@@ -27,15 +31,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, mixins, ViewSet
 from rest_framework.permissions import AllowAny
-from indsol_web.permissions import AdminUserOrAuthReadOnly
+from indsol_web.permissions import AdminUserOrAuthReadOnly, ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
 
 
 
 def reg_mail_body(request):
      branch = Branches.objects.get(id=request.data["branch"])
      district = Districts.objects.get(id=request.data["district"])
-     return   f'Заявка на регистрацию на портале ipm-portal:\n \
-                {request.data["organization"]} ИНН  {request.data["inn"]}".\n \
+     return   f'Заявка на регистрацию на портале ipm-portal.\n\n \
                 Наименование организации: {request.data["organization"]};\n \
                 ИНН: {request.data["inn"]};\n \
                 Регион: {district.name};\n \
@@ -81,6 +84,38 @@ class UsersViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Users.objects.all()
 
+# Список пользователей
+class GenerateNewPasswordViewSet(
+    GenericViewSet,
+    mixins.RetrieveModelMixin,
+):
+    queryset = Users.objects.all()
+    serializer_class = GenerateNewPasswordSerializer
+    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+
+    def retrieve(self, request, pk=None):
+        user = self.get_object()
+        if (user.is_client):
+            password = BaseUserManager().make_random_password()
+            user_obj = Users.objects.get(id=user.id)
+            db_password = make_password(password) 
+            user_obj.password = db_password
+            user_obj.save()
+            print(db_password)
+            print(password)
+            send_body = f'Данные для авторизации: \n\n\
+                 Логин: {user.username}, \n\
+                 Пароль: {password}'
+            send_mail(
+                    f"Восстановление доступа - ipm-portal.ru", # Тема
+                    send_body, # Тело запроса
+                    "info@ipm-portal.ru", # Почта отправителя  
+                    ["al1working@mail.ru"], # Почта получателей
+                ) # Отправка mail
+            return Response({'status': 'password set'})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_403_FORBIDDEN)
 
 # Профиль текущего пользователя
 class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
@@ -229,11 +264,13 @@ def AuthMailView(request):
         if auth_mail_serializer.is_valid():
             managers = Managers.objects.filter(branch_id__id=request.data["branch"]) # Список менеджеров по выбранной отрасли
             emails = [Users.objects.get(id=manager.user_id_id).email for manager in managers] # Список email менеджеров по выбранной отрасли
+            emails.append("ruktp@promreshenie.ru")
             send_mail(
                 f"Заявка на регистрацию {request.data['organization']} ИНН {request.data['inn']}", # Тема
                 reg_mail_body(request), # Тело запроса
                 "info@ipm-portal.ru", # Почта отправителя
                 emails, # Почта получателей
+
             )
             return Response({'send': True, 'managers':emails})
         else:                                                         
@@ -256,7 +293,7 @@ def ReportMailView(request):
                 f"Обращение. {user.username} email {user.email}", # Тема
                 send_body, # Тело запроса
                 "info@ipm-portal.ru", # Почта отправителя  
-                ["al1working@mail.ru"], # Почта получателей
+                ["ruktp@promreshenie.ru", "ipm-support@promreshenie.ru"], # Почта получателей
             ) # Отправка mail
         return Response({'send': True})
     return Response({'send': False})
