@@ -26,7 +26,7 @@ class ModerateAndAdminUpdate(permissions.BasePermission):
         if (
             request.user.is_authenticated
             and request.user
-            and (request.user.is_admin or request.user.is_manager)
+            and (request.user.is_superuser or request.user.is_manager)
         ):
             return True
         else:
