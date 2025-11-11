@@ -10,7 +10,6 @@ class UsersSerializer(ModelSerializer):
         fields = [
             "id",
             "username",
-            "password",
             "email",
             "is_staff",
             "is_client",

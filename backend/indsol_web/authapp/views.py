@@ -61,14 +61,23 @@ class UsersViewSet(
     permission_classes = [AdminUserOrAuthReadOnly]
 
     def perform_create(self, serializer):
-        # Устанавливаем хэширование пароля
-        if "password" in self.request.data:
-            password = make_password(self.request.data["password"])
-            serializer.save(password=password)
-        else:
-            serializer.save()
+        password = BaseUserManager().make_random_password()
+        print(password)
+        password_db = make_password(password)
+        serializer.save(password=password_db)
 
+        send_body = f'Данные для авторизации: \n\n\
+                    Портал: ipm-portal.ru  \n\
+                    Логин: {serializer.data["username"]}, \n\
+                    Пароль: {password}'
+        send_mail(
+                f"Предоставление доступа - ipm-portal.ru", # Тема
+                send_body, # Тело запроса
+                "info@ipm-portal.ru", # Почта отправителя  
+                [serializer.data["email"]], # Почта получателей
+            ) # Отправка mail
 
+    '''
     def perform_update(self, serializer):
         # Устанавливаем хэширование пароля
         if "password" in self.request.data:
@@ -76,7 +85,7 @@ class UsersViewSet(
             serializer.save(password=password)
         else:
             serializer.save()
-
+    '''
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
@@ -84,7 +93,7 @@ class UsersViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Users.objects.all()
 
-# Список пользователей
+# Обновление пароля
 class GenerateNewPasswordViewSet(
     GenericViewSet,
     mixins.RetrieveModelMixin,
@@ -102,8 +111,6 @@ class GenerateNewPasswordViewSet(
                 db_password = make_password(password) 
                 user_obj.password = db_password
                 user_obj.save()
-                print(db_password)
-                print(password)
                 send_body = f'Данные для авторизации: \n\n\
                     Портал: ipm-portal.ru  \n\
                     Логин: {user.username}, \n\
