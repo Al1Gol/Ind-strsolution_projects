@@ -62,12 +62,11 @@ class UsersViewSet(
 
     def perform_create(self, serializer):
         password = BaseUserManager().make_random_password()
-        print(password)
         password_db = make_password(password)
         serializer.save(password=password_db)
 
         send_body = f'Данные для авторизации: \n\n\
-                    Портал: ipm-portal.ru  \n\
+                    Портал: https://www.ipm-portal.ru  \n\
                     Логин: {serializer.data["username"]}, \n\
                     Пароль: {password}'
         send_mail(
@@ -77,15 +76,26 @@ class UsersViewSet(
                 [serializer.data["email"]], # Почта получателей
             ) # Отправка mail
 
-    '''
+
     def perform_update(self, serializer):
         # Устанавливаем хэширование пароля
-        if "password" in self.request.data:
-            password = make_password(self.request.data["password"])
-            serializer.save(password=password)
-        else:
-            serializer.save()
-    '''
+        user = Users.objects.get(id=self.kwargs["pk"])
+        serializer.is_valid()
+        username = serializer.validated_data.get("username")
+        email = serializer.validated_data.get("email")
+        if user.username != username or user.email != email:
+            send_body = f'Данные для авторизации: \n\n\
+            Портал: https://www.ipm-portal.ru  \n\
+            Логин: {serializer.data["username"]}, \n\
+            Пароль: {serializer.data["password"]}'
+        send_mail(
+                f"Предоставление доступа - ipm-portal.ru", # Тема
+                send_body, # Тело запроса
+                "info@ipm-portal.ru", # Почта отправителя  
+                ['al1working@mail.ru'], # Почта получателей
+            ) # Отправка mail
+        serializer.save()
+
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
        if user[0].is_client:
@@ -103,7 +113,7 @@ class GenerateNewPasswordViewSet(
     permission_classes = [ModerateAndAdminUpdate]
 
     def retrieve(self, request, pk=None):
-        if request.user.is_authenticated and (request.user.is_manager or request.user.is_admin):
+        if request.user.is_authenticated and (request.user.is_manager or request.user.is_superuser):
             user = self.get_object()
             if (user.is_client):
                 password = BaseUserManager().make_random_password()
@@ -112,7 +122,7 @@ class GenerateNewPasswordViewSet(
                 user_obj.password = db_password
                 user_obj.save()
                 send_body = f'Данные для авторизации: \n\n\
-                    Портал: ipm-portal.ru  \n\
+                    Портал: https://www.ipm-portal.ru  \n\
                     Логин: {user.username}, \n\
                     Пароль: {password}'
                 send_mail(
