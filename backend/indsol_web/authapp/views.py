@@ -91,12 +91,12 @@ class UsersViewSet(
             send_body = f'Данные для авторизации: \n\n\
             Портал: https://www.ipm-portal.ru  \n\
             Логин: {serializer.data["username"]} \n\
-            Пароль: {password}'
+            Пароль: {serializer.data["email"]}'
         send_mail(
                 f"Предоставление доступа - ipm-portal.ru", # Тема
                 send_body, # Тело запроса
                 "info@ipm-portal.ru", # Почта отправителя  
-                ['al1working@mail.ru'], # Почта получателей
+                [user.email], # Почта получателей
             ) # Отправка mail
 
 
