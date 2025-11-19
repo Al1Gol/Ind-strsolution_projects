@@ -110,3 +110,4 @@ class Managers(models.Model):
     # Строковое отображение элемента модели
     def __str__(self):
         return f"{self.id}"
+    
