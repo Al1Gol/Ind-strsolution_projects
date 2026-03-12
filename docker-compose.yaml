@@ -63,14 +63,14 @@ services:
       - nginx
 
       # Фроненд React
-  pwa:
-    build: ./pwa
-    privileged: true
-    restart: always
-    ports:
-      - 81:81
-    depends_on: 
-      - nginx
+  #pwa:
+  #  build: ./pwa
+  #  privileged: true
+  #  restart: always
+  #  ports:
+  #    - 81:81
+  #  depends_on: 
+  #    - nginx
 
   # NoSQL база данных
   redis:
