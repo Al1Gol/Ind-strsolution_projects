@@ -5,6 +5,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+# Группы пользователей
+class Groups(models.Model):
+    name = models.CharField(verbose_name="наименование роли", max_length=200)
+    ru_name = models.CharField(verbose_name="наименование роли(ru)", max_length=200)
 
 # Пользователи
 class Users(AbstractUser):
@@ -13,6 +17,7 @@ class Users(AbstractUser):
     is_manager = models.BooleanField(verbose_name="менеджер", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
+    group = models.ForeignKey('Groups', null=True, blank=True, verbose_name="группа", on_delete=models.PROTECT) # После настройки прав убрать null и blank
 
     # Отображение заголовка модели для админки
     class Meta:
