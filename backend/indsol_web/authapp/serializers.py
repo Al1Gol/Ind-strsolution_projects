@@ -2,6 +2,7 @@ from authapp.models import Users, Districts, Branches, Clients, Managers
 from projectsapp.serializers import ContractsSerializers
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
+from django.contrib.auth.models import Group, Permission
 
 # Список пользователей
 class UsersSerializer(ModelSerializer):
