@@ -8,22 +8,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from django.contrib.auth.base_user import BaseUserManager
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
+from django.contrib.auth.models import Group, Permission
 from authapp.models import Users, Districts, Branches, Clients, Managers
 from projectsapp.models import Contracts
-from authapp.serializers import (
-    AuthMailSerializers,
-    UsersSerializer,
-    DistrictsSerializers,
-    BranchesSerializers,
-    ClientsSerializers,
-    ManagersSerializers,
-    ClientProfileSerializer,
-    ManagerProfileSerializer,
-    AdminProfileSerializer,
-    ReportMailSserializers,
-    GenerateNewPasswordSerializer
-)
+from authapp.serializers import *
 from authapp.filters import ClientFilter, ManagerFilter
 
 from django.contrib.auth.hashers import make_password
@@ -322,3 +313,23 @@ def ReportMailView(request):
             ) # Отправка mail
         return Response({'send': True})
     return Response({'send': False})
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows view/create/edit/delete groups.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    # remove these two lines to remove auth
+    authentication_classes = [JWTAuthentication]
+    authentication_classes = [IsAuthenticated]
+
+
+class PermissionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Permission.objects.all()
+    # remove these two lines to remove auth
+    authentication_classes = [JWTAuthentication]
+    authentication_classes = [IsAuthenticated]

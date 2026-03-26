@@ -98,3 +98,18 @@ class ReportMailSserializers(Serializer):
     organization = serializers.IntegerField(default=None)
     inn = serializers.CharField(max_length=12, default=None)
     text = serializers.CharField(max_length=10000) 
+
+class PermissionSerializer(serializers.ModelSerializer):
+    """ Add permissions serializer """
+    class Meta:
+        model = Permission
+        fields ='__all__'
+
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    """ Add group serializer """
+    url = serializers.HyperlinkedIdentityField(view_name="customuser:groups-detail")
+    permissions = PermissionSerializer(many=True)
+
+    class Meta:
+        model = Group
+        fields = ['url', 'name', 'permissions']

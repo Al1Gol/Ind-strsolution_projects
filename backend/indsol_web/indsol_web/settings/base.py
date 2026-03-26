@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "projectsapp",
     "django_filters",
     "django_celery_beat",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -99,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = []
 
 REST_FRAMEWORK = {
     "DATETIME_FORMAT": "%d.%m.%Y %H:%M:%S",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
@@ -112,6 +114,14 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ipm-portal',
+    'DESCRIPTION': 'Ручки для портала',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 # Internationalization
