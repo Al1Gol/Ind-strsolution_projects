@@ -36,7 +36,7 @@ urlpatterns = [
     path("", include(auth.urls)),
     path("ping/", PingView.as_view(), name="ping"),  # Пинг сервера
     path("permission/", PermissionViewSet, name="permission"), # Разрешения
-    path('groups', GroupViewSet.as_view(), name="groups"), # Группы
+    path('groups', GroupViewSet, name="groups"), # Группы
     path(
         "reg_request/", AuthMailView, name="reg_request"
     ),  # Отправка данных регистрации менеджерам
