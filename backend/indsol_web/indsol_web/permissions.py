@@ -59,7 +59,7 @@ class PublicReadAndOnlyOwnerOrAdminUpdate(permissions.BasePermission):
         # CREATE, UPDATE, DELETE доступны только владельцу, либо админу. А так же чтение, не зависимо от доступности записи.
         elif (
             request.user.is_authenticated
-            and (request.user == obj.is_manager or request.user.is_staff)
+            and (request.user.is_manager or request.user.is_staff)
             and request.method in ["GET", "POST", "PUT", "PATCH", "DELETE"]
         ):
             return True
