@@ -74,21 +74,22 @@ class UsersViewSet(
         serializer.is_valid()
         username = serializer.validated_data.get("username")
         email = serializer.validated_data.get("email")
-        password = BaseUserManager().make_random_password()
-        password_db = make_password(password)
-        serializer.save(password=password_db)
         if user.username != username or user.email != email:
+            password = BaseUserManager().make_random_password()
+            password_db = make_password(password)
+            serializer.save(password=password_db)
             send_body = f'Данные для авторизации: \n\n\
             Портал: https://www.ipm-portal.ru  \n\
             Логин: {serializer.data["username"]} \n\
-            Пароль: {serializer.data["email"]}'
+            Пароль: {password}'
             send_mail(
                     f"Предоставление доступа - ipm-portal.ru", # Тема
                     send_body, # Тело запроса
                     "info@ipm-portal.ru", # Почта отправителя  
                     [user.email], # Почта получателей
                 ) # Отправка mail
-
+        else:
+            serializer.save()
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
