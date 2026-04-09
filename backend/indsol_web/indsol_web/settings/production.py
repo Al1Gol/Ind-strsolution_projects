@@ -2,7 +2,7 @@ import os
 
 from .base import *
 
-from settings import config
+from indsol_web.settings import config
 
 DEBUG = config.DJANGO_DEBUG
 

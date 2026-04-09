@@ -2,7 +2,7 @@ import os
 
 from .base import *
 
-DEBUG = True
+DEBUG = config.DJANGO_DEBUG
 
 CSRF_TRUSTED_ORIGINS = ['http://5.182.4.206:8000', 'http://localhost:3000', 'http://178.237.190.38:8000', 'htpp://178.34.150.253:8000', 'http://194.8.128.75', 'http://194.8.12.75:8000', 'http://185.255.177.7']
 
@@ -30,13 +30,14 @@ SIMPLE_JWT = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "indsol",
-        "USER": "postgres",
-        "PASSWORD": "7DXCVAEWpxwWsUsBMPmc",
-        "HOST": "db",
-        "PORT": "5432",
+        "NAME": config.DB_NAME,
+        "USER": config.DB_USERNAME,
+        "PASSWORD": config.DB_PASSWORD,
+        "HOST": config.DB_HOST,
+        "PORT": config.DB_PORT,
     }
 }
+
 
 # Параметры проксирования
 USE_X_FORWARDED_HOST = True

@@ -18,6 +18,8 @@ from pathlib import Path
 from celery.schedules import crontab
 from django.utils.log import DEFAULT_LOGGING
 
+from indsol_web.settings import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -26,9 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-h@ik9e0(lv3+j#@uz+*rt*c6ysz!zd)wftn!-ji620h-=^bn@!"
-
-ALLOWED_HOSTS = ["*"]
+SECRET_KEY = config.DJANGO_SECRET_KEY
+ALLOWED_HOSTS = [config.DJANGO_ALLOWED_HOSTS]
 
 # Application definition
 

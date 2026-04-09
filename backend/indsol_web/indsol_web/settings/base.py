@@ -18,7 +18,7 @@ from pathlib import Path
 from celery.schedules import crontab
 from django.utils.log import DEFAULT_LOGGING
 
-from settings import config
+from indsol_web.settings import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
