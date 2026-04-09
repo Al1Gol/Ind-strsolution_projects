@@ -1,0 +1,22 @@
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from django.conf import settings
+from django.conf.urls import include
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path("api/v1/wiki/", include("wikiapp.urls")),
+    path("api/v1/auth/", include("authapp.urls")),
+    path("api/v1/news/", include("newsapp.urls")),
+    path("api/v1/projects/", include("projectsapp.urls")),
+    path("api-admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
