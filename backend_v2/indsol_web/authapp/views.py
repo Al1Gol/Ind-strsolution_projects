@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth.models import Group, Permission
 from authapp.models import Users, Districts, Branches, Clients, Managers
-from projectsapp.models import Contracts
+from backend_v2.indsol_web.projectsapp.models import Contracts
 from authapp.serializers import *
 from authapp.filters import ClientFilter, ManagerFilter
 
@@ -37,7 +37,7 @@ def reg_mail_body(request):
                 Почта: {request.data["email"]};'
 
 
-# Список пользователей
+
 class UsersViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -46,6 +46,9 @@ class UsersViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список пользователей
+    '''
     serializer_class = UsersSerializer
 
     queryset = Users.objects.all().order_by("created_at")
@@ -98,11 +101,15 @@ class UsersViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Users.objects.all()
 
-# Обновление пароля
+
+
 class GenerateNewPasswordViewSet(
     GenericViewSet,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Обновление пароля
+    '''
     queryset = Users.objects.all()
     serializer_class = GenerateNewPasswordSerializer
     permission_classes = [ModerateAndAdminUpdate]
@@ -133,8 +140,12 @@ class GenerateNewPasswordViewSet(
         return Response({"error": 'Пользователь не авторизован, либо не хватет прав доступа'},
                                 status=status.HTTP_401_UNAUTHORIZED)
 
-# Профиль текущего пользователя
+
+
 class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
+    '''
+    Профиль текущего пользователя
+    '''
     def list(self, request, *args, **kwargs):
         user = Users.objects.filter(id=self.request.user.id)
         profile = {}
@@ -158,18 +169,21 @@ class ProfileViewSet(GenericViewSet, mixins.ListModelMixin,):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# Список регионов
+
 class DistrictsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список регионов
+    '''
     queryset = Districts.objects.all()
     serializer_class = DistrictsSerializers
     permission_classes = [AllowAny]
 
 
-# Список производственных отралсей
+
 class BranchesViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -178,12 +192,15 @@ class BranchesViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список производственных отраслей
+    '''
     queryset = Branches.objects.all()
     serializer_class = BranchesSerializers
     permission_classes = [AllowAny]
 
 
-# Список клиентов
+
 class ClientsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -192,6 +209,9 @@ class ClientsViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список клиентов
+    '''
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializers
     filterset_class = ClientFilter
@@ -222,7 +242,8 @@ class ClientsViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Clients.objects.all()
 
-# Список менеджеров
+
+
 class ManagersViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -231,6 +252,9 @@ class ManagersViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список менеджеров
+    '''
     queryset = Managers.objects.all()
     serializer_class = ManagersSerializers
     filter_backends = (filters.DjangoFilterBackend,)
@@ -271,10 +295,13 @@ class PingView(APIView):
         return Response()
 
 
-# Отправка данных регистрации менеджерам
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def AuthMailView(request):
+    '''
+    Отправка данных регистрации менеджерам
+    '''
     if request.method == "POST":
         auth_mail_serializer = AuthMailSerializers(data=request.data)
         if auth_mail_serializer.is_valid():
@@ -293,9 +320,13 @@ def AuthMailView(request):
             return Response({'send': False, 'error': 'Некорректно заполнены сведения'})  # Некорретные данные запроса
     return Response({'send': False, 'error': 'unknown'})
 
-# Отправка пользовательского обращения
+
+
 @api_view(["POST"])
 def ReportMailView(request):
+    '''
+    Отправка пользовательского обращения
+    '''
     if request.user.is_authenticated:
         user = Users.objects.get(id=request.user.id) # Текущий пользователь
         #client = Clients.objects.get(user_id=user.id) # Текущая организация
@@ -314,9 +345,12 @@ def ReportMailView(request):
         return Response({'send': True})
     return Response({'send': False})
 
+
+
+
 class GroupViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows view/create/edit/delete groups.
+    Список групп аутентификации
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
@@ -327,7 +361,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class PermissionViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows groups to be viewed or edited.
+    Список разрешений
     """
     queryset = Permission.objects.all()
     # remove these two lines to remove auth

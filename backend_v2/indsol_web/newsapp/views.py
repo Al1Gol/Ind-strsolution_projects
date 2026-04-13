@@ -11,12 +11,15 @@ from newsapp.filters import MediaFilter, NewsDateFilter
 from django.utils import timezone
 
 
-# Пользовательский список новостей
+
 class NewsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Пользовательский список новостей
+    '''
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 
@@ -31,7 +34,7 @@ class NewsViewSet(
         )
 
 
-# Полный список новостей для администраторской панели
+
 class NewsAdminViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -40,6 +43,9 @@ class NewsAdminViewSet(
     mixins.DestroyModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Полный список новостей для администраторской панели
+    '''
     serializer_class = NewsSerializer
     queryset = News.objects.all().order_by("-publicated_at", "-created_at")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
@@ -48,7 +54,8 @@ class NewsAdminViewSet(
     def perform_create(self, serializer):
         serializer.save()
 
-# Список медиа файлов новостей
+
+
 class MediaViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -57,6 +64,9 @@ class MediaViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список медиа файлов новостей
+    '''
     serializer_class = MediaSerializer
     queryset = Media.objects.all()
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
