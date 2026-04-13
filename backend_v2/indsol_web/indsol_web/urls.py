@@ -8,12 +8,12 @@ from django.urls import path
 urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path("api/v2/wiki/", include("wikiapp.urls")),
+    path('api/v2/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/v2/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    #path("api/v2/wiki/", include("wikiapp.urls")),
     path("api/v2/auth/", include("authapp.urls")),
     path("api/v2/news/", include("newsapp.urls")),
-    path("api/v2/projects/", include("projectsapp.urls")),
+    #path("api/v2/projects/", include("projectsapp.urls")),
     path("api-admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
