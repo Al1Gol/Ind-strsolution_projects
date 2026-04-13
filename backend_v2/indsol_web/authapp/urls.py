@@ -37,12 +37,12 @@ urlpatterns = [
     path("ping/", PingView.as_view(), name="ping"),  # Пинг сервера
     path("permission/", PermissionViewSet.as_view({'get': 'list'}), name="permission"), # Разрешения
     path('groups', GroupViewSet.as_view({'get': 'list'}), name="groups"), # Группы
-    path(
-        "reg_request/", AuthMailView, name="reg_request"
-    ),  # Отправка данных регистрации менеджерам
-    path(
-        "report/", ReportMailView, name="report"
-    ),  # Отправка данных о пользовательских отчетах
+    #path(
+    #    "reg_request/", AuthMailView, name="reg_request"
+    #),  # Отправка данных регистрации менеджерам
+    #path(
+    #    "report/", ReportMailView, name="report"
+    #),  # Отправка данных о пользовательских отчетах
     path("debug/", include("rest_framework.urls")),  # Дебаг режим
     path(
         "token/",
