@@ -287,8 +287,11 @@ class ManagersViewSet(
             return Managers.objects.all()
        
 
-# Пинг доступности бэкенда
+
 class PingView(APIView):
+    '''
+    Пинг доступности бэкенда
+    '''
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
