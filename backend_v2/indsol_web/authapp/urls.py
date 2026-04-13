@@ -20,16 +20,16 @@ from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 
 auth = routers.DefaultRouter()
-#auth.register("users", UsersViewSet, basename="users")  # Список пользователей
+auth.register("users", UsersViewSet, basename="users")  # Список пользователей
 auth.register(
     "profile", ProfileViewSet, basename="profile"
 )  # Профиль текущего пользователя
-#auth.register("districts", DistrictsViewSet, basename="districts")  # Список регионов
-#auth.register(
-#    "branches", BranchesViewSet, basename="branches"
-#)  # Список производственных отралсей
-#auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
-#auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
+auth.register("districts", DistrictsViewSet, basename="districts")  # Список регионов
+auth.register(
+    "branches", BranchesViewSet, basename="branches"
+)  # Список производственных отралсей
+auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
+auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
 auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
 
 urlpatterns = [
