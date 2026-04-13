@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth.models import Group, Permission
 from authapp.models import Users, Districts, Branches, Clients, Managers
-from backend_v2.indsol_web.projectsapp.models import Contracts
+from projectsapp.models import Contracts
 from authapp.serializers import *
 from authapp.filters import ClientFilter, ManagerFilter
 
