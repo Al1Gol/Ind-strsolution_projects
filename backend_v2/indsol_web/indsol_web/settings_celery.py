@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.conf import settings
 from celery import Celery
 from celery import shared_task
-from backend_v2.indsol_web.projectsapp.parsers import LoadProjects, LoadAdjustes, LoadAdjust, LoadProject
+from indsol_web.projectsapp.parsers import LoadProjects, LoadAdjustes, LoadAdjust, LoadProject
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'indsol_web.settings.pre_production')
