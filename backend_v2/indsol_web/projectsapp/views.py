@@ -53,12 +53,15 @@ class ContractsViewSet(
         add_adjust_task.delay(self.request.data["contract_number"])
 
 
-# Список проектов
+
 class ProjectsViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список проектов
+    '''
     serializer_class = ProjectsSerializer
     queryset = Projects.objects.all().order_by('start_date')
     filterset_class = ProjectsFilter
@@ -70,12 +73,15 @@ class ProjectsViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Projects.objects.all()
 
-# Список согласований
+
 class AdjustViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список согласований
+    '''
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
     filterset_class = AdjustFilter
@@ -87,7 +93,7 @@ class AdjustViewSet(
        elif user[0].is_manager or user[0].is_staff:
             return Adjust.objects.all()
 
-#Список документов прикрепленных к договору
+
 class DocumentsViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -96,6 +102,9 @@ class DocumentsViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список документов прикрепленных к договору
+    '''
     serializer_class = DocumentsSerializer
     queryset = Documents.objects.all().order_by('id')
     filterset_class = DocumentsFilter
@@ -131,10 +140,11 @@ class UploadAdjustView(APIView):
         return HttpResponse({'is_save': True})
 '''
 
-# Методы автоматической загрузки выгрузкок из 1С по API 
-#
-#  Атоматическая загрузка Проектов
+
 class GetProjectsView(APIView):
+    '''
+    Методы автоматической загрузки выгрузкок из 1С по API 
+    '''
     permission_classes = (AllowAny,)
     def post(self, request):
         file_objs = request.data["data"]
@@ -155,8 +165,11 @@ class GetProjectsView(APIView):
                 destination.write(str(file_objs))
             return HttpResponse({'is_save': True})
     
-#  Атоматическая загрузка Согласований
+
 class GetAdjustView(APIView):
+    '''
+    Атоматическая загрузка Согласований
+    '''
     def post(self, request):
         file_objs = request.data["data"]
         print(json.loads(file_objs)["BD"])

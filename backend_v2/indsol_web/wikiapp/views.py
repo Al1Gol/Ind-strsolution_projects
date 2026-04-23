@@ -31,6 +31,9 @@ class WikiViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список баз знаний
+    '''
     serializer_class = WikiSerializer
     queryset = Wiki.objects.all().order_by("created_at")
     permission_classes = [PublicReadAndOnlyOwnerOrAdminUpdate]
@@ -58,6 +61,9 @@ class MenuViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список меню в БЗ
+    '''
     serializer_class = MenuSerializer
     queryset = Menu.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
@@ -84,6 +90,9 @@ class SectionsViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список разделов в БЗ
+    '''
     serializer_class = SectionsSerializer
     queryset = Sections.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
@@ -119,6 +128,9 @@ class ArticleViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список статей в БЗ
+    '''
     serializer_class = ArticlesSerializer
     queryset = Articles.objects.all().order_by("order")
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
@@ -162,6 +174,9 @@ class FilesViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список файлов прикрепленных к статьям в БЗ
+    '''
     serializer_class = FilesSerializer
     queryset = Files.objects.all().order_by("created_at")
     filterset_class = FilesFilter
@@ -176,6 +191,9 @@ class ImagesViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список изображений прикрепленных к статьям в БЗ
+    '''
     serializer_class = ImagesSerializer
     queryset = Images.objects.all()
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
@@ -189,6 +207,9 @@ class VideosViewSet(
     mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
+    '''
+    Список видео прикрепленных к статьям в БЗ
+    '''
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
     permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
