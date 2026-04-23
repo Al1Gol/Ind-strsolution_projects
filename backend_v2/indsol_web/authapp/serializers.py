@@ -4,8 +4,9 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from django.contrib.auth.models import Group, Permission
 
-# Список пользователей
+
 class UsersSerializer(ModelSerializer):
+    """Список пользователей"""
     class Meta:
         model = Users
         fields = [
@@ -24,8 +25,9 @@ class UsersSerializer(ModelSerializer):
             "password": {"write_only": True}
         }
 
-# Список пользователей
+
 class GenerateNewPasswordSerializer(ModelSerializer):
+    """Генерация нового пароля"""
     class Meta:
         model = Users
         fields = [
@@ -35,22 +37,25 @@ class GenerateNewPasswordSerializer(ModelSerializer):
             "password": {"write_only": True}
         }
 
-# Список регионов
+
 class DistrictsSerializers(ModelSerializer):
+    """Список регионов"""
     class Meta:
         model = Districts
         fields = "__all__"
 
 
-# Список производственных отралсей
+
 class BranchesSerializers(ModelSerializer):
+    """Список производственных отралсей"""
     class Meta:
         model = Branches
         fields = "__all__"
 
 
-# Список клиентов
+
 class ClientsSerializers(ModelSerializer):
+    """Список клиентов"""
     class Meta:
         model = Clients
         fields = "__all__"
@@ -62,8 +67,9 @@ class ManagersSerializers(ModelSerializer):
         model = Managers
         fields = "__all__"
 
-# Профиль клиента
+
 class ClientProfileSerializer(ModelSerializer):
+    """Профиль клиента"""
     user_info = UsersSerializer()
     client_info = ClientsSerializers()
     contracts = ContractsSerializers(many=True)
@@ -71,46 +77,47 @@ class ClientProfileSerializer(ModelSerializer):
         model = Users
         fields = ['user_info', 'client_info', 'contracts']
 
-# Профиль менеджера
+
 class ManagerProfileSerializer(ModelSerializer):
+    """Профиль менеджера"""
     user_info = UsersSerializer()
     manager_info = ManagersSerializers()
     class Meta:
         model = Users
         fields = ['user_info', 'manager_info']
 
-# Профиль администратора
+
 class AdminProfileSerializer(ModelSerializer):
+    """Профиль администратора"""
     user_info = UsersSerializer()
     class Meta:
         model = Users
         fields = ['user_info']
 
-# Отправка данный регистрации менеджерам
+
 class AuthMailSerializers(Serializer):
+    """Отправка данных регистрации менеджерам"""
     organization = serializers.CharField(max_length=400)
     inn = serializers.CharField(max_length=12)
     branch = serializers.IntegerField()
     district = serializers.IntegerField()
     email = serializers.CharField(max_length=200)
 
-# Отправка пользовательских отчетов
+
 class ReportMailSserializers(Serializer):
+    """Отправка пользовательских отчетов"""
     organization = serializers.IntegerField(default=None)
     inn = serializers.CharField(max_length=12, default=None)
     text = serializers.CharField(max_length=10000) 
 
 class PermissionSerializer(serializers.ModelSerializer):
-    """ Add permissions serializer """
+    """ Список разрешений (ролевая система) """
     class Meta:
         model = Permission
         fields ='__all__'
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    """ Add group serializer """
-    url = serializers.HyperlinkedIdentityField(view_name="customuser:groups-detail")
-    permissions = PermissionSerializer(many=True)
-
+class GroupSerializer(serializers.ModelSerializer):
+    """ Список групп (ролевая система) """
     class Meta:
-        model = Group
-        fields = ['url', 'name', 'permissions']
+            model = Group
+            fields ='__all__'

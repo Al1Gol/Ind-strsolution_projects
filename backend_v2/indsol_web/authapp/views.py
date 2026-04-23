@@ -359,7 +359,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     # remove these two lines to remove auth
     authentication_classes = [JWTAuthentication]
-    authentication_classes = [IsAuthenticated]
+    permission_classes  = [IsAuthenticated]
 
 
 class PermissionViewSet(viewsets.ModelViewSet):
@@ -369,4 +369,4 @@ class PermissionViewSet(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     # remove these two lines to remove auth
     authentication_classes = [JWTAuthentication]
-    authentication_classes = [IsAuthenticated]
+    permission_classes  = [IsAuthenticated]

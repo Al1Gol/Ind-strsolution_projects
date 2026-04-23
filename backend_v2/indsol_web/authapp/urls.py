@@ -20,6 +20,8 @@ from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
 
 auth = routers.DefaultRouter()
+auth.register("permission", PermissionViewSet, basename='permission')
+auth.register("groups", GroupViewSet, basename='groups')
 #auth.register("users", UsersViewSet, basename="users")  # Список пользователей
 #auth.register(
 #    "profile", ProfileViewSet, basename="profile"
@@ -35,8 +37,8 @@ auth = routers.DefaultRouter()
 urlpatterns = [
     path("", include(auth.urls)),
     path("ping/", PingView.as_view(), name="ping"),  # Пинг сервера
-    path("permission/", PermissionViewSet.as_view({'get': 'list'}), name="permission"), # Разрешения
-    path('groups', GroupViewSet.as_view({'get': 'list'}), name="groups"), # Группы
+    #path("permission/", PermissionViewSet, name="permission"), # Разрешения
+    #path('groups', GroupViewSet, name="groups"), # Группы
     #path(
     #    "reg_request/", AuthMailView, name="reg_request"
     #),  # Отправка данных регистрации менеджерам
