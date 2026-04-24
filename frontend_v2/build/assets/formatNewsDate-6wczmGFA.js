@@ -1,0 +1,1 @@
+var e=e=>{let t=e.includes(` `)?e.replace(` `,`T`):e,n=new Date(t);return Number.isNaN(n.getTime())?e.split(` `)[0]??e:new Intl.DateTimeFormat(`ru-RU`,{day:`2-digit`,month:`2-digit`,year:`numeric`}).format(n)};export{e as t};

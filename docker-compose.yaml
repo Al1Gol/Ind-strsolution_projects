@@ -80,6 +80,15 @@ services:
     depends_on: 
       - nginx
 
+  frontend_v2:
+    build: ./frontend_v2
+    privileged: true
+    restart: always
+    ports:
+      - 81:81
+    depends_on: 
+      - nginx
+
       # Фроненд React
   #pwa:
   #  build: ./pwa

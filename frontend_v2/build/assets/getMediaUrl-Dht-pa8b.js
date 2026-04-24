@@ -1,0 +1,1 @@
+var e=e=>e?e.startsWith(`http://`)||e.startsWith(`https://`)?e:`https://ipm-portal.ru${e.startsWith(`/`)?e:`/${e}`}`:``;export{e as t};
