@@ -30,9 +30,9 @@ auth.register("users", UsersViewSet, basename="users")  # Список поль�
 #auth.register(
 #    "branches", BranchesViewSet, basename="branches"
 #)  # Список производственных отралсей
-#auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
+auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
 #auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
-#auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
+auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
 
 urlpatterns = [
     path("", include(auth.urls)),
