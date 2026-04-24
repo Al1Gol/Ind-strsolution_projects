@@ -76,6 +76,8 @@ services:
     build: ./frontend
     privileged: true
     restart: always
+    volumes:
+      - /home/indsol/Ind-strsolution_projects/frontend_v2/build/assets:/var/www/assets
     ports:
       - 80:80
     depends_on: 
