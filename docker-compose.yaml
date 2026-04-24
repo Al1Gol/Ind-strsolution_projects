@@ -85,7 +85,7 @@ services:
     privileged: true
     restart: always
     ports:
-      - 81:81
+      - 800:800
     depends_on: 
       - nginx
 
