@@ -22,7 +22,7 @@ from rest_framework_simplejwt import views as jwt_views
 auth = routers.DefaultRouter()
 auth.register("permission", PermissionViewSet, basename='permission')
 auth.register("groups", GroupViewSet, basename='groups')
-#auth.register("users", UsersViewSet, basename="users")  # Список пользователей
+auth.register("users", UsersViewSet, basename="users")  # Список пользователей
 #auth.register(
 #    "profile", ProfileViewSet, basename="profile"
 #)  # Профиль текущего пользователя
