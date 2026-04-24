@@ -84,7 +84,9 @@ services:
       - nginx
 
   frontend_v2:
-    build: ./frontend_v2
+    image: vuejs_docker:setup
+    build:
+      context: ./frontend_v2
     privileged: true
     restart: always
     ports:
