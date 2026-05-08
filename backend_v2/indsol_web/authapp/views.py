@@ -368,5 +368,6 @@ class PermissionViewSet(viewsets.ModelViewSet):
     """
     queryset = Permission.objects.all()
     # remove these two lines to remove auth
+    serializer_class = PermissionSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes  = [IsAuthenticated]
