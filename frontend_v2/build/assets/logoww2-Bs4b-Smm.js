@@ -1,1 +1,0 @@
-var e=`/v2/logoww2.svg`;export{e as t};
