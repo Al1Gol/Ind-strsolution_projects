@@ -3,7 +3,7 @@ from projectsapp.serializers import ContractsSerializers
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from django.contrib.auth.models import Group, Permission
-
+from django.contrib.contenttypes.models import ContentType
 
 class UsersSerializer(ModelSerializer):
     """Список пользователей"""
@@ -110,11 +110,21 @@ class ReportMailSserializers(Serializer):
     inn = serializers.CharField(max_length=12, default=None)
     text = serializers.CharField(max_length=10000) 
 
-class PermissionSerializer(serializers.ModelSerializer):
+class ContentTypeSerializer(serializers.ModelSerializer):
     """ Список разрешений (ролевая система) """
     class Meta:
+        model = ContentType
+        fields = ['app_label', 'model']
+
+class PermissionSerializer(serializers.ModelSerializer):
+    """ Список разрешений (ролевая система) """
+    content_type = ContentTypeSerializer()
+    class Meta:
         model = Permission
-        fields ='__all__'
+        #fields ='__all__'
+        fields = ['id', 'name', 'codename', 'content_type']
+
+
 
 class GroupSerializer(serializers.ModelSerializer):
     """ Список групп (ролевая система) """
