@@ -65,7 +65,9 @@ services:
         - /home/indsol/Ind-strsolution_projects/frontend_v2/build/assets:/var/www/v2/assets
         - /home/indsol/Ind-strsolution_projects/frontend_v2/build/static:/var/www/v2/static
         - /home/indsol/Ind-strsolution_projects/backend/indsol_web/static:/var/www/static
-        - /home/indsol/Ind-strsolution_projects/backend_v2/indsol_web/static:/var/www/v2/static
+        - /home/indsol/Ind-strsolution_projects/backend_v2/indsol_web/static/admin:/var/www/v2/static/admin
+        - /home/indsol/Ind-strsolution_projects/backend_v2/indsol_web/static/debug_toolbar:/var/www/v2/static/debug_toolbar
+        - /home/indsol/Ind-strsolution_projects/backend_v2/indsol_web/static/rest_framework:/var/www/v2/static/rest_framework
         #- /home/indsol/Ind-strsolution_projects/backend/indsol_web/static:/var/www/static
         - /home/indsol/app_data/data/media:/var/www/media
         - /etc/ssl/certs/ipm-portal/:/var/certs/
