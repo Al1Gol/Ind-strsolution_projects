@@ -16,6 +16,7 @@ class UsersSerializer(ModelSerializer):
             "is_staff",
             "is_client",
             "is_manager",
+            "groups",
             "created_at",
             "updated_at",
         ]
