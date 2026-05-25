@@ -9,6 +9,7 @@ class UsersAdmin(admin.ModelAdmin):
         "username",
         "is_staff",
         "is_manager",
+        "groups",
         "created_at",
         "updated_at",
     )
@@ -21,7 +22,6 @@ class UsersAdmin(admin.ModelAdmin):
         "updated_at",
     )
     exclude = [
-        "groups",
         "first_name",
         "last_name",
         "email",
