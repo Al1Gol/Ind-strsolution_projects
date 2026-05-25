@@ -17,7 +17,7 @@ class Users(AbstractUser):
     is_manager = models.BooleanField(verbose_name="менеджер", default=False)
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
-    groups = models.ManyToManyField('Groups', null=True, blank=True, verbose_name="группы") # После настройки прав убрать null и blank
+    groups = models.ManyToManyField('Groups', blank=True, verbose_name="группы") # После настройки прав убрать null и blank
 
     # Отображение заголовка модели для админки
     class Meta:
