@@ -81,7 +81,7 @@ class NewsPermission(permissions.BasePermission):
         elif request.method in ["DELETE"]:
             return  request.user.has_perm('newsapp.delete_news')
         
-# Рарешение медиа для новостей
+# Рарешения для медиа в новостях
 class NewsMediaPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         # Checks if user has the specific permission string
@@ -93,3 +93,59 @@ class NewsMediaPermission(permissions.BasePermission):
             return  request.user.has_perm('newsapp.change_media')
         elif request.method in ["DELETE"]:
             return  request.user.has_perm('newsapp.delete_media')
+
+
+# Рарешения для договоров
+class ContractsPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_contracts')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_contracts')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_contracts')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_contracts')
+        
+
+# Рарешения для проектов
+class ProjectsPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_projects')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_projects')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_projects')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_projects')
+        
+
+# Рарешения для согласований
+class AdjustPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_adjust')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_adjust')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_adjust')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_adjust')
+
+
+# Рарешения для документов
+class DocumentsPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_documents')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_documents')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_documents')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_documents')

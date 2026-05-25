@@ -4,20 +4,24 @@ import os
 #from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet, mixins
-from projectsapp.serializers import (
-    ProjectsSerializer,
-    ContractsSerializers,
-    AdjustSerializer,
-    DocumentsSerializer,
-)
-from authapp.models import Users
-from projectsapp.models import Projects, Contracts, Adjust, Documents
-from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
-from indsol_web.settings_celery import add_project_task, add_adjust_task
-from rest_framework.exceptions import ValidationError
+
 from django.conf import settings
 from django.http import HttpResponse
 from rest_framework.views import APIView
+from indsol_web.settings_celery import add_project_task, add_adjust_task
+from rest_framework.exceptions import ValidationError
+
+from projectsapp.serializers import *
+from authapp.models import Users
+from projectsapp.models import Projects, Contracts, Adjust, Documents
+from projectsapp.filters import ContractsFilter, AdjustFilter, ProjectsFilter, DocumentsFilter
+from indsol_web.permissions import ContractsPermission, \
+                                   ProjectsPermission, \
+                                   AdjustPermission, \
+                                   DocumentsPermission
+
+
+
 # Список договоров
 class ContractsViewSet(
     GenericViewSet,
@@ -30,6 +34,7 @@ class ContractsViewSet(
     serializer_class = ContractsSerializers
     queryset = Contracts.objects.all()
     filterset_class = ContractsFilter
+    permission_classes = [ContractsPermission]
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
@@ -65,6 +70,7 @@ class ProjectsViewSet(
     serializer_class = ProjectsSerializer
     queryset = Projects.objects.all().order_by('start_date')
     filterset_class = ProjectsFilter
+    permission_classes = [ProjectsPermission]
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
@@ -85,6 +91,7 @@ class AdjustViewSet(
     serializer_class = AdjustSerializer
     queryset = Adjust.objects.all()
     filterset_class = AdjustFilter
+    permission_classes = [AdjustPermission]
 
     def get_queryset(self):
        user = Users.objects.filter(id=self.request.user.id)
@@ -108,6 +115,7 @@ class DocumentsViewSet(
     serializer_class = DocumentsSerializer
     queryset = Documents.objects.all().order_by('id')
     filterset_class = DocumentsFilter
+    permission_classes = [DocumentsPermission]
 
     # Автоматическое заполнение поля name из имени загружаемого файла
     def perform_create(self, serializer):
@@ -168,7 +176,7 @@ class GetProjectsView(APIView):
 
 class GetAdjustView(APIView):
     '''
-    Атоматическая загрузка Согласований
+    Автоматическая загрузка Согласований
     '''
     def post(self, request):
         file_objs = request.data["data"]
