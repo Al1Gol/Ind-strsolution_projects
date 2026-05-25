@@ -1,14 +1,14 @@
+from django.utils import timezone
+
 from django.shortcuts import render
 from rest_framework import filters
 from rest_framework.viewsets import GenericViewSet, mixins
-from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly
-from indsol_web.exceptions import MediaValidationError
 
+from indsol_web.permissions import NewsPermission, NewsMediaPermission
+from indsol_web.exceptions import MediaValidationError
 from newsapp.models import News, Media
 from newsapp.serializers import NewsSerializer, MediaSerializer
 from newsapp.filters import MediaFilter, NewsDateFilter
-
-from django.utils import timezone
 
 
 
@@ -23,7 +23,7 @@ class NewsViewSet(
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [NewsPermission]
     filterset_class = NewsDateFilter
 
 
@@ -48,7 +48,7 @@ class NewsAdminViewSet(
     '''
     serializer_class = NewsSerializer
     queryset = News.objects.all().order_by("-publicated_at", "-created_at")
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [NewsPermission]
     filterset_class = NewsDateFilter
 
     def perform_create(self, serializer):
@@ -69,7 +69,7 @@ class MediaViewSet(
     '''
     serializer_class = MediaSerializer
     queryset = Media.objects.all()
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [NewsMediaPermission]
     filterset_class = MediaFilter
 
     # Валидация по количеству media перед сохранением

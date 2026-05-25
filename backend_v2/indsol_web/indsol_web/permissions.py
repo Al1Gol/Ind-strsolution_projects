@@ -65,3 +65,31 @@ class PublicReadAndOnlyOwnerOrAdminUpdate(permissions.BasePermission):
             return True
         else:
             return False
+        
+
+
+# Рарешения новостей
+class NewsPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('newsapp.view_news')
+        elif request.method == "POST":
+            return  request.user.has_perm('newsapp.add_news')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('newsapp.change_news')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('newsapp.delete_news')
+        
+# Рарешение медиа для новостей
+class NewsMediaPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('newsapp.view_media')
+        elif request.method == "POST":
+            return  request.user.has_perm('newsapp.add_media')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('newsapp.change_media')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('newsapp.delete_media')
