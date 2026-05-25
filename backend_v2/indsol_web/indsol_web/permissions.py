@@ -109,7 +109,7 @@ class ContractsPermission(permissions.BasePermission):
             return  request.user.has_perm('projectsapp.delete_contracts')
         
 
-# Рарешения для проектов
+# Рарешения для списка проектов
 class ProjectsPermission(permissions.BasePermission):  
     def has_permission(self, request, view):
         # Checks if user has the specific permission string
@@ -123,7 +123,7 @@ class ProjectsPermission(permissions.BasePermission):
             return  request.user.has_perm('projectsapp.delete_projects')
         
 
-# Рарешения для согласований
+# Рарешения для согласований проектов
 class AdjustPermission(permissions.BasePermission):  
     def has_permission(self, request, view):
         # Checks if user has the specific permission string
@@ -137,7 +137,7 @@ class AdjustPermission(permissions.BasePermission):
             return  request.user.has_perm('projectsapp.delete_adjust')
 
 
-# Рарешения для документов
+# Рарешения для документов проектов
 class DocumentsPermission(permissions.BasePermission):  
     def has_permission(self, request, view):
         # Checks if user has the specific permission string
@@ -149,3 +149,103 @@ class DocumentsPermission(permissions.BasePermission):
             return  request.user.has_perm('projectsapp.change_documents')
         elif request.method in ["DELETE"]:
             return  request.user.has_perm('projectsapp.delete_documents')
+        
+# Разрешения для списка wiki
+class WikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_wiki')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_wiki')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_wiki')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_wiki')
+        
+
+# Разрешения для меню wiki
+class MenuWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_menu')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_menu')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_menu')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_menu')
+
+
+# Разрешения для разделов wiki
+class SectionsWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_sections')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_sections')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_sections')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_sections')
+        
+
+# Разрешения для статей wiki
+class ArticlesWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_articles')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_articles')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_articles')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_articles')
+        
+
+# Разрешения для файлов wiki
+class FilesWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_files')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_files')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_files')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_files')
+        
+
+# Разрешения для изображений wiki
+class ImagesWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_images')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_images')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_images')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_images')
+
+
+# Разрешения для видео wiki
+class VideoWikiPermission(permissions.BasePermission):  
+    def has_permission(self, request, view):
+        # Checks if user has the specific permission string
+        if request.method == "GET":
+            return  request.user.has_perm('projectsapp.view_videos')
+        elif request.method == "POST":
+            return  request.user.has_perm('projectsapp.add_videos')
+        elif request.method in ["PUT", "PATCH"]:
+            return  request.user.has_perm('projectsapp.change_videos')
+        elif request.method in ["DELETE"]:
+            return  request.user.has_perm('projectsapp.delete_videos')
+
+
+

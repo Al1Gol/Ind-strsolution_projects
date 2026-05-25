@@ -19,6 +19,15 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
 from django.shortcuts import get_object_or_404
 from indsol_web.permissions import ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly, PublicReadAndOnlyOwnerOrAdminUpdate
+from indsol_web.permissions import (
+    WikiPermission,
+    MenuWikiPermission,
+    SectionsWikiPermission,
+    ArticlesWikiPermission,
+    FilesWikiPermission,
+    ImagesWikiPermission,
+    VideoWikiPermission,
+)
 
 # LOG = logging.getLogger('django.request')
 
@@ -36,7 +45,7 @@ class WikiViewSet(
     '''
     serializer_class = WikiSerializer
     queryset = Wiki.objects.all().order_by("created_at")
-    permission_classes = [PublicReadAndOnlyOwnerOrAdminUpdate]
+    permission_classes = [WikiPermission]
 
     def list(self, request, *args, **kwargs):
         if request.user.is_client:
@@ -66,7 +75,7 @@ class MenuViewSet(
     '''
     serializer_class = MenuSerializer
     queryset = Menu.objects.all().order_by("order")
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [MenuWikiPermission]
     filterset_class = MenuFilter
     """
     def list(self, request, *args, **kwargs):
@@ -95,7 +104,7 @@ class SectionsViewSet(
     '''
     serializer_class = SectionsSerializer
     queryset = Sections.objects.all().order_by("order")
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [SectionsWikiPermission]
     filterset_class = SectionsFilter
 
     def perform_create(self, serializer):
@@ -133,7 +142,7 @@ class ArticleViewSet(
     '''
     serializer_class = ArticlesSerializer
     queryset = Articles.objects.all().order_by("order")
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [ArticlesWikiPermission]
     filterset_class = ArticlesFilter
 
     # Валидация количества родителей и выставление отметки is_article для родителя
@@ -180,7 +189,7 @@ class FilesViewSet(
     serializer_class = FilesSerializer
     queryset = Files.objects.all().order_by("created_at")
     filterset_class = FilesFilter
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [FilesWikiPermission]
 
 
 class ImagesViewSet(
@@ -196,7 +205,7 @@ class ImagesViewSet(
     '''
     serializer_class = ImagesSerializer
     queryset = Images.objects.all()
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [ImagesWikiPermission]
 
 
 class VideosViewSet(
@@ -212,4 +221,4 @@ class VideosViewSet(
     '''
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
-    permission_classes = [ModerateAndAdminCreateUpdateDeleteOrAuthReadOnly]
+    permission_classes = [VideoWikiPermission]
