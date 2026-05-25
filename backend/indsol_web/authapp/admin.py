@@ -9,7 +9,7 @@ class UsersAdmin(admin.ModelAdmin):
         "username",
         "is_staff",
         "is_manager",
-        "groups",
+        "groups_list",
         "created_at",
         "updated_at",
     )
@@ -30,6 +30,8 @@ class UsersAdmin(admin.ModelAdmin):
     ]
     search_fields = ("name",)
 
+    def groups_list(self, obj):
+        return [groups.name for groups in obj.groups.all()]
 
 class DepartmentsAdmin(admin.ModelAdmin):
     list_display = ("id", "name")
