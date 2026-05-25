@@ -9,6 +9,7 @@ class UsersAdmin(admin.ModelAdmin):
         "username",
         "is_staff",
         "is_manager",
+        "groups_list",
         "created_at",
         "updated_at",
     )
@@ -21,7 +22,6 @@ class UsersAdmin(admin.ModelAdmin):
         "updated_at",
     )
     exclude = [
-        "groups",
         "first_name",
         "last_name",
         "email",
@@ -29,6 +29,9 @@ class UsersAdmin(admin.ModelAdmin):
         "last_login",
     ]
     search_fields = ("name",)
+
+    def groups_list(self, obj):
+        return [groups.name for groups in obj.groups.all()]
 
 
 class DepartmentsAdmin(admin.ModelAdmin):
