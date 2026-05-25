@@ -115,16 +115,19 @@ class ContentTypeSerializer(serializers.ModelSerializer):
     """ Список разрешений (ролевая система) """
     class Meta:
         model = ContentType
-        fields = ['app_label', 'model']
+        fields = ['app_label', 'model', 'app_labeled_name']
 
 class PermissionSerializer(serializers.ModelSerializer):
     """ Список разрешений (ролевая система) """
     content_type = ContentTypeSerializer()
+    title = serializers.SerializerMethodField()
     class Meta:
         model = Permission
         #fields ='__all__'
-        fields = ['id', 'name', 'codename', 'content_type']
+        fields = ['id', 'name', 'codename', 'title', 'content_type']
 
+    def get_title(self, obj):
+        return '{} {} {}'.format(obj.content_type.app_labeled_name, '|', obj.codename) 
 
 
 class GroupSerializer(serializers.ModelSerializer):
