@@ -69,7 +69,7 @@ class WikiViewSet(
         
     def perform_update(self, serializer):
         user_id = self.request.user.id
-        perm = Wiki_Permissions.objects.filter(user_id = user_id).filter(wiki_id = obj_id).filter(read = True)
+        #perm = Wiki_Permissions.objects.filter(user_id = user_id).filter(wiki_id = obj_id).filter(read = True)
         serializer.save()
             
 
