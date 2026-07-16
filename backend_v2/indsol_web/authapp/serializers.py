@@ -23,6 +23,10 @@ class UsersSerializer(ModelSerializer):
 
     # Дополнительно можно выводить группы при чтении (read-only)
     group_id = serializers.SerializerMethodField()
+    wiki_group_id = serializers.PrimaryKeyRelatedField(
+        queryset=Wiki_Group_Permissions.objects.all(), 
+        source='wiki_group'
+    )
     """Список пользователей"""
     class Meta:
         model = Users
@@ -33,11 +37,10 @@ class UsersSerializer(ModelSerializer):
             "is_staff",
             "is_client",
             "is_manager",
-            "groups",
-            "wiki_group",
             "created_at",
             "updated_at",
-            "group_id"
+            "group_id",
+            "wiki_group_id"
         ]
         #read_only_fields = ["is_staff", "is_client", "is_manager"]
         extra_kwargs = {
