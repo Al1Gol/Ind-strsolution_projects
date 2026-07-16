@@ -1,3 +1,9 @@
+from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, Serializer
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from rest_framework.exceptions import ValidationError
+
 from authapp.models import (Users, 
                             Districts, 
                             Branches, 
@@ -6,20 +12,17 @@ from authapp.models import (Users,
                             Wiki_Permissions, 
                             Wiki_Group_Permissions)
 from projectsapp.serializers import ContractsSerializers
-from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, Serializer
-from django.contrib.auth.models import Group, Permission
-from django.contrib.contenttypes.models import ContentType
+
 
 class UsersSerializer(ModelSerializer):
-    groups = serializers.PrimaryKeyRelatedField(
-        many=True, 
-        queryset=Group.objects.all(), 
-        write_only=True
-    )
+    #groups = serializers.PrimaryKeyRelatedField(
+    #    many=True, 
+    #    queryset=Group.objects.all(), 
+    #    write_only=True
+    #)
 
     # Дополнительно можно выводить группы при чтении (read-only)
-    group_id = serializers.SerializerMethodField(read_only=True)
+    group_id = serializers.SerializerMethodField()
     """Список пользователей"""
     class Meta:
         model = Users
@@ -48,7 +51,40 @@ class UsersSerializer(ModelSerializer):
             return [group.id for group in obj.groups.all()][0]
         else:
             return 
+        
+    def create(self, validated_data):        
+        # Получаем значение напрямую из сырых данных запроса
+        group_id = self.initial_data.get('group_id')
+        
+        if group_id is not None:
+            try:
+                group = Group.objects.get(pk=group_id)
 
+            except Group.DoesNotExist:
+                raise ValidationError({"group_id": "Группа с таким ID не существует."})
+            else:
+                user = Users.objects.create_user(**validated_data)
+                user.groups.add(group)
+        return user
+
+    def update(self, instance, validated_data):
+        # Извлекаем переданную группу
+        if 'group_id' in self.initial_data:
+            group_id = self.initial_data.get('group_id')
+            
+            # Перезаписываем список групп (оставляем только одну)
+            if group_id is not None:
+                try:
+                    group = Group.objects.get(pk=group_id)
+                except:
+                    raise ValidationError({"group_id": "Группа с таким ID не существует."}) 
+                else:
+                    # Обновляем текстовые поля пользователя
+                    instance = super().update(instance, validated_data)
+                    instance.groups.set([group_id])   
+            else:
+                instance.groups.clear()
+        return instance
 
 class GenerateNewPasswordSerializer(ModelSerializer):
     """Генерация нового пароля"""
