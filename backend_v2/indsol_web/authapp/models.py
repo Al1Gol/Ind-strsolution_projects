@@ -5,6 +5,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
+# Группы разрешений для вики
+class Wiki_Group_Permissions(models.Model):
+    name = models.CharField(verbose_name="наименование групп разрешений Wiki", max_length=200)
+
 # Группы пользователей
 class Groups(models.Model):
     name = models.CharField(verbose_name="наименование роли", max_length=200)
@@ -18,6 +22,7 @@ class Users(AbstractUser):
     created_at = models.DateTimeField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="дата обновления", auto_now=True)
     groups = models.ManyToManyField(Group, blank=True, verbose_name="Группы") # После настройки прав убрать null и blank
+    wiki_group = models.ForeignKey(Wiki_Group_Permissions, blank=True, null=True, verbose_name="Группы Вики", on_delete=models.PROTECT)
 
     # Отображение заголовка модели для админки
     class Meta:
@@ -111,6 +116,32 @@ class Managers(models.Model):
     class Meta:
         verbose_name = "Менеджеры"
         verbose_name_plural = "Менеджеры"
+
+    # Строковое отображение элемента модели
+    def __str__(self):
+        return f"{self.id}"
+    
+
+class Wiki_Permissions(models.Model):
+    wiki_group = models.ForeignKey(
+        Wiki_Group_Permissions,
+        verbose_name="wiki_group_id",
+        on_delete=models.CASCADE,
+    )
+    wiki = models.ForeignKey(
+        "wikiapp.Wiki",
+        verbose_name="wiki_id",
+        on_delete=models.CASCADE,
+    )
+    create = models.BooleanField(verbose_name="Создание", default=False)
+    read = models.BooleanField(verbose_name="Чтение", default=False)
+    update = models.BooleanField(verbose_name="Обновление", default=False)
+    delete = models.BooleanField(verbose_name="Удаление", default=False)
+    
+    # Отображение заголовка модели для админки
+    class Meta:
+        verbose_name = "Разрешения вики"
+        verbose_name_plural = "Разрешения вики"
 
     # Строковое отображение элемента модели
     def __str__(self):

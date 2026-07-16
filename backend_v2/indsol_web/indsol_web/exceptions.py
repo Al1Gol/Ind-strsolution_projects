@@ -20,3 +20,21 @@ class MediaValidationError(serializers.ValidationError):
     status_code = status.HTTP_400_BAD_REQUEST
     default_detail = "Количество медиа файлов превышает допустимый лимит"
     default_code = "media_limit_error"
+
+
+class ConflictError(APIException):
+    status_code = status.HTTP_409_CONFLICT
+    default_detail = 'Ошибка обновления сведений.'      
+    default_code = 'conflict_error' 
+
+
+class UnprocessableEntityError(APIException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    default_detail = 'Ошибка заполнения сведений.'      
+    default_code = 'unprocessable_entity_error' 
+
+
+class ForbiddenError(APIException):
+    status_code = status.HTTP_403_FORBIDDEN
+    default_detail = 'Доступ запрещен.'      
+    default_code = 'unprocessable_entity_error' 

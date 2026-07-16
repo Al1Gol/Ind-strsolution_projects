@@ -9,19 +9,27 @@ from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from django.contrib.auth.base_user import BaseUserManager
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 
 from django.contrib.auth.models import Group, Permission
-from authapp.models import Users, Districts, Branches, Clients, Managers
+from authapp.models import (Users, 
+                            Districts, 
+                            Branches, 
+                            Clients, 
+                            Managers, 
+                            Wiki_Permissions, 
+                            Wiki_Group_Permissions)
 from projectsapp.models import Contracts
+from wikiapp.models import Wiki
+from wikiapp.serializers import WikiSerializer
 from authapp.serializers import *
 from authapp.filters import ClientFilter, ManagerFilter
+from authapp.exceptions import ConflictError, UnprocessableEntityError
 
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, mixins, ViewSet
-from rest_framework.permissions import AllowAny
 from indsol_web.permissions import *
 
 
@@ -371,3 +379,60 @@ class PermissionViewSet(viewsets.ModelViewSet):
     serializer_class = PermissionSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes  = [IsAuthenticated]
+
+class WikiGroupPermissionViewSet(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    Список групп разрешений для Wiki
+    """
+    queryset = Wiki_Group_Permissions.objects.all() 
+    serializer_class = WikiGroupPermissionSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes  = [IsAdminUser]
+
+
+
+class WikiPermissionViewSet(
+    GenericViewSet,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    Список разрешений для Wiki
+    """
+    queryset = Wiki_Permissions.objects.all() 
+    serializer_class = WikiPermissionSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes  = [IsAdminUser]
+
+    # Валидация по количеству media перед сохранением
+    def perform_create(self, serilizer):
+        exists_checker = Wiki_Permissions.objects.filter(wiki_group_id=self.request.data["wiki_group"]).filter(wiki_id=self.request.data["wiki"])
+        if len(exists_checker) == 0:
+            serilizer.save()
+        else:
+            raise ConflictError(
+                detail="Запись не может быть создана. Комбинация пользователя и Wiki уже существует в системе.", 
+                code="conflict_error"
+            )
+       
+
+class WikiAdminListViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+):
+    '''
+    Список баз знаний для вывода в админке в разделе "Разрешения для Wiki"
+    '''
+    serializer_class = WikiSerializer
+    queryset = Wiki.objects.all().order_by("created_at")
+    permission_classes = [IsAdminUser]

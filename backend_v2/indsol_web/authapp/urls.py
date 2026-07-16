@@ -14,6 +14,9 @@ from authapp.views import (
     AuthMailView,
     ReportMailView,
     GenerateNewPasswordViewSet,
+    WikiPermissionViewSet,
+    WikiGroupPermissionViewSet,
+    WikiAdminListViewSet
 )
 from django.urls import include, path, re_path
 from rest_framework import routers
@@ -33,6 +36,10 @@ auth.register("users", UsersViewSet, basename="users")  # Список поль�
 auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
 #auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
 auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
+auth.register("wiki_permissions", WikiPermissionViewSet, basename="wiki_permissions") # Разрешения вики
+auth.register("wiki_group_permissions", WikiGroupPermissionViewSet, basename="wiki_group_permissions") # Группы разрешений вики
+auth.register("wiki_admin_list", WikiAdminListViewSet, basename="wiki_admin_list") # список вики для вывода в разрешениях
+
 
 urlpatterns = [
     path("", include(auth.urls)),

@@ -1,4 +1,10 @@
-from authapp.models import Users, Districts, Branches, Clients, Managers
+from authapp.models import (Users, 
+                            Districts, 
+                            Branches, 
+                            Clients, 
+                            Managers, 
+                            Wiki_Permissions, 
+                            Wiki_Group_Permissions)
 from projectsapp.serializers import ContractsSerializers
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
@@ -6,6 +12,14 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
 class UsersSerializer(ModelSerializer):
+    groups = serializers.PrimaryKeyRelatedField(
+        many=True, 
+        queryset=Group.objects.all(), 
+        write_only=True
+    )
+
+    # Дополнительно можно выводить группы при чтении (read-only)
+    group_id = serializers.SerializerMethodField(read_only=True)
     """Список пользователей"""
     class Meta:
         model = Users
@@ -17,14 +31,23 @@ class UsersSerializer(ModelSerializer):
             "is_client",
             "is_manager",
             "groups",
+            "wiki_group",
             "created_at",
             "updated_at",
+            "group_id"
         ]
         #read_only_fields = ["is_staff", "is_client", "is_manager"]
         extra_kwargs = {
             "email": {"required": True},
             "password": {"write_only": True}
         }
+
+    def get_group_id(self, obj):
+        get_ids = [group.id for group in obj.groups.all()]
+        if len(get_ids) > 0:
+            return [group.id for group in obj.groups.all()][0]
+        else:
+            return 
 
 
 class GenerateNewPasswordSerializer(ModelSerializer):
@@ -133,5 +156,17 @@ class PermissionSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     """ Список групп (ролевая система) """
     class Meta:
-            model = Group
-            fields ='__all__'
+        model = Group
+        fields ='__all__'
+
+
+class WikiPermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wiki_Permissions
+        fields ='__all__'
+
+
+class WikiGroupPermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wiki_Group_Permissions
+        fields ='__all__'

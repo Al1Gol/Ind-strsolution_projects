@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import ProtectedError
 from django.http import JsonResponse
 from django.shortcuts import render
+from authapp.models import Wiki_Permissions
 from wikiapp.filters import MenuFilter, ArticlesFilter, FilesFilter, SectionsFilter
 from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
 from wikiapp.serializers import (
@@ -14,6 +15,7 @@ from wikiapp.serializers import (
     SectionsSerializer,
     VideosSerializer,
 )
+from indsol_web.exceptions import ForbiddenError
 from rest_framework import mixins, status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
@@ -48,18 +50,28 @@ class WikiViewSet(
     permission_classes = [WikiPermission]
 
     def list(self, request, *args, **kwargs):
-        if request.user.is_client:
-            queryset = Wiki.objects.all().order_by("created_at").filter(public=True)
-        elif request.user.is_staff:
-            queryset = Wiki.objects.all().order_by("created_at")
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
+        perm_ids = Wiki_Permissions.objects.filter(user_id = request.user.id).filter(read = True).values_list('wiki_id', flat=True)
+        queryset = Wiki.objects.filter(id__in=perm_ids).order_by("created_at")
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    def retrieve(self, request, *args, **kwargs):
+        obj_id = self.kwargs.get('pk')
+        user_id = request.user.id
+        perm = Wiki_Permissions.objects.filter(user_id = user_id).filter(wiki_id = obj_id).filter(read = True)
+        print(len(perm))
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        
+    def perform_update(self, serializer):
+        user_id = self.request.user.id
+        perm = Wiki_Permissions.objects.filter(user_id = user_id).filter(wiki_id = obj_id).filter(read = True)
+        serializer.save()
+            
 
 
 class MenuViewSet(
