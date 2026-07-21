@@ -23,7 +23,7 @@ from projectsapp.models import Contracts
 from wikiapp.models import Wiki
 from wikiapp.serializers import WikiSerializer
 from authapp.serializers import *
-from authapp.filters import ClientFilter, ManagerFilter
+from authapp.filters import ClientFilter, ManagerFilter, WikiPermissonsFilter
 from authapp.exceptions import ConflictError, UnprocessableEntityError
 
 from django.contrib.auth.hashers import make_password
@@ -413,6 +413,7 @@ class WikiPermissionViewSet(
     serializer_class = WikiPermissionSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes  = [IsAdminUser]
+    filterset_class = WikiPermissonsFilter
 
     # Валидация по количеству media перед сохранением
     def perform_create(self, serilizer):
