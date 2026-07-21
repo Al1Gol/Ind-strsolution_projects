@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import ProtectedError
 from django.http import JsonResponse
 from django.shortcuts import render
-from authapp.models import Wiki_Permissions
+from authapp.models import Wiki_Permissions, Users
 from wikiapp.filters import MenuFilter, ArticlesFilter, FilesFilter, SectionsFilter
 from wikiapp.models import Wiki, Articles, Files, Images, Menu, Sections, Videos
 from wikiapp.serializers import (
@@ -50,22 +50,30 @@ class WikiViewSet(
     permission_classes = [WikiPermission]
 
     def list(self, request, *args, **kwargs):
-        perm_ids = Wiki_Permissions.objects.filter(user_id = request.user.id).filter(read = True).values_list('wiki_id', flat=True)
-        queryset = Wiki.objects.filter(id__in=perm_ids).order_by("created_at")
-        serializer = self.get_serializer(queryset, many=True)
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+           queryset = Wiki.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            queryset = Wiki.objects.filter(id__in=perm_ids).order_by("created_at")
+            serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
     def retrieve(self, request, *args, **kwargs):
         obj_id = self.kwargs.get('pk')
         user_id = request.user.id
-        perm = Wiki_Permissions.objects.filter(user_id = user_id).filter(wiki_id = obj_id).filter(read = True)
-        print(len(perm))
-        if len(perm)==0:
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
             raise ForbiddenError()
         else:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance)
-            return Response(serializer.data)
+            perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = obj_id).filter(read = True)
+            if len(perm)==0:
+                raise ForbiddenError()
+            else:
+                instance = self.get_object()
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data)
         
     def perform_update(self, serializer):
         user_id = self.request.user.id
