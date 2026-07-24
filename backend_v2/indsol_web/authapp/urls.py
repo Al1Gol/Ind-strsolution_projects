@@ -26,15 +26,15 @@ auth = routers.DefaultRouter()
 auth.register("permission", PermissionViewSet, basename='permission')
 auth.register("groups", GroupViewSet, basename='groups')
 auth.register("users", UsersViewSet, basename="users")  # Список пользователей
-#auth.register(
-#    "profile", ProfileViewSet, basename="profile"
-#)  # Профиль текущего пользователя
-#auth.register("districts", DistrictsViewSet, basename="districts")  # Список регионов
-#auth.register(
-#    "branches", BranchesViewSet, basename="branches"
-#)  # Список производственных отралсей
+auth.register(
+    "profile", ProfileViewSet, basename="profile"
+)  # Профиль текущего пользователя
+auth.register("districts", DistrictsViewSet, basename="districts")  # Список регионов
+auth.register(
+    "branches", BranchesViewSet, basename="branches"
+)  # Список производственных отралсей
 auth.register("clients", ClientsViewSet, basename="clients")  # Список клиентов
-#auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
+auth.register("managers", ManagersViewSet, basename="managers")  # Список менеджеров
 auth.register("change_password", GenerateNewPasswordViewSet, basename="change_password")  # Смена пароля
 auth.register("wiki_permissions", WikiPermissionViewSet, basename="wiki_permissions") # Разрешения вики
 auth.register("wiki_group_permissions", WikiGroupPermissionViewSet, basename="wiki_group_permissions") # Группы разрешений вики
