@@ -87,7 +87,20 @@ class UsersSerializer(ModelSerializer):
                     instance = super().update(instance, validated_data)
                     instance.groups.set([group_id])   
             else:
-                instance.groups.clear()
+                instance.groups.set([]) 
+        if 'wiki_group_id' in self.initial_data:
+            wiki_group_id = self.initial_data.get('wiki_group_id')
+            if wiki_group_id is not None:
+                try:
+                    wiki_group_id = Wiki_Group_Permissions.objects.get(pk=wiki_group_id)
+                except:
+                    raise ValidationError({"group_id": "Группа вики с таким ID не существует."}) 
+                else:
+                    # Обновляем текстовые поля пользователя
+                    instance = super().update(instance, validated_data)
+            else:
+                instance.wiki_group = None  
+            
         return instance
 
 class GenerateNewPasswordSerializer(ModelSerializer):
