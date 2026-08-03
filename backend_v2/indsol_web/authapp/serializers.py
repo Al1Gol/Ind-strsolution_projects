@@ -25,7 +25,8 @@ class UsersSerializer(ModelSerializer):
     group_id = serializers.SerializerMethodField()
     wiki_group_id = serializers.PrimaryKeyRelatedField(
         queryset=Wiki_Group_Permissions.objects.all(), 
-        source='wiki_group'
+        source='wiki_group',
+        allow_null=True
     )
     """Список пользователей"""
     class Meta:
