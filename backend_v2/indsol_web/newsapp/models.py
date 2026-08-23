@@ -42,7 +42,7 @@ class Media(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "медиа файлов новостей"
+        verbose_name = "медиа файлов"
         verbose_name_plural = "Файлы новостей"
 
     # Строковое отображение элемента модели

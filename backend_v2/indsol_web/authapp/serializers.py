@@ -223,7 +223,17 @@ class PermissionSerializer(serializers.ModelSerializer):
             'Can view': _('Просмотр'),
             'log entry' : _('логирования'),
             'group' : _('групп прав'),
-            'permission' : _(' прав'),
+            'permission' : _('прав'),
+            'content type': _('сведений о моделях приложения'),
+            'clocked': _('планировщика задач по времени'),
+            'add_menu_archive': _('архива системного меню'),
+            'solar event': _('планировщика задач на основе солнечных событий'),
+            'periodic task track': _('отлеживания периодических задач'),
+            'periodic task': _('периодических задач'),
+            'interval': _('интервала периодических задач'),
+            'crontab': _('планировщика задач'),
+            
+
         }
         pattern = re.compile("|".join(re.escape(k) for k in action_map.keys()))
 
