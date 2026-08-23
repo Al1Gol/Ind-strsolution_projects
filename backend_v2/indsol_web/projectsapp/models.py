@@ -14,7 +14,7 @@ class Contracts(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Договоры"
+        verbose_name = "договоров"
         verbose_name_plural = "Договоры"
 
     # Строковое отображение элемента модели
@@ -44,7 +44,7 @@ class Projects(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Проекты"
+        verbose_name = "проектов"
         verbose_name_plural = "Проекты"
 
     # Строковое отображение элемента модели
@@ -65,7 +65,7 @@ class Adjust(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Проекты"
+        verbose_name = "согласований"
         verbose_name_plural = "Проекты"
 
     # Строковое отображение элемента модели
@@ -88,7 +88,7 @@ class Documents(models.Model):
     
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Документы"
+        verbose_name = "документов"
         verbose_name_plural = "Документы"
         
     # Строковое отображение элемента модели

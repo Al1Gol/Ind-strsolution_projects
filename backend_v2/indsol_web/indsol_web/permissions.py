@@ -247,5 +247,17 @@ class VideoWikiPermission(permissions.BasePermission):
         elif request.method in ["DELETE"]:
             return  request.user.has_perm('wikiapp.delete_videos')
 
+    
+   
+from rest_framework.permissions import DjangoModelPermissions
 
-
+class ModelPermissions(DjangoModelPermissions):
+    perms_map = {
+        'GET': ['%(app_label)s.custom_view_%(model_name)s'],
+        'OPTIONS': [],
+        'HEAD': [],
+        'POST': ['%(app_label)s.custom_add_%(model_name)s'],
+        'PUT': ['%(app_label)s.custom_change_%(model_name)s'],
+        'PATCH': ['%(app_label)s.custom_change_%(model_name)s'],
+        'DELETE': ['%(app_label)s.custom_delete_%(model_name)s'],
+    }

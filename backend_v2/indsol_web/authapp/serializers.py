@@ -3,6 +3,7 @@ from rest_framework.serializers import ModelSerializer, Serializer
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.exceptions import ValidationError
+import re
 
 from authapp.models import (Users, 
                             Districts, 
@@ -35,6 +36,7 @@ class UsersSerializer(ModelSerializer):
             "id",
             "username",
             "email",
+            "is_superuser",
             "is_staff",
             "is_client",
             "is_manager",
@@ -192,18 +194,42 @@ class ContentTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentType
         fields = ['app_label', 'model', 'app_labeled_name']
-
+        
+from django.utils.translation import gettext as _
 class PermissionSerializer(serializers.ModelSerializer):
     """ Список разрешений (ролевая система) """
     content_type = ContentTypeSerializer()
     title = serializers.SerializerMethodField()
+    rus_name = serializers.SerializerMethodField()
     class Meta:
         model = Permission
         #fields ='__all__'
-        fields = ['id', 'name', 'codename', 'title', 'content_type']
+        fields = ['id', 'name', 'rus_name', 'codename', 'title', 'content_type']
 
     def get_title(self, obj):
         return '{} {} {}'.format(obj.content_type.app_labeled_name, '|', obj.codename) 
+
+    def get_rus_name(self, obj):
+
+        text = obj.name
+        if not text:
+            return obj.name
+            
+        # Карта перевода слов
+        action_map = {
+            'Can add': _('Добавление'),
+            'Can change': _('Изменение'),
+            'Can delete': _('Удаление'),
+            'Can view': _('Просмотр'),
+            'log entry' : _('логирования'),
+            'group' : _('групп прав'),
+            'permission' : _(' прав'),
+        }
+        pattern = re.compile("|".join(re.escape(k) for k in action_map.keys()))
+
+        rus_text = pattern.sub(lambda m: action_map[m.group(0)], text)
+
+        return rus_text
 
 
 class GroupSerializer(serializers.ModelSerializer):

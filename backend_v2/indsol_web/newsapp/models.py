@@ -22,7 +22,7 @@ class News(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Новости"
+        verbose_name = "новостей"
         verbose_name_plural = "Новости"
         ordering = ["created_at"]
 
@@ -42,7 +42,7 @@ class Media(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Файлы новостей"
+        verbose_name = "медиа файлов новостей"
         verbose_name_plural = "Файлы новостей"
 
     # Строковое отображение элемента модели

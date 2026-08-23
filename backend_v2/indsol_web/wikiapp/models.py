@@ -34,7 +34,7 @@ class Wiki(models.Model):
         return f"{self.id} - {self.name}"
 
     class Meta:
-        verbose_name = "Wiki"
+        verbose_name = "списка вики"
         verbose_name_plural = "Wiki"
         ordering = ["created_at"]
 
@@ -64,7 +64,7 @@ class Menu(models.Model):
         return f"{self.id} - {self.name}"
 
     class Meta:
-        verbose_name = "Меню"
+        verbose_name = "разделов"
         verbose_name_plural = "Меню"
         ordering = ["created_at"]
 
@@ -96,7 +96,7 @@ class Sections(models.Model):
         return f"{self.id} - {self.name}"
 
     class Meta:
-        verbose_name = "Разделы"
+        verbose_name = "подразделов"
         verbose_name_plural = "Разделы"
         ordering = ["created_at"]
 
@@ -127,7 +127,7 @@ class Articles(models.Model):
         return f"{self.id} - {self.name}"
 
     class Meta:
-        verbose_name = "Статьи"
+        verbose_name = "статей"
         verbose_name_plural = "Статьи"
         ordering = ["created_at"]
 
@@ -148,7 +148,7 @@ class Files(models.Model):
         return f"{self.id} - {self.name}"
 
     class Meta:
-        verbose_name = "Файлы"
+        verbose_name = "файлов"
         verbose_name_plural = "Файлы"
         ordering = ["created_at"]
 
@@ -162,7 +162,7 @@ class Images(models.Model):
         return f"{self.id} - {self.img}"
 
     class Meta:
-        verbose_name = "Изображения"
+        verbose_name = "изображений"
         verbose_name_plural = "Изображения"
 
 # Список видео статьи
@@ -178,5 +178,5 @@ class Videos(models.Model):
         return f"{self.id} - {self.video}"
 
     class Meta:
-        verbose_name = "Видео"
+        verbose_name = "видео"
         verbose_name_plural = "Видео"

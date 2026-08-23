@@ -5,14 +5,24 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
+
 # Группы разрешений для вики
 class Wiki_Group_Permissions(models.Model):
     name = models.CharField(verbose_name="наименование групп разрешений Wiki", max_length=200)
+
+    # Отображение заголовка модели для админки
+    class Meta:
+        verbose_name = "групп прав вики"
+        verbose_name_plural = "Группы прав вики"
 
 # Группы пользователей
 class Groups(models.Model):
     name = models.CharField(verbose_name="наименование роли", max_length=200)
     ru_name = models.CharField(verbose_name="наименование роли(ru)", max_length=200)
+
+    class Meta:
+        verbose_name = "групп прав"
+        verbose_name_plural = "Группы"
 
 # Пользователи
 class Users(AbstractUser):
@@ -26,7 +36,7 @@ class Users(AbstractUser):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Пользователи"
+        verbose_name = "пользователей"
         verbose_name_plural = "Пользователи"
         ordering = ["created_at"]
 
@@ -40,7 +50,7 @@ class Districts(models.Model):
  
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Федеральный округ"
+        verbose_name = "федеральнго округа"
         verbose_name_plural = "Федеральный округ"
         ordering = ["name"]
 
@@ -54,8 +64,8 @@ class Branches(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Отрасль"
-        verbose_name_plural = "Отрасль"
+        verbose_name = "отраслей"
+        verbose_name_plural = "Отрасли"
         ordering = ["name"]
 
     def __str__(self):
@@ -88,7 +98,7 @@ class Clients(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Клиенты"
+        verbose_name = "профилей клиентов"
         verbose_name_plural = "Клиенты"
 
     def __str__(self):
@@ -114,7 +124,7 @@ class Managers(models.Model):
 
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Менеджеры"
+        verbose_name = "профилей менеджеров"
         verbose_name_plural = "Менеджеры"
 
     # Строковое отображение элемента модели
@@ -140,8 +150,8 @@ class Wiki_Permissions(models.Model):
     
     # Отображение заголовка модели для админки
     class Meta:
-        verbose_name = "Разрешения вики"
-        verbose_name_plural = "Разрешения вики"
+        verbose_name = "прав вики"
+        verbose_name_plural = "прав вики"
 
     # Строковое отображение элемента модели
     def __str__(self):
