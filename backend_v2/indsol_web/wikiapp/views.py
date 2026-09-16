@@ -54,10 +54,11 @@ class WikiViewSet(
         user = Users.objects.get(id=user_id)
         if user.wiki_group is None:
            queryset = Wiki.objects.none()
+           
         else:
             perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
             queryset = Wiki.objects.filter(id__in=perm_ids).order_by("created_at")
-            serializer = self.get_serializer(queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
     def retrieve(self, request, *args, **kwargs):
@@ -75,6 +76,14 @@ class WikiViewSet(
             return Response(serializer.data)
         
 
+    def perform_create(self, serializer):
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.is_superuser is None:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
     def perform_update(self, serializer):
         obj_id = self.kwargs.get('pk')
         user_id = self.request.user.id
@@ -88,13 +97,9 @@ class WikiViewSet(
             serializer.save()
 
     def perform_destroy(self, instance):
-        obj_id = self.kwargs.get('pk')
         user_id = self.request.user.id
         user = Users.objects.get(id=user_id)
-        if user.wiki_group is None:
-            raise ForbiddenError()
-        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = obj_id).filter(delete = True)
-        if len(perm)==0:
+        if user.is_superuser == False:
             raise ForbiddenError()
         else:
             instance.delete()
@@ -129,6 +134,74 @@ class MenuViewSet(
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     """
+
+    
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+           queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            queryset = Menu.objects.filter(wiki_id_id__in=perm_ids).order_by("created_at")
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+    def retrieve(self, request, *args, **kwargs):
+        obj_id = self.kwargs.get('pk')
+        menu = Menu.objects.get(id=obj_id)
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = menu.wiki_id_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance = self.get_object()
+            serializer = self.get_serializer(menu)
+            return Response(serializer.data)
+
+
+    def perform_create(self, serializer):
+        obj_id = serializer.validated_data.get('wiki_id')
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = obj_id).filter(create = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
+
+    def perform_update(self, serializer):
+        obj_id = self.kwargs.get('pk')
+        menu = Menu.objects.get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = menu.wiki_id_id).filter(update = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
+    def perform_destroy(self, instance):
+        obj_id = self.kwargs.get('pk')
+        menu = Menu.objects.get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+                raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = menu.wiki_id_id).filter(delete = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance.delete()
 
 
 class SectionsViewSet(
