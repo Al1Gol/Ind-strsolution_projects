@@ -188,6 +188,12 @@ class MenuViewSet(
         if len(perm)==0:
             raise ForbiddenError()
         else:
+            # Проверяем не входит ли получаемый id в список недоступных
+            wiki_id = serializer.validated_data.get('wiki_id')
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(update = True).values_list('wiki_id', flat=True)
+            
+            if wiki_id.id not in perm_ids:
+                raise ForbiddenError("Вики, указанная при обновлении, недоступна данному пользователю.")
             serializer.save()
 
     def perform_destroy(self, instance):
@@ -273,12 +279,23 @@ class SectionsViewSet(
         wiki = Sections.objects.select_related('menu_id__wiki_id').get(id=obj_id)
         user_id = self.request.user.id
         user = Users.objects.get(id=user_id)
+
+       
         if user.wiki_group is None:
             raise ForbiddenError()
+        
         perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.menu_id.wiki_id).filter(update = True)
         if len(perm)==0:
-            raise ForbiddenError()
+            raise ForbiddenError()    
         else:
+            # Проверяем не входит ли получаемый id в список недоступных
+            menu = serializer.validated_data.get('menu_id')
+            wiki_id = Menu.objects.get(id=menu.id).wiki_id.id
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(update = True).values_list('wiki_id', flat=True)
+            
+            if wiki_id not in perm_ids:
+                raise ForbiddenError("Пункт меню, указанный при обновлении, недоступен данному пользователю.")
+            
             serializer.save()
 
     def perform_destroy(self, instance):
@@ -391,12 +408,20 @@ class ArticleViewSet(
         wiki = Articles.objects.select_related('section_id__menu_id__wiki_id').get(id=obj_id)
         user_id = self.request.user.id
         user = Users.objects.get(id=user_id)
+
         if user.wiki_group is None:
             raise ForbiddenError()
         perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.section_id.menu_id.wiki_id).filter(update = True)
         if len(perm)==0:
             raise ForbiddenError()
         else:
+            # Проверяем не входит ли получаемый id в список недоступных
+            section = serializer.validated_data.get('section_id')
+            wiki_id = Menu.objects.get(id=section.menu_id.id).wiki_id.id
+
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            if wiki_id not in perm_ids:
+                raise ForbiddenError("Раздел, указанный при обновлении, недоступна данному пользователю.")
             serializer.save()
 
 
@@ -438,6 +463,87 @@ class FilesViewSet(
     queryset = Files.objects.all().order_by("created_at")
     filterset_class = FilesFilter
     permission_classes = [FilesWikiPermission]
+
+
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+           queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
+            section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
+            article_ids = Articles.objects.filter(section_id_id__in=section_ids).values_list('id', flat=True)
+            queryset = Files.objects.filter(article_id_id__in=article_ids)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+    def retrieve(self, request, *args, **kwargs):
+        obj_id = self.kwargs.get('pk')
+        wiki = Files.objects.select_related('article_id__section_id__menu_id__wiki_id').get(id=obj_id)
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article_id.section_id.menu_id.wiki_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        
+
+    def perform_create(self, serializer):
+        article = serializer.validated_data.get('article_id')
+        wiki_id = Menu.objects.get(id=article.section_id.menu_id.id).wiki_id
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki_id).filter(create = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
+    #Надо запретить менять id на запрещенный
+    def perform_update(self, serializer):
+        obj_id = self.kwargs.get('pk')
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+
+        wiki = Files.objects.select_related('article_id__section_id__menu_id__wiki_id').get(id=obj_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article_id.section_id.menu_id.wiki_id).filter(update = True)
+        
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+             # Проверяем не входит ли получаемый id в список недоступных
+            article = serializer.validated_data.get('article_id')
+            wiki_id = Menu.objects.get(id=article.section_id.menu_id.id).wiki_id.id
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            if wiki_id not in perm_ids:
+                raise ForbiddenError("Статья, указанная при обновлении, недоступна данному пользователю.")
+            serializer.save()
+
+
+    def perform_destroy(self, instance):
+        obj_id = self.kwargs.get('pk')
+        wiki = Files.objects.select_related('article_id__section_id__menu_id__wiki_id').get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+                raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article_id.section_id.menu_id.wiki_id).filter(delete = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance.delete()
 
 
 class ImagesViewSet(
