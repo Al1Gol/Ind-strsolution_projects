@@ -324,34 +324,103 @@ class ArticleViewSet(
     permission_classes = [ArticlesWikiPermission]
     filterset_class = ArticlesFilter
 
+
+    #Сделал только для статей в разделах. Если делать статьи в меню - нажо доработать
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+           queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
+            section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
+            queryset = Articles.objects.filter(section_id_id__in=section_ids)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+    #Сделал только для статей в разделах. Если делать статьи в меню - нажо доработать
+    def retrieve(self, request, *args, **kwargs):
+        obj_id = self.kwargs.get('pk')
+        wiki = Articles.objects.select_related('section_id__menu_id__wiki_id').get(id=obj_id)
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.section_id.menu_id.wiki_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+
+
     # Валидация количества родителей и выставление отметки is_article для родителя
     def perform_create(self, serializer):
-        count_parent = 0
-        if self.request.POST.get("menu_id") or self.request.data.get("menu_id"):
-            count_parent += 1
-            parent = Menu.objects.get(id=self.request.data["menu_id"])
-            parent.is_article = True
-        if self.request.POST.get("section_id") or self.request.data.get("section_id"):
-            count_parent += 1
-            parent = Sections.objects.get(id=self.request.data["section_id"])
-            parent.is_article = True
-        if (count_parent > 1) or (count_parent == 0):
-            raise ValidationError(
-                f"Статья может иметь привязку к одному родительскому элементу. Текущее количество родительских элементов - {count_parent}"
-            )
-        parent.save()
-        serializer.save()
+        section = serializer.validated_data.get('section_id')
+        wiki_id = Menu.objects.get(id=section.menu_id.id).wiki_id
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki_id).filter(create = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            count_parent = 0
+            if self.request.POST.get("menu_id") or self.request.data.get("menu_id"):
+                count_parent += 1
+                parent = Menu.objects.get(id=self.request.data["menu_id"])
+                parent.is_article = True
+            if self.request.POST.get("section_id") or self.request.data.get("section_id"):
+                count_parent += 1
+                parent = Sections.objects.get(id=self.request.data["section_id"])
+                parent.is_article = True
+            if (count_parent > 1) or (count_parent == 0):
+                raise ValidationError(
+                    f"Статья может иметь привязку к одному родительскому элементу. Текущее количество родительских элементов - {count_parent}"
+                )
+            parent.save()
+            serializer.save()
+
+
+    def perform_update(self, serializer):
+        obj_id = self.kwargs.get('pk')
+        wiki = Articles.objects.select_related('section_id__menu_id__wiki_id').get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.section_id.menu_id.wiki_id).filter(update = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
 
     # Необходимо дописать снятие галочки is_article при удалении статьи
     def perform_destroy(self, instance):
-        if instance.menu_id:
-            parent = Menu.objects.get(id=instance.menu_id.id)
-            parent.is_article = False
-        elif instance.section_id:
-            parent = Sections.objects.get(id=instance.section_id.id)
-            parent.is_article = False
-        parent.save()
-        instance.delete()
+        obj_id = self.kwargs.get('pk')
+        wiki = Articles.objects.select_related('section_id__menu_id__wiki_id').get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+                raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.section_id.menu_id.wiki_id).filter(delete = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            if instance.menu_id:
+                parent = Menu.objects.get(id=instance.menu_id.id)
+                parent.is_article = False
+            elif instance.section_id:
+                parent = Sections.objects.get(id=instance.section_id.id)
+                parent.is_article = False
+            parent.save()
+            instance.delete()
+
 
 
 class FilesViewSet(
