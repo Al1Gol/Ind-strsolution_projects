@@ -220,13 +220,79 @@ class SectionsViewSet(
     permission_classes = [SectionsWikiPermission]
     filterset_class = SectionsFilter
 
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+           queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
+            queryset = Sections.objects.filter(menu_id_id__in=menu_ids)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+    def retrieve(self, request, *args, **kwargs):
+        obj_id = self.kwargs.get('pk')
+        wiki = Sections.objects.select_related('menu_id__wiki_id').get(id=obj_id)
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.menu_id.wiki_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        
+
     def perform_create(self, serializer):
         parent = Menu.objects.get(id=self.request.data["menu_id"])
         if parent.is_article == True:
             raise ValidationError(
                 "Данный родитель уже используется для хранения статьи"
             )
-        serializer.save()
+        menu = serializer.validated_data.get('menu_id')
+        wiki_id = Menu.objects.get(id=menu.id).wiki_id
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki_id).filter(create = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
+
+    def perform_update(self, serializer):
+        obj_id = self.kwargs.get('pk')
+        wiki = Sections.objects.select_related('menu_id__wiki_id').get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.menu_id.wiki_id).filter(update = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            serializer.save()
+
+    def perform_destroy(self, instance):
+        obj_id = self.kwargs.get('pk')
+        wiki = Sections.objects.select_related('menu_id__wiki_id').get(id=obj_id)
+        user_id = self.request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+                raise ForbiddenError()
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.menu_id.wiki_id).filter(delete = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            instance.delete()
 
     # Не отрабатывает корректно, так как при удалении не существующей записи вместо 404 Not Found выдает 502 You can't delete object with includes
     """
