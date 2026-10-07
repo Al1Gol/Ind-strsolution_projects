@@ -10,7 +10,8 @@ from rest_framework.views import APIView
 from django.contrib.auth.base_user import BaseUserManager
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import Group, Permission
 from authapp.models import (Users, 
                             Districts, 
@@ -436,3 +437,10 @@ class WikiAdminListViewSet(
     serializer_class = WikiSerializer
     queryset = Wiki.objects.all().order_by("created_at")
     permission_classes = [IsAdminUser]
+
+
+class PublicTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+
+class PublicTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
