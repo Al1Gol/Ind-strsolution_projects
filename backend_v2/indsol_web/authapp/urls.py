@@ -16,9 +16,7 @@ from authapp.views import (
     GenerateNewPasswordViewSet,
     WikiPermissionViewSet,
     WikiGroupPermissionViewSet,
-    WikiAdminListViewSet,
-    PublicTokenObtainPairView,
-    PublicTokenRefreshView
+    WikiAdminListViewSet
 )
 from django.urls import include, path, re_path
 from rest_framework import routers
@@ -57,12 +55,12 @@ urlpatterns = [
     path("debug/", include("rest_framework.urls")),  # Дебаг режим
     path(
         "token/",
-        PublicTokenObtainPairView.as_view(),
+        jwt_views.TokenObtainPairView.as_view(),
         name="token_obtain_pair",
     ),  # Получение JWT токена
     path(
         "token/refresh/",
-        PublicTokenRefreshView.as_view(),
+        jwt_views.TokenRefreshView.as_view(),
         name="token_refresh",
     ),  # Обновление JWT токена по refresh токену
 ]
