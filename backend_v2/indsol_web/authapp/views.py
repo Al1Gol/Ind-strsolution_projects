@@ -64,8 +64,7 @@ class UsersViewSet(
 
     def perform_create(self, serializer):
         password = BaseUserManager().make_random_password()
-        password_db = make_password(password)
-        serializer.save(password=password_db)
+        serializer.save(password=password)
 
         send_body = f'Данные для авторизации: \n\n\
                     Портал: https://www.ipm-portal.ru  \n\
