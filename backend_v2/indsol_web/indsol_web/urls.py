@@ -4,11 +4,6 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from rest_framework.permissions import AllowAny
-
-# Создаем временный класс, который открыт абсолютно для всех
-class PublicTokenObtainPairView(TokenObtainPairView):
-    permission_classes = [AllowAny]
 
 urlpatterns = [
     path('api/v2/schema/', SpectacularAPIView.as_view(), name='schema'),
