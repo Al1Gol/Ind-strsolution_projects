@@ -1,7 +1,11 @@
+import re
+import urllib.parse
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db.models import ProtectedError
 from django.http import JsonResponse
+from rest_framework.views import APIView
 from django.shortcuts import render
 from authapp.models import Wiki_Permissions, Users
 from wikiapp.filters import MenuFilter, ArticlesFilter, FilesFilter, SectionsFilter
@@ -14,6 +18,7 @@ from wikiapp.serializers import (
     MenuSerializer,
     SectionsSerializer,
     VideosSerializer,
+    MediaAttachSerializer
 )
 from rest_framework.decorators import api_view
 from indsol_web.exceptions import ForbiddenError
@@ -579,9 +584,7 @@ class VideosViewSet(
     permission_classes = [VideoWikiPermission]
 
 
-import re
-import urllib.parse
-@api_view(["GET"])
+@api_view(["POST"])
 def UpdateMediaWiki(request):
     '''
     Парсинг и привязка id к имеющимся медиа файлам встроенным в статьи
@@ -607,3 +610,30 @@ def UpdateMediaWiki(request):
 
         return Response({'send': True})
     return Response({'send': False})
+
+
+class MediaAttachView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = MediaAttachSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            article = serializer.save()
+            
+            # Извлекаем предупреждения, которые сформировал сериализатор
+            warnings = serializer.context.get('warnings', {})
+            has_warnings = warnings.get('missing_image_ids') or warnings.get('missing_video_ids')
+
+            response_data = {
+                "status": "success",
+                "message": f"Существующие медиа успешно привязаны к статье.",
+            }
+
+            # Если есть пропущенные ID, добавляем блок предупреждений и меняем статус
+            if has_warnings:
+                response_data["status"] = "partial_success"
+                response_data["warnings"] = warnings
+                return Response(response_data, status=status.HTTP_206_PARTIAL_CONTENT) # Код 206 "Частичный контент"
+
+            return Response(response_data, status=status.HTTP_200_OK)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -7,7 +7,8 @@ from wikiapp.views import (
     MenuViewSet,
     SectionsViewSet,
     VideosViewSet,
-    UpdateMediaWiki
+    UpdateMediaWiki,
+    MediaAttachView
 )
 from rest_framework import routers
 
@@ -27,5 +28,8 @@ urlpatterns = [
     path("", include(wiki.urls)),
     path(
         "media_update/", UpdateMediaWiki, name="media_update"
+    ),
+    path(
+        "media_attach/", MediaAttachView.as_view(), name="media_attach"
     ),
 ]
