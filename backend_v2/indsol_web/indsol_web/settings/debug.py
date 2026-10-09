@@ -26,7 +26,7 @@ SIMPLE_JWT = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "indsol_test",
+        "NAME": "indsol_test2",
         "USER": "postgres",
         "PASSWORD": "123",
         "HOST": "localhost",

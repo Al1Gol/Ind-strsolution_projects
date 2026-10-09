@@ -157,6 +157,9 @@ class Images(models.Model):
     img = models.ImageField(
         verbose_name="изображения", upload_to="wiki/articles/img/", max_length=1000
     )
+    article = models.ForeignKey(
+        "Articles", verbose_name="id статьи", blank=True, null=True, on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return f"{self.id} - {self.img}"
@@ -172,6 +175,9 @@ class Videos(models.Model):
         verbose_name="видео",
         upload_to="wiki/articles/video/",
         validators=[validate_video_extension],
+    )
+    article = models.ForeignKey(
+        "Articles", verbose_name="id статьи", blank=True, null=True, on_delete=models.CASCADE
     )
 
     def __str__(self):

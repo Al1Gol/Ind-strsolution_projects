@@ -7,6 +7,7 @@ from wikiapp.views import (
     MenuViewSet,
     SectionsViewSet,
     VideosViewSet,
+    UpdateMediaWiki
 )
 from rest_framework import routers
 
@@ -24,4 +25,7 @@ wiki.register("videos", VideosViewSet, basename="videos") # Список вид�
 
 urlpatterns = [
     path("", include(wiki.urls)),
+    path(
+        "media_update/", UpdateMediaWiki, name="media_update"
+    ),
 ]

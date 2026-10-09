@@ -61,10 +61,10 @@ class ArticlesSerializer(ModelSerializer):
 class ImagesSerializer(ModelSerializer):
     class Meta:
         model = Images
-        fields = ["img"]
+        fields = '__all__'
 
 # Список видео статьи
 class VideosSerializer(ModelSerializer):
     class Meta:
         model = Videos
-        fields = ["video"]
+        fields = '__all__'

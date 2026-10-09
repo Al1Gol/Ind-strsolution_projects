@@ -437,3 +437,4 @@ class WikiAdminListViewSet(
     serializer_class = WikiSerializer
     queryset = Wiki.objects.all().order_by("created_at")
     permission_classes = [IsAdminUser]
+

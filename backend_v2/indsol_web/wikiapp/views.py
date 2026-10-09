@@ -15,6 +15,7 @@ from wikiapp.serializers import (
     SectionsSerializer,
     VideosSerializer,
 )
+from rest_framework.decorators import api_view
 from indsol_web.exceptions import ForbiddenError
 from rest_framework import mixins, status
 from rest_framework.response import Response
@@ -576,3 +577,33 @@ class VideosViewSet(
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
     permission_classes = [VideoWikiPermission]
+
+
+import re
+import urllib.parse
+@api_view(["GET"])
+def UpdateMediaWiki(request):
+    '''
+    Парсинг и привязка id к имеющимся медиа файлам встроенным в статьи
+    '''
+    if request.user.is_authenticated and request.user.is_superuser:
+        articles = Articles.objects.all()
+        for article in articles:
+            pattern = r'https://ipm-portal.ru/media/wiki/articles/video/[a-zA-Zа-яА-ЯёЁ0-9_./\s\%-]+.[A-Za-z0-9]'
+            matches = re.findall(pattern, article.text)
+            for match in matches:
+                match = match.replace('https://ipm-portal.ru/media/', '')
+                db_obj = Videos.objects.get(video=urllib.parse.unquote(match))
+                db_obj.article_id = article.id
+                db_obj.save()
+
+            pattern = r'https://ipm-portal.ru/media/wiki/articles/img/[a-zA-Zа-яА-ЯёЁ0-9_./\s\%-]+.[A-Za-z0-9]'
+            matches = re.findall(pattern, article.text)
+            for match in matches:
+                match = match.replace('https://ipm-portal.ru/media/', '')
+                db_obj = Images.objects.get(img=urllib.parse.unquote(match))
+                db_obj.article_id = article.id
+                db_obj.save()
+
+        return Response({'send': True})
+    return Response({'send': False})
