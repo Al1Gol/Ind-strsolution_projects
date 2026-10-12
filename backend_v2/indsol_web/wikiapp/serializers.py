@@ -101,6 +101,7 @@ class MediaAttachSerializer(Serializer):
 
         missing_images = []
         missing_videos = []
+        errors = []
 
         with transaction.atomic():
             # Получаем объект статьи, к которой будем привязывать
@@ -111,31 +112,74 @@ class MediaAttachSerializer(Serializer):
                 # Находим только те изображения, которые реально существуют в БД
                 existing_images_queryset = Images.objects.filter(id__in=requested_images)
                 existing_image_ids = set(existing_images_queryset.values_list('id', flat=True))
+
+                # Находим только те изображения, которые не имеют привязки с статье
+                unattach_images_queryset  = existing_images_queryset.filter(article_id=None)
+
+                # Находим только те изображения, которые уже имеют привязку с статье
+                prev_attach_images_queryset  = existing_images_queryset.exclude(article_id=None)
+                prev_attach_images_ids = set(prev_attach_images_queryset.values_list('id', flat=True))
                 
                 # Вычисляем отсутствующие ID изображений
-                missing_images = list(requested_images - existing_image_ids)
+                missing_images = list(requested_images - existing_image_ids - prev_attach_images_ids)
                 
                 # Обновляем поле article у существующих изображений одним SQL-запросом
-                if existing_image_ids:
-                    existing_images_queryset.update(article=article)
+                if unattach_images_queryset.exists():
+                    unattach_images_queryset.update(article=article)
+
+                for obj in prev_attach_images_queryset:
+                    file_name = obj.img.name.replace("wiki/articles/img/", "")
+                    prev_attach_dict = {
+                       "image_id": obj.id,
+                       "file_name":  file_name,
+                       "error": f"Изображение {file_name} уже привязано к другой статье"
+                    }
+                    errors.append(prev_attach_dict)
 
             # 2. Привязываем Статью к Видео
             if requested_videos:
                 # Находим только те видео, которые реально существуют в БД
                 existing_videos_queryset = Videos.objects.filter(id__in=requested_videos)
                 existing_video_ids = set(existing_videos_queryset.values_list('id', flat=True))
-                
+
+                # Находим только те видео, которые не имеют привязки с статье
+                unattach_videos_queryset  = existing_videos_queryset.filter(article_id=None)
+
+                 # Находим только те видео, которые уже имеют привязку с статье
+                prev_attach_videos_queryset  = existing_videos_queryset.exclude(article_id=None)
+                prev_attach_videos_ids = set(prev_attach_videos_queryset.values_list('id', flat=True))
+
                 # Вычисляем отсутствующие ID видео
-                missing_videos = list(requested_videos - existing_video_ids)
+                missing_videos = list(requested_videos - existing_video_ids - prev_attach_videos_ids)
 
                 # Обновляем поле article у существующих видео одним SQL-запросом
                 if existing_video_ids:
-                    existing_videos_queryset.update(article=article)
+                    unattach_videos_queryset.update(article=article)
+
+                for obj in prev_attach_videos_queryset:
+                    file_name = obj.video.name.replace("wiki/articles/video/", "")
+                    prev_attach_dict = {
+                       "video_id": obj.id,
+                       "file_name":  file_name,
+                       "error": f"Видео {file_name} уже привязано к другой статье"
+                    }
+                    errors.append(prev_attach_dict)
+
+        for id in missing_images:
+            img_dct = {
+                "image_id": id,
+                "error": f"Изображение c id={id} остутствует."
+            }
+            errors.append(img_dct)
+
+        for id in missing_videos:
+            video_dct = {
+                "video_id": id,
+                "error": f"Видео c id={id} остутствует."
+            }
+            errors.append(video_dct)
 
         # Передаем информацию об отсутствующих медиафайлах в контекст сериализатора
-        self.context['warnings'] = {
-            "missing_image_ids": missing_images,
-            "missing_video_ids": missing_videos
-        }
+        self.context['errors'] = errors
 
         return article

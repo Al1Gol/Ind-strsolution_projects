@@ -620,18 +620,16 @@ class MediaAttachView(APIView):
             article = serializer.save()
             
             # Извлекаем предупреждения, которые сформировал сериализатор
-            warnings = serializer.context.get('warnings', {})
-            has_warnings = warnings.get('missing_image_ids') or warnings.get('missing_video_ids')
+            errors = serializer.context.get('errors', {})
 
             response_data = {
                 "status": "success",
-                "message": f"Существующие медиа успешно привязаны к статье.",
             }
 
             # Если есть пропущенные ID, добавляем блок предупреждений и меняем статус
-            if has_warnings:
+            if errors:
                 response_data["status"] = "partial_success"
-                response_data["warnings"] = warnings
+                response_data["errors"] = errors
                 return Response(response_data, status=status.HTTP_206_PARTIAL_CONTENT) # Код 206 "Частичный контент"
 
             return Response(response_data, status=status.HTTP_200_OK)
