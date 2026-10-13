@@ -551,13 +551,12 @@ class FilesViewSet(
         else:
             instance.delete()
 
-from django.forms.models import model_to_dict
+
 class ImagesViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
     '''
@@ -582,7 +581,6 @@ class ImagesViewSet(
         serializer = self.get_serializer(queryset, many=True)  
         return Response(serializer.data)
 
-    
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -600,6 +598,38 @@ class ImagesViewSet(
         else:
             return Response(serializer.data)
 
+    def perform_create(self, serializer):
+        article = serializer.validated_data.get('article_id')
+        if article is None:
+            serializer.save()
+        else:
+            wiki_id = Menu.objects.get(id=article.section_id.menu_id.id).wiki_id
+            user_id = self.request.user.id
+            user = Users.objects.get(id=user_id)
+            if user.wiki_group is None:
+                raise ForbiddenError()
+            perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki_id).filter(create = True)
+            if len(perm)==0:
+                raise ForbiddenError()
+            else:
+                serializer.save()
+
+    def perform_destroy(self, instance):
+        obj_id = self.kwargs.get('pk')
+        img = Images.objects.get(id = obj_id)
+        if img.article_id is None:
+            instance.delete()
+        else:
+            wiki = Images.objects.select_related('article__section_id__menu_id__wiki_id').get(id=obj_id)
+            user_id = self.request.user.id
+            user = Users.objects.get(id=user_id)
+            if user.wiki_group is None:
+                raise ForbiddenError()
+            perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article.section_id.menu_id.wiki_id).filter(delete = True)
+            if len(perm)==0:
+                raise ForbiddenError()
+            else:
+                instance.delete()
 
 
 class VideosViewSet(
@@ -607,7 +637,6 @@ class VideosViewSet(
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
     mixins.RetrieveModelMixin,
 ):
     '''
@@ -649,6 +678,39 @@ class VideosViewSet(
             raise ForbiddenError()
         else:
             return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        article = serializer.validated_data.get('article_id')
+        if article is None:
+            serializer.save()
+        else:
+            wiki_id = Menu.objects.get(id=article.section_id.menu_id.id).wiki_id
+            user_id = self.request.user.id
+            user = Users.objects.get(id=user_id)
+            if user.wiki_group is None:
+                raise ForbiddenError()
+            perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki_id).filter(create = True)
+            if len(perm)==0:
+                raise ForbiddenError()
+            else:
+                serializer.save()
+
+    def perform_destroy(self, instance):
+        obj_id = self.kwargs.get('pk')
+        img = Videos.objects.get(id = obj_id)
+        if img.article_id is None:
+            instance.delete()
+        else:
+            wiki = Videos.objects.select_related('article__section_id__menu_id__wiki_id').get(id=obj_id)
+            user_id = self.request.user.id
+            user = Users.objects.get(id=user_id)
+            if user.wiki_group is None:
+                raise ForbiddenError()
+            perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article.section_id.menu_id.wiki_id).filter(delete = True)
+            if len(perm)==0:
+                raise ForbiddenError()
+            else:
+                instance.delete()
 
 
 @api_view(["POST"])
