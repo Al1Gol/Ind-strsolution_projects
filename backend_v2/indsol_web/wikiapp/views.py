@@ -551,7 +551,7 @@ class FilesViewSet(
         else:
             instance.delete()
 
-
+from django.forms.models import model_to_dict
 class ImagesViewSet(
     GenericViewSet,
     mixins.CreateModelMixin,
@@ -566,6 +566,40 @@ class ImagesViewSet(
     serializer_class = ImagesSerializer
     queryset = Images.objects.all()
     permission_classes = [ImagesWikiPermission]
+
+    
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
+            section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
+            article_ids = Articles.objects.filter(section_id_id__in=section_ids).values_list('id', flat=True)
+            queryset = Images.objects.filter(article_id__in=article_ids) | Images.objects.filter(article_id=None)
+        serializer = self.get_serializer(queryset, many=True)  
+        return Response(serializer.data)
+
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        obj_id = self.kwargs.get('pk')
+        wiki = Images.objects.select_related('article__section_id__menu_id__wiki_id').get(id=obj_id) 
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        if instance.article_id is None:
+            return Response(serializer.data)
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article.section_id.menu_id.wiki_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            return Response(serializer.data)
+
 
 
 class VideosViewSet(
@@ -582,6 +616,39 @@ class VideosViewSet(
     serializer_class = VideosSerializer
     queryset = Videos.objects.all()
     permission_classes = [VideoWikiPermission]
+
+
+    def list(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            queryset = Menu.objects.none()
+        else:
+            perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
+            menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
+            section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
+            article_ids = Articles.objects.filter(section_id_id__in=section_ids).values_list('id', flat=True)
+            queryset = Videos.objects.filter(article_id__in=article_ids) | Videos.objects.filter(article_id=None)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        obj_id = self.kwargs.get('pk')
+        video = Videos.objects.get(id = obj_id) 
+        wiki = Videos.objects.select_related('article__section_id__menu_id__wiki_id').get(id=obj_id) 
+        user_id = request.user.id
+        user = Users.objects.get(id=user_id)
+        if user.wiki_group is None:
+            raise ForbiddenError()
+        if instance.article_id is None:
+            return Response(serializer.data)
+        perm = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(wiki_id = wiki.article.section_id.menu_id.wiki_id).filter(read = True)
+        if len(perm)==0:
+            raise ForbiddenError()
+        else:
+            return Response(serializer.data)
 
 
 @api_view(["POST"])
