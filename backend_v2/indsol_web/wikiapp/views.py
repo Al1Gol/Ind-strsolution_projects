@@ -1,6 +1,7 @@
 import re
 import urllib.parse
 
+from django_filters.rest_framework import DjangoFilterBackend
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db.models import ProtectedError
@@ -64,6 +65,7 @@ class WikiViewSet(
         else:
             perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
             queryset = Wiki.objects.filter(id__in=perm_ids).order_by("created_at")
+        queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -150,6 +152,7 @@ class MenuViewSet(
         else:
             perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
             queryset = Menu.objects.filter(wiki_id_id__in=perm_ids).order_by("created_at")
+        queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -241,6 +244,7 @@ class SectionsViewSet(
             perm_ids = Wiki_Permissions.objects.filter(wiki_group = user.wiki_group).filter(read = True).values_list('wiki_id', flat=True)
             menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
             queryset = Sections.objects.filter(menu_id_id__in=menu_ids)
+        queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -346,6 +350,7 @@ class ArticleViewSet(
     queryset = Articles.objects.all().order_by("order")
     permission_classes = [ArticlesWikiPermission]
     filterset_class = ArticlesFilter
+    filter_backends = [DjangoFilterBackend]
 
 
     #Сделал только для статей в разделах. Если делать статьи в меню - нажо доработать
@@ -359,6 +364,7 @@ class ArticleViewSet(
             menu_ids = Menu.objects.filter(wiki_id_id__in=perm_ids).values_list('id', flat=True)
             section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
             queryset = Articles.objects.filter(section_id_id__in=section_ids)
+        queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -482,6 +488,7 @@ class FilesViewSet(
             section_ids = Sections.objects.filter(menu_id_id__in=menu_ids).values_list('id', flat=True)
             article_ids = Articles.objects.filter(section_id_id__in=section_ids).values_list('id', flat=True)
             queryset = Files.objects.filter(article_id_id__in=article_ids)
+        queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -713,7 +720,7 @@ class VideosViewSet(
                 instance.delete()
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 def UpdateMediaWiki(request):
     '''
     Парсинг и привязка id к имеющимся медиа файлам встроенным в статьи
@@ -733,6 +740,7 @@ def UpdateMediaWiki(request):
             matches = re.findall(pattern, article.text)
             for match in matches:
                 match = match.replace('https://ipm-portal.ru/media/', '')
+                print(urllib.parse.unquote(match))
                 db_obj = Images.objects.get(img=urllib.parse.unquote(match))
                 db_obj.article_id = article.id
                 db_obj.save()
@@ -742,6 +750,9 @@ def UpdateMediaWiki(request):
 
 
 class MediaAttachView(APIView):
+    '''
+    Привязка группы медиа файлов к статье
+    '''
     def post(self, request, *args, **kwargs):
         serializer = MediaAttachSerializer(data=request.data)
         
